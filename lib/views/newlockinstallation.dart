@@ -1,15 +1,35 @@
+
+import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/passkey.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../controllers/apis.dart';
 
-class NewInstallationPage extends StatelessWidget {
-  NewInstallationPage({super.key});
+class NewInstallationPage extends StatefulWidget {
+  NewInstallationPage({required this.lockDetails, super.key});
+
+  final LockDetails lockDetails;
+
+  @override
+  State<NewInstallationPage> createState() => _NewInstallationPageState();
+}
+
+class _NewInstallationPageState extends State<NewInstallationPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   final TextEditingController _lockId = new TextEditingController();
+
   final TextEditingController _ssid = new TextEditingController();
+
   final TextEditingController _password = new TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +88,14 @@ class NewInstallationPage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PassKeyPage()));
+                                builder: (context) => PassKeyPage(
+                                      lockDetails: LockDetails(
+                                          lockld: _lockId.text,
+                                          lockSSID: _ssid.text,
+                                          lockPassword: _password.text,
+                                          iPAddress:
+                                              widget.lockDetails.iPAddress),
+                                    )));
                       }
                     },
                     child: Text("Submit"))

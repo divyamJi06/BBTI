@@ -1,123 +1,80 @@
 import 'package:bbti/constants.dart';
 import 'package:bbti/models/lock_initial.dart';
+import 'package:bbti/views/connecttolock.dart';
 import 'package:bbti/views/lock_on_off.dart';
 import 'package:bbti/views/qr_view.dart';
+import 'package:bbti/widgets/custom_appbar.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:bbti/widgets/lock_card.dart';
 import 'package:flutter/material.dart';
 
+import '../controllers/storage.dart';
+
 class LockPage extends StatelessWidget {
-  const LockPage({super.key});
+  LockPage({super.key});
+  final StorageController _storageController = new StorageController();
+
+  Future<List<LockDetails>> fetchLocks() async {
+    return _storageController.readLocks();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: SizedBox(
-        height: 100,
-        width: 100,
-        child: FloatingActionButton.large(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.add,
-                  size: 30,
-                ),
-                Text(
-                  "Add Lock",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const QRViewExample(),
-              ));
-            }),
-      ),
-      appBar: AppBar(
-        backgroundColor: backGroundColour,
-        // automaticallyImplyLeading: false,
-        title: Text(
-          "Lock",
-          style: TextStyle(
-              color: appBarColour, fontSize: 40, fontWeight: FontWeight.bold),
-        ),
-        actions: [],
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              // ElevatedButton(onPressed: () {}, child: Text("Add Lock"))
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
-                child: GestureDetector(
-                  onTap: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LockOnOff(
-                                  IP: routerIP,
-                                )));
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0x4C4B39EF),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Color(0x33000000),
-                          offset: Offset(0, 2),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: Color(0xFF4B39EF),
-                        width: 2,
-                      ),
-                    ),
-                    alignment: AlignmentDirectional(0, 0),
-                    child: Text(
-                      'LOCK ON/OFF',
-                      // style:
-                      // FlutterFlowTheme.of(context).bodyLarge.override(
-                      //       fontFamily: 'Plus Jakarta Sans',
-                      //       color: FlutterFlowTheme.of(context)
-                      //           .primaryBackground,
-                      //       fontSize: 16,
-                      //       fontWeight: FontWeight.w500,
-                      // ),
-                    ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: SizedBox(
+          height: 120,
+          width: 120,
+          child: FloatingActionButton.large(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add,
+                    size: 30,
                   ),
-                ),
+                  Text(
+                    "Add Lock",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
-              ListView.builder(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const QRViewExample(),
+                ));
+              }),
+        ),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60), 
+            child: CustomAppBar(heading: "Lock")),
+        body: FutureBuilder(
+            future: fetchLocks(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+              if (snapshot.hasError) return Text("ERROR");
+
+              return ListView.builder(
+                  padding: EdgeInsets.only(top: 10),
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    return LocksCard(
-                        locksDetails: LockDetails(
-                            iPAddress: "",
-                            lockPassKey: "BBT@4321",
-                            lockPassword: "BBT12121",
-                            lockSSID: "BBTSSIDD",
-                            lockld: "BBT10100"));
-                  }),
-            ],
-          ),
-        ),
-      ),
-    );
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ConnectToLockWidget(
+                                      IP: snapshot.data![index].iPAddress,
+                                      lockDetails: snapshot.data![index],
+                                    )));
+                      },
+                      child: LocksCard(locksDetails: snapshot.data![index]),
+                    );
+                  });
+            }));
   }
 }

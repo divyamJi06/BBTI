@@ -8,3 +8,7 @@ Color backGroundColour = Color(0xFF4C4B39EF);
 // Color(0xFF4C4B39EF)
 Color backGroundColourDark = Color(0xFFEE6E43BD);
 Color appBarColour = Color(0xFF2902D096A);
+Color redColour = Colors.red.shade200;
+Color redButtonColour = Colors.red.shade800;
+Color greenColour = Colors.green.shade200;
+Color greenButtonColour = Colors.green.shade800;

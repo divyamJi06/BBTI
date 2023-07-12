@@ -57,6 +57,38 @@ class _ContactsPageState extends State<ContactsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        height: 120,
+        width: 120,
+        child: FloatingActionButton.large(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.add,
+                  size: 30,
+                ),
+                Text(
+                  "Add Contact",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            onPressed: () async{
+                Contact? contact = await _contactPicker.selectContact();
+                if (contact != null) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AccessRequestPage(
+                                name: contact.fullName!,
+                              )));
+                } else {
+                  // TODO: Add a toast tp show its not possible to open contacts
+                }
+            }),
+      ),
       key: scaffoldKey,
       backgroundColor: whiteColour,
       appBar: AppBar(
@@ -65,9 +97,7 @@ class _ContactsPageState extends State<ContactsPage> {
         title: Text(
           "Contacts",
           style: TextStyle(
-              color: appBarColour,
-              fontSize: 40,
-              fontWeight: FontWeight.bold),
+              color: appBarColour, fontSize: 40, fontWeight: FontWeight.bold),
         ),
         actions: [],
         centerTitle: true,
@@ -83,22 +113,22 @@ class _ContactsPageState extends State<ContactsPage> {
             SizedBox(
               height: 10,
             ),
-            CustomButton(
-              onPressed: () async {
-                Contact? contact = await _contactPicker.selectContact();
-                if (contact != null) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AccessRequestPage(
-                                name: contact.fullName!,
-                              )));
-                } else {
-                  // TODO: Add a toast tp show its not possible to open contacts
-                }
-              },
-              text: "Add Contacts",
-            ),
+            // CustomButton(
+            //   onPressed: () async {
+            //     Contact? contact = await _contactPicker.selectContact();
+            //     if (contact != null) {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => AccessRequestPage(
+            //                     name: contact.fullName!,
+            //                   )));
+            //     } else {
+            //       // TODO: Add a toast tp show its not possible to open contacts
+            //     }
+            //   },
+            //   text: "Add Contacts",
+            // ),
             // const Divider(
             //   height: 12,
             //   thickness: 1,

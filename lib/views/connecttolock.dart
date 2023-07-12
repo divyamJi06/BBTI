@@ -3,6 +3,7 @@ import 'package:bbti/controllers/apis.dart';
 import 'package:bbti/controllers/permission.dart';
 import 'package:bbti/views/lock_on_off.dart';
 import 'package:bbti/views/newlockinstallation.dart';
+import 'package:bbti/widgets/custom_button.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:open_settings/open_settings.dart';
@@ -19,10 +20,17 @@ import 'package:flutter/services.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../models/lock_initial.dart';
+import '../widgets/custom_appbar.dart';
+
 final info = NetworkInfo();
 
 class ConnectToLockWidget extends StatefulWidget {
-  const ConnectToLockWidget({Key? key}) : super(key: key);
+  final LockDetails lockDetails;
+  final String IP;
+  const ConnectToLockWidget(
+      {required this.IP, required this.lockDetails, Key? key})
+      : super(key: key);
 
   @override
   _ConnectToLockWidgetState createState() => _ConnectToLockWidgetState();
@@ -49,47 +57,12 @@ class _ConnectToLockWidgetState extends State<ConnectToLockWidget> {
     super.dispose();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  // Future<void> initConnectivity() async {
-  //   late ConnectivityResult result;
-
-  //   var connectivityResult = await (Connectivity().checkConnectivity());
-  //   if (connectivityResult == ConnectivityResult.wifi) {
-  //     var wifiName = await (Connectivity().getWifiName());
-  //     return wifiName;
-  //   }
-  //   // return null;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     result = await _connectivity.checkConnectivity();
-  //   } on PlatformException catch (e) {
-  //     developer.log('Couldn\'t check connectivity status', error: e);
-  //     return;
-  //   }
-
-  //   // If the widget was removed from the tree while the asynchronous platform
-  //   // message was in flight, we want to discard the reply rather than calling
-  //   // setState to update our non-existent appearance.
-  //   if (!mounted) {
-  //     return Future.value(null);
-  //   }
-
-  //   return _updateConnectionStatus(result);
-  // }
-
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _initNetworkInfo();
   }
 
   String _connectionStatus = 'Unknown';
   final NetworkInfo _networkInfo = NetworkInfo();
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // initPlatformState();
-  //   _initNetworkInfo();
-  // }
-
   Future<void> _initNetworkInfo() async {
     String? wifiName,
         wifiBSSID,
@@ -194,36 +167,15 @@ class _ConnectToLockWidgetState extends State<ConnectToLockWidget> {
     }
 
     setState(() {
-      _connectionStatus = 'Wifi Name: $wifiName\n'
-          'Wifi BSSID: $wifiBSSID\n'
-          'Wifi IPv4: $wifiIPv4\n'
-          'Wifi IPv6: $wifiIPv6\n'
-          'Wifi Broadcast: $wifiBroadcast\n'
-          'Wifi Gateway: $wifiGatewayIP\n'
-          'Wifi Submask: $wifiSubmask\n';
+      _connectionStatus = wifiName!.toString();
+      // 'Wifi BSSID: $wifiBSSID\n'
+      // 'Wifi IPv4: $wifiIPv4\n'
+      // 'Wifi IPv6: $wifiIPv6\n'
+      // 'Wifi Broadcast: $wifiBroadcast\n'
+      // 'Wifi Gateway: $wifiGatewayIP\n'
+      // 'Wifi Submask: $wifiSubmask\n';
     });
   }
-
-  String _ssid = 'Unknown';
-
-  // Future<void> initPlatformState() async {
-  //   String ssid;
-  //   // Platform messages may fail, so we use a try/catch PlatformException.
-  //   try {
-  //     ssid = await PluginWifiConnect.ssid ?? '';
-  //   } on PlatformException {
-  //     ssid = 'Failed to get ssid';
-  //   }
-  //   print(ssid);
-  //   // If the widget was removed from the tree while the asynchronous platform
-  //   // message was in flight, we want to discard the reply rather than calling
-  //   // setState to update our non-existent appearance.
-  //   if (!mounted) return;
-
-  //   setState(() {
-  //     _ssid = ssid;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -231,163 +183,65 @@ class _ConnectToLockWidgetState extends State<ConnectToLockWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          // leading: FlutterFlowIconButton(
-          //   borderColor: Colors.transparent,
-          //   borderRadius: 30,
-          //   borderWidth: 1,
-          //   buttonSize: 60,
-          //   icon: Icon(
-          //     Icons.arrow_back_rounded,
-          //     color: Color(0xFF101213),
-          //     size: 30,
-          //   ),
-          //   onPressed: () async {
-          //     context.pop();
-          //   },
-          // ),
-          actions: [],
-          centerTitle: true,
-          elevation: 0,
-        ),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60), // Set this height: ,
+            child: CustomAppBar(heading: "Lock Settings")),
         body: SafeArea(
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                              child: Text(
-                                'Lock Settings',
-                                // style: FlutterFlowTheme.of(context)
-                                //     .headlineMedium
-                                //     .override(
-                                //       fontFamily: 'Plus Jakarta Sans',
-                                //       color: Color(0xFF101213),
-                                //       fontSize: 24,
-                                //       fontWeight: FontWeight.w500,
-                                //     ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        height: 12,
-                        thickness: 1,
-                        color: Color(0xFFE0E3E7),
-                      ),
-                      GestureDetector(
-                        onTap: () {
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                    ),
+                    CustomButton(
+                        text: "Open WIFI Settings",
+                        onPressed: () {
                           OpenSettings.openWIFISetting();
-                        },
-                        child: Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(16, 8, 16, 12),
-                          child: Container(
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 4,
-                                  color: Color(0x33000000),
-                                  offset: Offset(0, 2),
-                                )
-                              ],
-                              gradient: LinearGradient(
-                                colors: [Color(0xFF4B39EF), Color(0x4C4B39EF)],
-                                stops: [0, 1],
-                                begin: AlignmentDirectional(-1, 0),
-                                end: AlignmentDirectional(1, 0),
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            alignment: AlignmentDirectional(0, 0),
-                            child: Text(
-                              'OPEN WIFI SETTINGS',
-                              // style: FlutterFlowTheme.of(context)
-                              //     .titleSmall
-                              //     .override(
-                              //       fontFamily: 'Plus Jakarta Sans',
-                              //       color: Colors.white,
-                              //       fontSize: 16,
-                              //       fontWeight: FontWeight.w500,
-                              //     ),
-                            ),
-                          ),
-                        ),
+                        }),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    CustomButton(
+                        text: "Connect to Lock",
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LockOnOff(
+                                        IP: widget.IP,
+                                        lockID: widget.lockDetails.lockld,
+                                        lockPassKey:
+                                            widget.lockDetails.lockPassKey!,
+                                      )));
+                        }),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0, 0),
+                      child: Text(
+                        'WIFI is connected to Wifi Name',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
-                        child: GestureDetector(
-                          onTap: () async {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        NewInstallationPage()));
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Color(0x4C4B39EF),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 4,
-                                  color: Color(0x33000000),
-                                  offset: Offset(0, 2),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Color(0xFF4B39EF),
-                                width: 2,
-                              ),
-                            ),
-                            alignment: AlignmentDirectional(0, 0),
-                            child: Text(
-                              'CONNECT TO LOCK ',
-                              // style:
-                              // FlutterFlowTheme.of(context).bodyLarge.override(
-                              //       fontFamily: 'Plus Jakarta Sans',
-                              //       color: FlutterFlowTheme.of(context)
-                              //           .primaryBackground,
-                              //       fontSize: 16,
-                              //       fontWeight: FontWeight.w500,
-                              // ),
-                            ),
-                          ),
-                        ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0, 0),
+                      child: Text(
+                        _connectionStatus.toString(),
+                        style: TextStyle(
+                            color: appBarColour,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30),
                       ),
-                      Align(
-                        alignment: AlignmentDirectional(0, 0),
-                        child: Text('WIFI is connected to ${_connectionStatus}'
-                            // style:
-                            // FlutterFlowTheme.of(context).bodyMedium.override(
-                            //       fontFamily: 'Readex Pro',
-                            //       fontSize: 20,
-                            // ),
-                            ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

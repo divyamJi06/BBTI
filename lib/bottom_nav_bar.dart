@@ -16,7 +16,7 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     // Text('Home Page',
     //     style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
     NewHomePage(),

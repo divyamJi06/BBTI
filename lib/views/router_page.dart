@@ -75,6 +75,8 @@ class RouterPage extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => LockOnOff(
                                 IP: "http://192.168.1.20",
+                                lockID: "BBT10100",
+                                lockPassKey: "BBT@4321",
                                 // IP: "http://192.168.28.30",
                               )));
                 },

@@ -238,7 +238,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         child: GestureDetector(
                           onTap: () async {
                             StorageController _sto = new StorageController();
-                            _sto.deleteContacts();
+                            _sto.deleteLocks();
                             // _sto.readContacts();
                             // var res = await ApiConnect.hitApiPost(
                             //     "$routerIP/deletemac", {

@@ -1,3 +1,4 @@
+import 'package:bbti/bottom_nav_bar.dart';
 import 'package:bbti/constants.dart';
 import 'package:bbti/controllers/apis.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -119,6 +120,10 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                     var res =
                         await ApiConnect.hitApiGet(routerIP + "/Factoryreset");
                     print(res);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyNavigationBar()));
                   } else {
                     final scaffold = ScaffoldMessenger.of(context);
 

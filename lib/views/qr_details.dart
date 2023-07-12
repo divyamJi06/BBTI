@@ -1,5 +1,6 @@
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/connecttolock.dart';
+import 'package:bbti/views/newlockinstallation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -135,7 +136,9 @@ class BarCodeDetailsWidget extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  ConnectToLockWidget()));
+                                                  NewInstallationPage(
+                                                    lockDetails: details,
+                                                  )));
                                     },
                                     // Navigator.pop(context, 'Contii'),
                                     child: const Text('Continue'),

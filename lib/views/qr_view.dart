@@ -15,9 +15,30 @@ class QRViewExample extends StatefulWidget {
 }
 
 class _QRViewExampleState extends State<QRViewExample> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var a = {
+      "Lockld": "BBT10100",
+      "LockSSID": "E-LOCK",
+      "LockPassword": 123456789,
+      "IPAddress": "http://192.168.6.6"
+    };
+    details = LockDetails(
+        lockld: "BBT10100",
+        lockSSID: "E-LOCK",
+        lockPassword: "123456789",
+        iPAddress: "http://192.168.6.6");
+  }
+
   Barcode? result;
   QRViewController? controller;
-  late LockDetails details;
+  LockDetails details = LockDetails(
+      lockld: "BBT10100",
+      lockSSID: "E-LOCK",
+      lockPassword: "123456789",
+      iPAddress: "http://192.168.6.6");
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -59,6 +80,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                                   builder: (context) => BarCodeDetailsWidget(
                                         details: details,
                                       )));
+                          dispose();
                         },
                         child: Text("Submit")),
                   ),
