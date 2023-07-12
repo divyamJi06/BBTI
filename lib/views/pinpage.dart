@@ -1,3 +1,5 @@
+import 'package:bbti/constants.dart';
+import 'package:bbti/controllers/apis.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -110,9 +112,25 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 44),
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   print('Button pressed ...');
                   print(_controller.text);
+                  if (_controller.text == "1234") {
+                    var res =
+                        await ApiConnect.hitApiGet(routerIP + "/Factoryreset");
+                    print(res);
+                  } else {
+                    final scaffold = ScaffoldMessenger.of(context);
+
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: Text("Incorrect Pin"),
+                        // action: SnackBarAction(
+                        // label: 'UNDO',
+                        // onPressed: scaffold.hideCurrentSnackBar),
+                      ),
+                    );
+                  }
                 },
                 child: Text('Confirm & Continue'),
                 // options: FFButtonOptions(

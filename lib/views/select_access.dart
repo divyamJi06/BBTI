@@ -1,3 +1,6 @@
+import 'package:bbti/bottom_nav_bar.dart';
+import 'package:bbti/controllers/storage.dart';
+import 'package:bbti/models/contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:time_range/time_range.dart';
@@ -175,7 +178,33 @@ class _AccessRequestPageState extends State<AccessRequestPage> {
                     ":" +
                     endTime.minute.toString())
                 : Container(),
-            ElevatedButton(onPressed: () {}, child: Text("Submit"))
+            ElevatedButton(
+                onPressed: () {
+                  String time = "00:00-00:00";
+                  String date = "00-00";
+                  if (dropdownvalue == "Timed Access") {
+                    time = startTime.hour.toString() +
+                        ":" +
+                        startTime.minute.toString() +
+                        "-" +
+                        endTime.hour.toString() +
+                        ":" +
+                        endTime.minute.toString();
+                    date = "12-24";
+                  } else {}
+                  StorageController _storage = new StorageController();
+                  _storage.addContacts(ContactsModel(
+                      accessType: dropdownvalue,
+                      date: date,
+                      time: time,
+                      name: widget.name));
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyNavigationBar()));
+                },
+                child: Text("Submit"))
           ],
         ),
       ),

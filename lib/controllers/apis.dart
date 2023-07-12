@@ -5,12 +5,15 @@ import 'package:dio/dio.dart';
 
 /// More examples see https://github.com/cfug/dio/blob/main/example
 class ApiConnect {
-  static Future<String> hitApiPost(String url, Map<String, dynamic> params) async {
+  static Future<dynamic> hitApiPost(
+      String url, Map<String, dynamic> params) async {
     final dio = Dio();
     final response = await dio.post(
       url,
       data: (params),
     );
+    print(response);
+    print(response.data);
     return response.data;
   }
 

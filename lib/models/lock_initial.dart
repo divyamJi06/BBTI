@@ -1,10 +1,16 @@
 class LockDetails {
   String? lockld;
   String? lockSSID;
-  int? lockPassword;
+  String? lockPassword;
   String? iPAddress;
+  String? lockPassKey;
 
-  LockDetails({this.lockld, this.lockSSID, this.lockPassword, this.iPAddress});
+  LockDetails(
+      {this.lockld,
+      this.lockPassKey,
+      this.lockSSID,
+      this.lockPassword,
+      this.iPAddress});
 
   LockDetails.fromJson(Map<String, dynamic> json) {
     lockld = json['LockId'];
@@ -19,6 +25,7 @@ class LockDetails {
     data['LockSSID'] = this.lockSSID;
     data['LockPassword'] = this.lockPassword;
     data['IPAddress'] = this.iPAddress;
+    data['LockPasskey'] = this.lockPassKey;
     return data;
   }
 }

@@ -1,6 +1,8 @@
+import 'package:bbti/constants.dart';
 import 'package:bbti/views/contacts.dart';
 import 'package:bbti/views/home_page.dart';
 import 'package:bbti/views/locks_page.dart';
+import 'package:bbti/views/new_home_page.dart';
 import 'package:bbti/views/router_page.dart';
 import 'package:bbti/views/settings.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,8 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     // Text('Home Page',
     //     style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    HomePage(),
+    NewHomePage(),
+    // HomePage(),
     ContactsPage(),
     LockPage(),
     RouterPage(),
@@ -33,35 +36,35 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('BelBird BTLock-I'), backgroundColor: Colors.green),
+      // appBar: AppBar(
+      //     title: const Text('BelBird BTLock-I'), backgroundColor: backGroundColour),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: ('Home'),
-                backgroundColor: Colors.green),
+                backgroundColor: backGroundColour),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person),
                 label: ('User'),
-                backgroundColor: Colors.yellow),
+                backgroundColor: backGroundColour),
             BottomNavigationBarItem(
               icon: Icon(Icons.lock_rounded),
               label: ('Locks'),
-              backgroundColor: Colors.blue,
+              backgroundColor: backGroundColour,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.wifi_outlined),
               label: ('Router'),
-              backgroundColor: Colors.blue,
+              backgroundColor: backGroundColour,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: ('Settings'),
-              backgroundColor: Colors.blue,
+              backgroundColor: backGroundColour,
             ),
           ],
           type: BottomNavigationBarType.shifting,

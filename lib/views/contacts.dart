@@ -1,7 +1,13 @@
+import 'package:bbti/constants.dart';
+import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/views/select_access.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
+
+import '../models/contacts.dart';
+import '../widgets/contact_card.dart';
+import '../widgets/custom_button.dart';
 
 // class ContactPage extends StatelessWidget {
 //   const ContactPage({super.key});
@@ -29,13 +35,18 @@ class ContactsPage extends StatefulWidget {
 
 class _ContactsPageState extends State<ContactsPage> {
   final FlutterContactPicker _contactPicker = new FlutterContactPicker();
-  Contact? _contact;
+  final StorageController _storageController = new StorageController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    // fetchContacts();
+  }
+
+  Future<List<ContactsModel>> fetchContacts() async {
+    return _storageController.readContacts();
   }
 
   @override
@@ -47,143 +58,75 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: whiteColour,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+        backgroundColor: backGroundColour,
+        // automaticallyImplyLeading: false,
+        title: Text(
+          "Contacts",
+          style: TextStyle(
+              color: appBarColour,
+              fontSize: 40,
+              fontWeight: FontWeight.bold),
+        ),
         actions: [],
         centerTitle: true,
         elevation: 0,
       ),
-      body: SafeArea(
-        top: true,
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                            child: Text(
-                              'Contacts',
-                              // style: FlutterFlowTheme.of(context)
-                              //     .headlineMedium
-                              //     .override(
-                              //       fontFamily: 'Plus Jakarta Sans',
-                              //       color: Color(0xFF101213),
-                              //       fontSize: 24,
-                              //       fontWeight: FontWeight.w500,
-                              //     ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(1, 0),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-                        child: GestureDetector(
-                          onTap: () async {
-                            Contact? contact =
-                                await _contactPicker.selectContact();
-                            if (contact != null) {
-                              print(contact.fullName);
-                              print(contact.phoneNumbers);
-                              print(contact);
-
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AccessRequestPage(
-                                            name: contact.fullName!,
-                                          )));
-                            }
-                            setState(() {
-                              _contact = contact;
-                            });
-                          },
-                          child: Container(
-                            width: 200,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Color(0x4C4B39EF),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 4,
-                                  color: Color(0x33000000),
-                                  offset: Offset(0, 2),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Color(0xFF4B39EF),
-                                width: 2,
-                              ),
-                            ),
-                            alignment: AlignmentDirectional(0, 0),
-                            child: Text(
-                              'Add Contacts',
-                              // style: FlutterFlowTheme.of(context)
-                              //     .bodyLarge
-                              //     .override(
-                              //       fontFamily: 'Plus Jakarta Sans',
-                              //       color: FlutterFlowTheme.of(context)
-                              //           .primaryBackground,
-                              //       fontSize: 18,
-                              //       fontWeight: FontWeight.w500,
-                              //     ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: 12,
-                      thickness: 1,
-                      color: Color(0xFFE0E3E7),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(0, 0),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                        child: Container(
-                          width: 350,
-                          height: 230,
-                          child: new Text(
-                            _contact == null
-                                ? 'No contact selected.'
-                                : _contact.toString(),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color(0xEE6C43BD),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 12,
-                                color: Color(0xFF4B39EF),
-                                offset: Offset(0, 5),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            SizedBox(
+              height: 10,
             ),
+            CustomButton(
+              onPressed: () async {
+                Contact? contact = await _contactPicker.selectContact();
+                if (contact != null) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AccessRequestPage(
+                                name: contact.fullName!,
+                              )));
+                } else {
+                  // TODO: Add a toast tp show its not possible to open contacts
+                }
+              },
+              text: "Add Contacts",
+            ),
+            // const Divider(
+            //   height: 12,
+            //   thickness: 1,
+            //   color: Color(0xFFE0E3E7),
+            // ),
+            FutureBuilder(
+                future: fetchContacts(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) return Text("ERROR");
+
+                  return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return ContactsCard(
+                          // contactsDetails: ContactsModel(
+                          //     accessType: "Full_timed_acess",
+                          //     date: "00:00",
+                          //     time: "00dwd",
+                          //     name: "Nandan")
+                          contactsDetails: snapshot.data![index],
+                        );
+                      });
+                })
           ],
         ),
       ),

@@ -1,7 +1,11 @@
+import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/views/pinpage.dart';
 import 'package:flutter/material.dart';
 
 import '../bottom_nav_bar.dart';
+import '../constants.dart';
+import '../controllers/apis.dart';
+import 'add_mac.dart';
 
 // class SettingsPage extends StatelessWidget {
 //   const SettingsPage({super.key});
@@ -184,6 +188,99 @@ class _SettingsPageState extends State<SettingsPage> {
                             //       fontSize: 16,
                             //       fontWeight: FontWeight.w500,
                             //     ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        NewMacInstallationPage()));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Color(0x4C4B39EF),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 4,
+                                  color: Color(0x33000000),
+                                  offset: Offset(0, 2),
+                                )
+                              ],
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Color(0xFF4B39EF),
+                                width: 2,
+                              ),
+                            ),
+                            alignment: AlignmentDirectional(0, 0),
+                            child: Text(
+                              'Mac',
+                              // style:
+                              // FlutterFlowTheme.of(context).bodyLarge.override(
+                              //       fontFamily: 'Plus Jakarta Sans',
+                              //       color: Color(0xFF4B39EF),
+                              //       fontSize: 16,
+                              //       fontWeight: FontWeight.w500,
+                              //     ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 12),
+                        child: GestureDetector(
+                          onTap: () async {
+                            StorageController _sto = new StorageController();
+                            _sto.deleteContacts();
+                            // _sto.readContacts();
+                            // var res = await ApiConnect.hitApiPost(
+                            //     "$routerIP/deletemac", {
+                            //   "MacID": _macID.text,
+                            // });
+
+                            // print(res);
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             NewMacInstallationPage()));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Color(0x4C4B39EF),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 4,
+                                  color: Color(0x33000000),
+                                  offset: Offset(0, 2),
+                                )
+                              ],
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Color(0xFF4B39EF),
+                                width: 2,
+                              ),
+                            ),
+                            alignment: AlignmentDirectional(0, 0),
+                            child: Text(
+                              'Mac Enable',
+                              // style:
+                              // FlutterFlowTheme.of(context).bodyLarge.override(
+                              //       fontFamily: 'Plus Jakarta Sans',
+                              //       color: Color(0xFF4B39EF),
+                              //       fontSize: 16,
+                              //       fontWeight: FontWeight.w500,
+                              //     ),
+                            ),
                           ),
                         ),
                       ),

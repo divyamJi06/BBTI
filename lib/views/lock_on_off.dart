@@ -4,8 +4,8 @@ import '../constants.dart';
 import '../controllers/apis.dart';
 
 class LockOnOff extends StatefulWidget {
-  const LockOnOff({super.key});
-
+  const LockOnOff({required this.IP, super.key});
+  final String IP;
   @override
   State<LockOnOff> createState() => _LockOnOffState();
 }
@@ -29,41 +29,55 @@ class _LockOnOffState extends State<LockOnOff> {
           children: [
             ElevatedButton(
                 onPressed: () async {
-                  String res =
-                      await ApiConnect.hitApiGet(routerIP + "/lockstatus");
-                  // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
-                  print(res);
-                  if (res == "OK CLOSE") {
-                    ApiConnect.hitApiPost(routerIP + "/getlockcmd", {
-                      "Lock_id": "BBT10100",
-                      "lock_passkey": "BBT@4321",
-                      "lock_cmd": "ON"
-                    });
-                  } else if (res == "OK OPEN") {
-                    ApiConnect.hitApiPost(routerIP + "/getlockcmd", {
-                      "Lock_id": "BBT10100",
-                      "lock_passkey": "BBT@4321",
-                      "lock_cmd": "OFF"
-                    });
-                  } else {
-                    print("here in else");
-                  }
-                  print("HERE");
-                  res = await ApiConnect.hitApiGet(routerIP + "/lockstatus");
-                  // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
-                  print(res);
-                  if (res == "OK CLOSE") {
-                    setState(() {
-                      lockStatus = "Open";
-                    });
-                  } else {
-                    setState(() {
-                      lockStatus = "Closed";
-                    });
+                  try {
+                    String res =
+                        await ApiConnect.hitApiGet(widget.IP + "/lockstatus");
+                    // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
+                    print(res);
+                    if (res == "OK CLOSE") {
+                      ApiConnect.hitApiPost(widget.IP + "/getlockcmd", {
+                        "Lock_id": "BBT10100",
+                        "lock_passkey": "BBT@4321",
+                        "lock_cmd": "ON"
+                      });
+                    } else if (res == "OK OPEN") {
+                      ApiConnect.hitApiPost(widget.IP + "/getlockcmd", {
+                        "Lock_id": "BBT10100",
+                        "lock_passkey": "BBT@4321",
+                        "lock_cmd": "OFF"
+                      });
+                    } else {
+                      print("here in else");
+                    }
+                    print("HERE");
+                    res = await ApiConnect.hitApiGet(widget.IP + "/lockstatus");
+                    // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
+                    print(res);
+                    if (res == "OK CLOSE") {
+                      setState(() {
+                        lockStatus = "Open";
+                      });
+                    } else {
+                      setState(() {
+                        lockStatus = "Closed";
+                      });
+                    }
+                  } catch (e) {
+                    print(e.toString());
+                    final scaffold = ScaffoldMessenger.of(context);
+
+                    scaffold.showSnackBar(
+                      SnackBar(
+                        content: Text("Unable to perform"),
+                        // action: SnackBarAction(
+                        // label: 'UNDO',
+                        // onPressed: scaffold.hideCurrentSnackBar),
+                      ),
+                    );
                   }
                 },
                 child: Text("LockOnOFF")),
-            Text(lockStatus)
+            Text("The lock is " + lockStatus)
           ],
         ),
       ),

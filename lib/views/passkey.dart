@@ -25,8 +25,12 @@ class PassKeyPage extends StatelessWidget {
                     await ApiConnect.hitApiPost(routerIP + "/getSecretKey",
                         {"Lock_id": "BBT10100", "lock_passkey": "BBT@4321"});
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LockOnOff()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LockOnOff(
+                                  IP: routerIP,
+                                )));
                   },
                   child: Text("Submit"))
             ],
