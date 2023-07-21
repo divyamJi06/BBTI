@@ -46,7 +46,7 @@ class LockPage extends StatelessWidget {
               }),
         ),
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60), 
+            preferredSize: Size.fromHeight(60),
             child: CustomAppBar(heading: "Lock")),
         body: FutureBuilder(
             future: fetchLocks(),
@@ -69,7 +69,9 @@ class LockPage extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => ConnectToLockWidget(
                                       IP: snapshot.data![index].iPAddress,
-                                      lockDetails: snapshot.data![index],
+                                      lockID: snapshot.data![index].lockld,
+                                      lockPassKey:
+                                          snapshot.data![index].lockPassKey!,
                                     )));
                       },
                       child: LocksCard(locksDetails: snapshot.data![index]),

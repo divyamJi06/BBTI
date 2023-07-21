@@ -1,17 +1,17 @@
 import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
+import 'package:bbti/models/router_model.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class LocksCard extends StatelessWidget {
-  final LockDetails locksDetails;
-  LocksCard({
-    required this.locksDetails,
+class RouterCard extends StatelessWidget {
+  final RouterDetails routerDetails;
+  RouterCard({
+    required this.routerDetails,
     super.key,
   });
   StorageController _storageController = StorageController();
-
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -47,7 +47,7 @@ class LocksCard extends StatelessWidget {
                     Wrap(
                       children: [
                         Text(
-                          locksDetails.lockld!,
+                          routerDetails.lockID,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -62,7 +62,7 @@ class LocksCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "Lock Name : ",
+                      "Router Name : ",
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -71,7 +71,7 @@ class LocksCard extends StatelessWidget {
                     Wrap(
                       children: [
                         Text(
-                          locksDetails.lockSSID!,
+                          routerDetails.name,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -93,7 +93,7 @@ class LocksCard extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      locksDetails.lockPassKey!,
+                      routerDetails.lockPasskey,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -104,14 +104,14 @@ class LocksCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "Lock Password: ",
+                      "Router Password: ",
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      locksDetails.lockPassword!,
+                      routerDetails.password,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -130,7 +130,7 @@ class LocksCard extends StatelessWidget {
                         icon: Icon(Icons.copy),
                         onPressed: () {
                           // String toCopy =
-                          //     '${locksDetails.name},${locksDetails.accessType},${locksDetails.date},${locksDetails.time}';
+                          //     '${routerDetails.name},${routerDetails.accessType},${routerDetails.date},${routerDetails.time}';
                           // print(toCopy);
                         }),
                     SizedBox(
@@ -138,7 +138,7 @@ class LocksCard extends StatelessWidget {
                     ),
                     IconButton(
                         onPressed: () {
-                          _storageController.deleteOneLock(locksDetails);
+                          _storageController.deleteOneRouter(routerDetails);
                         },
                         icon: Icon(Icons.delete)),
                     SizedBox(

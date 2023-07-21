@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
@@ -6,12 +7,14 @@ class CustomButton extends StatelessWidget {
   CustomButton({
     super.key,
     this.width,
+    this.bgmColor,
     required this.text,
     required this.onPressed,
   });
 
   final String text;
   double? width = 300;
+  Color? bgmColor = backGroundColour;
   final GestureTapCallback onPressed;
 
   @override
@@ -20,23 +23,24 @@ class CustomButton extends StatelessWidget {
       // alignment: AlignmentDirectional(1, 0),
       child: Padding(
         padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-        child: GestureDetector(
+        child: InkWell(
+          splashColor: bgmColor,
           onTap: onPressed,
           child: Container(
             width: width,
             height: 50,
             decoration: BoxDecoration(
-              color: backGroundColour,
+              color: bgmColor ?? backGroundColour,
               boxShadow: [
                 BoxShadow(
                   blurRadius: 1,
-                  color: backGroundColour,
+                  color: bgmColor ?? backGroundColour,
                   offset: Offset(0, 2),
                 )
               ],
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: backGroundColour,
+                color: bgmColor ?? backGroundColour,
                 width: 1,
               ),
             ),
@@ -47,15 +51,6 @@ class CustomButton extends StatelessWidget {
                   fontSize: 18,
                   color: whiteColour,
                   fontWeight: FontWeight.bold),
-              // style: FlutterFlowTheme.of(context)
-              //     .bodyLarge
-              //     .override(
-              //       fontFamily: 'Plus Jakarta Sans',
-              //       color: FlutterFlowTheme.of(context)
-              //           .primaryBackground,
-              //       fontSize: 18,
-              //       fontWeight: FontWeight.w500,
-              //     ),
             ),
           ),
         ),

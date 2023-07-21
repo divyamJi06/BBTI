@@ -1,10 +1,11 @@
-
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/passkey.dart';
+import 'package:bbti/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../controllers/apis.dart';
+import '../widgets/custom_appbar.dart';
 
 class NewInstallationPage extends StatefulWidget {
   NewInstallationPage({required this.lockDetails, super.key});
@@ -33,47 +34,71 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60),
+            child: CustomAppBar(heading: "New AP Installation")),
         body: Center(
           child: Form(
             key: formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _lockId,
-                  validator: (value) {
-                    if (value!.length <= 0) return "Lock ID cannot be empty";
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "LockId",
-                    // hintText: "BBT"
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _lockId,
+                    validator: (value) {
+                      if (value!.length <= 0) return "Lock ID cannot be empty";
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        // borderSide: BorderSide(width: 40),
+                      ),
+                      labelText: "LockID",
+                      labelStyle: TextStyle(fontSize: 15),
+                    ),
                   ),
-                ),
-                TextFormField(
-                  controller: _ssid,
-                  validator: (value) {
-                    if (value!.length <= 0) return "SSID cannot be empty";
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "New SSID",
-                    // hintText: "BBT"
+                  SizedBox(
+                    height: 25,
                   ),
-                ),
-                TextFormField(
-                  controller: _password,
-                  validator: (value) {
-                    if (value!.length <= 7)
-                      return "Lock Password cannot be less than 8 letters";
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "New Pass",
-                    // hintText: "BBT"
+                  TextFormField(
+                    controller: _ssid,
+                    validator: (value) {
+                      if (value!.length <= 0) return "SSID cannot be empty";
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        // borderSide: BorderSide(width: 40),
+                      ),
+                      labelText: "New Lock Name",
+                      labelStyle: TextStyle(fontSize: 15),
+                    ),
                   ),
-                ),
-                ElevatedButton(
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: _password,
+                    validator: (value) {
+                      if (value!.length <= 7)
+                        return "Lock Password cannot be less than 8 letters";
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        // borderSide: BorderSide(width: 40),
+                      ),
+                      labelText: "New Password",
+                      labelStyle: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomButton(
+                    width: 200,
+                    text: "Submit",
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         await ApiConnect.hitApiGet(
@@ -98,8 +123,9 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                                     )));
                       }
                     },
-                    child: Text("Submit"))
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ));

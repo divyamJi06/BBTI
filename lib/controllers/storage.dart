@@ -3,7 +3,10 @@ import 'dart:convert';
 
 import 'package:bbti/models/contacts.dart';
 import 'package:bbti/models/lock_initial.dart';
+import 'package:bbti/models/mac_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../models/router_model.dart';
 
 class StorageController {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -19,6 +22,9 @@ class StorageController {
 
   deleteContacts() async {
     await storage.delete(key: "contacts");
+  }
+  deleteRouters() async {
+    await storage.delete(key: "routers");
   }
 
   deleteLocks() async {
@@ -76,7 +82,7 @@ class StorageController {
     return _model;
   }
 
-  deleteOneLocks(LockDetails lockDetails) async {
+  deleteOneLock(LockDetails lockDetails) async {
     List<LockDetails> lockList = await readLocks();
     lockList.removeWhere((element) => element.lockld == lockDetails.lockld);
     List listContectsInJson = lockList.map((e) {
@@ -93,5 +99,86 @@ class StorageController {
       return e.toJson();
     }).toList();
     storage.write(key: "locks", value: json.encode(listContectsInJson));
+  }
+
+  Future<List<RouterDetails>> readRouters() async {
+    String? locks = await storage.read(key: "routers");
+    List<RouterDetails> _model = [];
+    if (locks == null) {
+      List listContectsInJson = _model.map((e) {
+        return e.toJson();
+      }).toList();
+      storage.write(key: "routers", value: json.encode(listContectsInJson));
+    } else {
+      _model = [];
+      var jsonContacts = json.decode(locks);
+      print(jsonContacts);
+      for (var element in jsonContacts) {
+        _model.add(RouterDetails.fromJson(element));
+      }
+    }
+    return _model;
+  }
+
+  deleteOneRouter(RouterDetails lockDetails) async {
+    List<RouterDetails> lockList = await readRouters();
+    lockList.removeWhere((element) => element.name == lockDetails.name);
+    List listContectsInJson = lockList.map((e) {
+      return e.toJson();
+    }).toList();
+    storage.write(key: "routers", value: json.encode(listContectsInJson));
+  }
+
+  void addRouters(RouterDetails lockDetails) async {
+    List<RouterDetails> locksList = await readRouters();
+    locksList.add(lockDetails);
+
+    List listContectsInJson = locksList.map((e) {
+      return e.toJson();
+    }).toList();
+    storage.write(key: "routers", value: json.encode(listContectsInJson));
+  }
+
+  Future<List<MacsDetails>> readMacs() async {
+    String? locks = await storage.read(key: "macs");
+    List<MacsDetails> _model = [];
+    if (locks == null) {
+      List listContectsInJson = _model.map((e) {
+        return e.toJson();
+      }).toList();
+      storage.write(key: "macs", value: json.encode(listContectsInJson));
+    } else {
+      _model = [];
+      var jsonContacts = json.decode(locks);
+      print(jsonContacts);
+      for (var element in jsonContacts) {
+        _model.add(MacsDetails.fromJson(element));
+      }
+    }
+    return _model;
+  }
+
+  deleteOneMacs(MacsDetails lockDetails) async {
+    List<MacsDetails> lockList = await readMacs();
+    lockList.removeWhere((element) => element.id == lockDetails.id);
+    List listContectsInJson = lockList.map((e) {
+      return e.toJson();
+    }).toList();
+    storage.write(key: "macs", value: json.encode(listContectsInJson));
+  }
+
+  updateMacStatus(MacsDetails lockDetails) async {
+    await deleteOneMacs(lockDetails);
+    addmacs(lockDetails);
+  }
+
+  void addmacs(MacsDetails lockDetails) async {
+    List<MacsDetails> locksList = await readMacs();
+    locksList.add(lockDetails);
+
+    List listContectsInJson = locksList.map((e) {
+      return e.toJson();
+    }).toList();
+    storage.write(key: "macs", value: json.encode(listContectsInJson));
   }
 }

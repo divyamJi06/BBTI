@@ -25,6 +25,20 @@ class _LockOnOffState extends State<LockOnOff> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    updateLock();
+  }
+
+  void updateLock() async {
+    String res = await ApiConnect.hitApiGet(widget.IP + "/lockstatus");
+    setState(() {
+      if (res == "OK CLOSE") {
+        lockClosed = true;
+        lockStatus = "Closed";
+      } else {
+        lockClosed = false;
+        lockStatus = "Open";
+      }
+    });
   }
 
   @override

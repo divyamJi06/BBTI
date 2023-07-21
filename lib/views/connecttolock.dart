@@ -26,10 +26,14 @@ import '../widgets/custom_appbar.dart';
 final info = NetworkInfo();
 
 class ConnectToLockWidget extends StatefulWidget {
-  final LockDetails lockDetails;
+  final String lockID;
+  final String lockPassKey;
   final String IP;
   const ConnectToLockWidget(
-      {required this.IP, required this.lockDetails, Key? key})
+      {required this.IP,
+      required this.lockID,
+      required this.lockPassKey,
+      Key? key})
       : super(key: key);
 
   @override
@@ -215,9 +219,8 @@ class _ConnectToLockWidgetState extends State<ConnectToLockWidget> {
                               MaterialPageRoute(
                                   builder: (context) => LockOnOff(
                                         IP: widget.IP,
-                                        lockID: widget.lockDetails.lockld,
-                                        lockPassKey:
-                                            widget.lockDetails.lockPassKey!,
+                                        lockID: widget.lockID,
+                                        lockPassKey: widget.lockPassKey,
                                       )));
                         }),
                     SizedBox(
