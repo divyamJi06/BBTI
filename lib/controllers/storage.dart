@@ -23,6 +23,7 @@ class StorageController {
   deleteContacts() async {
     await storage.delete(key: "contacts");
   }
+
   deleteRouters() async {
     await storage.delete(key: "routers");
   }
@@ -84,10 +85,11 @@ class StorageController {
 
   deleteOneLock(LockDetails lockDetails) async {
     List<LockDetails> lockList = await readLocks();
-    lockList.removeWhere((element) => element.lockld == lockDetails.lockld);
+    lockList.removeWhere((element) => element.lockSSID == lockDetails.lockSSID);
     List listContectsInJson = lockList.map((e) {
       return e.toJson();
     }).toList();
+    deleteLocks();
     storage.write(key: "locks", value: json.encode(listContectsInJson));
   }
 
@@ -122,7 +124,7 @@ class StorageController {
 
   deleteOneRouter(RouterDetails lockDetails) async {
     List<RouterDetails> lockList = await readRouters();
-    lockList.removeWhere((element) => element.name == lockDetails.name);
+    lockList.removeWhere((element) => element.lockID == lockDetails.lockID);
     List listContectsInJson = lockList.map((e) {
       return e.toJson();
     }).toList();

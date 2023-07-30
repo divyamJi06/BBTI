@@ -85,25 +85,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         MaterialPageRoute(builder: (context) => MacsPage()));
                   },
                 ),
-                CustomButton(
-                  text: "Mac Enable",
-                  onPressed: () async {
-                    StorageController _sto = new StorageController();
-                    _sto.deleteRouters();
-                    // _sto.readContacts();
-                    // var res = await ApiConnect.hitApiPost(
-                    //     "$routerIP/deletemac", {
-                    //   "MacID": _macID.text,
-                    // });
-
-                    // print(res);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             NewMacInstallationPage()));
-                  },
-                )
               ],
             ),
           ),
