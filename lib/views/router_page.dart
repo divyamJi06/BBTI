@@ -47,8 +47,22 @@ class RouterPage extends StatelessWidget {
             }),
       ),
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: CustomAppBar(heading: "Routers")),
+        preferredSize: Size.fromHeight(60),
+        child: AppBar(
+          iconTheme: IconThemeData(color: appBarColour),
+
+          backgroundColor: backGroundColour,
+          automaticallyImplyLeading: false,
+          title: Text(
+            "Routers",
+            style: TextStyle(
+                color: appBarColour, fontSize: 40, fontWeight: FontWeight.bold),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 0,
+        ),
+      ),
       // bottomNavigationBar: MyNavigationBar(),
       body: Center(
         child: Column(

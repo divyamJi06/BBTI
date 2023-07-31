@@ -5,13 +5,20 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class RouterCard extends StatelessWidget {
+class RouterCard extends StatefulWidget {
   final RouterDetails routerDetails;
   RouterCard({
     required this.routerDetails,
     super.key,
   });
+
+  @override
+  State<RouterCard> createState() => _RouterCardState();
+}
+
+class _RouterCardState extends State<RouterCard> {
   StorageController _storageController = StorageController();
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -47,7 +54,7 @@ class RouterCard extends StatelessWidget {
                     Wrap(
                       children: [
                         Text(
-                          routerDetails.lockID,
+                          widget.routerDetails.lockID,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -71,7 +78,7 @@ class RouterCard extends StatelessWidget {
                     Wrap(
                       children: [
                         Text(
-                          routerDetails.name,
+                          widget.routerDetails.name,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -93,7 +100,7 @@ class RouterCard extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      routerDetails.lockPasskey,
+                      widget.routerDetails.lockPasskey,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -111,7 +118,7 @@ class RouterCard extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      routerDetails.password,
+                      widget.routerDetails.password,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -138,7 +145,9 @@ class RouterCard extends StatelessWidget {
                     ),
                     IconButton(
                         onPressed: () {
-                          _storageController.deleteOneRouter(routerDetails);
+                          _storageController
+                              .deleteOneRouter(widget.routerDetails);
+                          setState(() {});
                         },
                         icon: Icon(Icons.delete)),
                     SizedBox(

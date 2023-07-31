@@ -9,7 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/custom_appbar.dart';
 
 class PinCodeWidget extends StatefulWidget {
-  const PinCodeWidget({Key? key}) : super(key: key);
+  const PinCodeWidget({required this.pin, Key? key}) : super(key: key);
+  final String pin;
 
   @override
   _PinCodeWidgetState createState() => _PinCodeWidgetState();
@@ -84,7 +85,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                   text: "Confirm",
                   width: 250,
                   onPressed: () async {
-                    if (_controller.text == "1234") {
+                    if (_controller.text == widget.pin) {
                       var res = await ApiConnect.hitApiGet(
                           routerIP + "/Factoryreset");
                       print(res);

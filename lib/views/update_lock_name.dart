@@ -1,3 +1,4 @@
+import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/passkey.dart';
 import 'package:bbti/widgets/custom_button.dart';
@@ -7,29 +8,33 @@ import '../constants.dart';
 import '../controllers/apis.dart';
 import '../widgets/custom_appbar.dart';
 
-class NewInstallationPage extends StatefulWidget {
-  NewInstallationPage({required this.lockDetails, super.key});
+class UpdateLockInstallationPage extends StatefulWidget {
+  UpdateLockInstallationPage({required this.lockDetails, super.key});
 
   final LockDetails lockDetails;
 
   @override
-  State<NewInstallationPage> createState() => _NewInstallationPageState();
+  State<UpdateLockInstallationPage> createState() =>
+      _UpdateLockInstallationPageState();
 }
 
-class _NewInstallationPageState extends State<NewInstallationPage> {
+class _UpdateLockInstallationPageState
+    extends State<UpdateLockInstallationPage> {
   @override
   void initState() {
     // TODO: implement initState
+    _lockId.text = widget.lockDetails.lockld;
+    _password.text = widget.lockDetails.lockPassword;
+    _ssid.text = widget.lockDetails.lockSSID;
     super.initState();
   }
 
-  final TextEditingController _lockId = new TextEditingController();
+  final TextEditingController _lockId = TextEditingController();
 
-  final TextEditingController _ssid = new TextEditingController();
+  final TextEditingController _ssid = TextEditingController();
 
-  final TextEditingController _password = new TextEditingController();
-  final TextEditingController _privatePin = new TextEditingController();
-
+  final TextEditingController _password = TextEditingController();
+  StorageController _storageController = new StorageController();
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -37,7 +42,7 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(60),
-            child: CustomAppBar(heading: "New AP Installation")),
+            child: CustomAppBar(heading: "AP Updation")),
         body: Center(
           child: Form(
             key: formKey,
@@ -97,24 +102,6 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    controller: _privatePin,
-                    validator: (value) {
-                      if (value!.length <= 3)
-                        return "Lock Pin cannot be less than 4 letters";
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        // borderSide: BorderSide(width: 40),
-                      ),
-                      labelText: "New Pin",
-                      labelStyle: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   CustomButton(
                     width: 200,
                     text: "Submit",
@@ -123,25 +110,17 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                         await ApiConnect.hitApiGet(
                           routerIP + "/",
                         );
-
-                        await ApiConnect.hitApiPost("$routerIP/settings", {
+                        var data = {
                           "Lock_id": _lockId.text,
                           "lock_name": _ssid.text,
                           "lock_pass": _password.text
-                        });
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PassKeyPage(
-                                      lockDetails: LockDetails(
-                                          isAutoLock: false,
-                                          privatePin: _privatePin.text,
-                                          lockld: _lockId.text,
-                                          lockSSID: _ssid.text,
-                                          lockPassword: _password.text,
-                                          iPAddress:
-                                              widget.lockDetails.iPAddress),
-                                    )));
+                        };
+                        print(data);
+                        await ApiConnect.hitApiPost("$routerIP/settings", data);
+                        _storageController.updateLock(widget.lockDetails.lockld,
+                            _lockId.text, _ssid.text, _password.text);
+
+                        Navigator.pop(context);
                       }
                     },
                   )

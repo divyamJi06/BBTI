@@ -46,8 +46,23 @@ class LockPage extends StatelessWidget {
               }),
         ),
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
-            child: CustomAppBar(heading: "Lock")),
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            iconTheme: IconThemeData(color: appBarColour),
+            backgroundColor: backGroundColour,
+            automaticallyImplyLeading: false,
+            title: Text(
+              "Locks",
+              style: TextStyle(
+                  color: appBarColour,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold),
+            ),
+            actions: [],
+            centerTitle: true,
+            elevation: 0,
+          ),
+        ),
         body: FutureBuilder(
             future: fetchLocks(),
             builder: (context, snapshot) {

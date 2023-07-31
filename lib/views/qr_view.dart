@@ -212,6 +212,8 @@ class _QRViewExampleState extends State<QRViewExample> {
       lockld: "Unknown",
       lockSSID: "Unknown",
       lockPassword: "Unknown",
+      isAutoLock: false,
+      privatePin: "1234",
       iPAddress: "Unknown");
   Future<void> scanQR() async {
     String barcodeScanRes;
@@ -235,6 +237,8 @@ class _QRViewExampleState extends State<QRViewExample> {
       print(jsonR);
       details = LockDetails(
           lockld: jsonR['LockId'],
+          isAutoLock: false,
+          privatePin: "1234",
           lockSSID: jsonR['LockSSID'],
           lockPassword: jsonR['LockPassword'].toString(),
           iPAddress: jsonR['IPAddress']);

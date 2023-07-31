@@ -93,7 +93,7 @@ class _ContactsPageState extends State<ContactsPage> {
       backgroundColor: whiteColour,
       appBar: AppBar(
         backgroundColor: backGroundColour,
-        // automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         title: Text(
           "Contacts",
           style: TextStyle(

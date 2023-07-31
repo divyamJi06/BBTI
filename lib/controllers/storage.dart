@@ -93,6 +93,38 @@ class StorageController {
     storage.write(key: "locks", value: json.encode(listContectsInJson));
   }
 
+  updateLock(String idOfLock, String newLockId, String newLockSSID,
+      String newLockPassword) async {
+    List<LockDetails> locksList = await readLocks();
+    deleteLocks();
+    for (var element in locksList) {
+      if (element.lockld == idOfLock) {
+        element.lockld = newLockId;
+        element.lockPassword = newLockPassword;
+        element.lockSSID = newLockSSID;
+        break;
+      }
+    }
+    for (var element in locksList) {
+      addlocks(element);
+    }
+  }
+
+  updateLockAutoStatus(String lockname, bool status) async {
+    List<LockDetails> locksList = await readLocks();
+    deleteLocks();
+    print(lockname);
+    for (var element in locksList) {
+      if (element.lockSSID == lockname) {
+        element.isAutoLock = status;
+        break;
+      }
+    }
+    for (var element in locksList) {
+      addlocks(element);
+    }
+  }
+
   void addlocks(LockDetails lockDetails) async {
     List<LockDetails> locksList = await readLocks();
     locksList.add(lockDetails);

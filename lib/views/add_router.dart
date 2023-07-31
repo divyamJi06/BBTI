@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:bbti/bottom_nav_bar.dart';
 import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/controllers/wifi.dart';
 import 'package:bbti/models/router_model.dart';
-import 'package:bbti/views/passkey.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:bbti/widgets/toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -22,6 +20,7 @@ import '../constants.dart';
 import '../controllers/add_router_cont.dart';
 import '../controllers/apis.dart';
 import '../controllers/permission.dart';
+import '../models/lock_initial.dart';
 import '../widgets/custom_appbar.dart';
 
 class NewRouterInstallationPage extends StatefulWidget {
@@ -35,8 +34,7 @@ class NewRouterInstallationPage extends StatefulWidget {
 class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
   StorageController _storage = StorageController();
 
-  final TextEditingController _lockId =
-      new TextEditingController(text: "BBT10100");
+  final TextEditingController _lockId = TextEditingController();
 
   final TextEditingController _ssid =
       new TextEditingController(text: "nandan1");
@@ -53,9 +51,26 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
   void initState() {
     super.initState();
     _initNetworkInfo();
+    getLockId();
 
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  String? lockID;
+  getLockId() async {
+    List<LockDetails> locks = await _storage.readLocks();
+    print(_connectionStatus);
+    for (var element in locks) {
+      if (_connectionStatus.contains(element.lockSSID)) {
+        setState(() {
+          print("HELLO");
+          lockID = element.lockld;
+          _lockId.text = element.lockld;
+        });
+        break;
+      }
+    }
   }
 
   @override
@@ -197,23 +212,23 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  TextFormField(
-                    controller: _lockId,
-                    validator: (value) {
-                      if (value!.length <= 0) return "Lock ID cannot be empty";
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        // borderSide: BorderSide(width: 40),
-                      ),
-                      labelText: "Lock ID",
-                      labelStyle: TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  // TextFormField(
+                  //   controller: _lockId,
+                  //   validator: (value) {
+                  //     if (value!.length <= 0) return "Lock ID cannot be empty";
+                  //   },
+                  //   decoration: InputDecoration(
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(20),
+                  //       // borderSide: BorderSide(width: 40),
+                  //     ),
+                  //     labelText: "Lock ID",
+                  //     labelStyle: TextStyle(fontSize: 15),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
                   TextFormField(
                     controller: _ssid,
                     validator: (value) {
@@ -253,6 +268,8 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                     text: "Submit",
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        await getLockId();
+                        print(lockID);
                         print("---------1");
                         print(_connectionStatus);
                         String ssidd = _connectionStatus.substring(
