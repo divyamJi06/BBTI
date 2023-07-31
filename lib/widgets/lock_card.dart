@@ -1,8 +1,10 @@
 import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
+import 'package:bbti/views/locks_page.dart';
 import 'package:bbti/views/update_lock_name.dart';
 import 'package:flutter/material.dart';
 
+import '../bottom_nav_bar.dart';
 import '../constants.dart';
 import '../controllers/apis.dart';
 
@@ -172,7 +174,15 @@ class _LocksCardState extends State<LocksCard> {
                     IconButton(
                         onPressed: () {
                           _storageController.deleteOneLock(widget.locksDetails);
-                          setState(() {});
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) =>
+                                  MyNavigationBar(),
+                            ),
+                            (route) =>
+                                false, //if you want to disable back feature set to false
+                          );
                         },
                         icon: Icon(Icons.delete)),
                     SizedBox(

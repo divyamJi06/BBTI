@@ -129,6 +129,22 @@ class StorageController {
     }
   }
 
+  getLockBySSID(lockSSID) async {
+    List<LockDetails> locksList = await readLocks();
+    for (var element in locksList) {
+      if (element.lockSSID == lockSSID) return element;
+    }
+    return null;
+  }
+
+  getContactByPhone(phone) async {
+    List<ContactsModel> locksList = await readContacts();
+    for (var element in locksList) {
+      if (element.name == phone) return element;
+    }
+    return null;
+  }
+
   void addlocks(LockDetails lockDetails) async {
     List<LockDetails> locksList = await readLocks();
     locksList.add(lockDetails);

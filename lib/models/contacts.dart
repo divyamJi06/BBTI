@@ -26,7 +26,7 @@ class ContactsModel {
     return data;
   }
 
-  String toContactsString() {
-    return "";
+  String toContactsQR() {
+    return "$name,$accessType,$date,$time";
   }
 }

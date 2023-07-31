@@ -1,6 +1,8 @@
+import 'package:bbti/bottom_nav_bar.dart';
 import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/models/router_model.dart';
+import 'package:bbti/views/router_page.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -147,7 +149,14 @@ class _RouterCardState extends State<RouterCard> {
                         onPressed: () {
                           _storageController
                               .deleteOneRouter(widget.routerDetails);
-                          setState(() {});
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) => MyNavigationBar(),
+                            ),
+                            (route) =>
+                                false, //if you want to disable back feature set to false
+                          );
                         },
                         icon: Icon(Icons.delete)),
                     SizedBox(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../bottom_nav_bar.dart';
 import '../constants.dart';
 import '../controllers/storage.dart';
 import '../models/contacts.dart';
@@ -133,6 +134,15 @@ class ContactsCard extends StatelessWidget {
                     IconButton(
                         onPressed: () {
                           _storageController.deleteOneContact(contactsDetails);
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) =>
+                                  MyNavigationBar(),
+                            ),
+                            (route) =>
+                                false, //if you want to disable back feature set to false
+                          );
                         },
                         icon: Icon(Icons.delete))
                   ],

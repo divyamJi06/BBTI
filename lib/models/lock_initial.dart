@@ -37,4 +37,8 @@ class LockDetails {
     data['LockPasskey'] = lockPassKey;
     return data;
   }
+
+  String toLockQR() {
+    return "$lockld,$lockSSID,$lockPassKey,$lockPassword";
+  }
 }

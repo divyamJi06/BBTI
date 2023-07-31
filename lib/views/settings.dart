@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bbti/controllers/storage.dart';
+import 'package:bbti/models/contacts.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/mac_details.dart';
 import 'package:bbti/views/pinpage.dart';
 import 'package:bbti/widgets/custom_button.dart';
+import 'package:bbti/widgets/qr.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bbti/widgets/toast.dart';
@@ -193,6 +195,102 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
+  showAlertDialog(BuildContext context) async {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {},
+    );
+
+    List<ContactsModel> contacts = await _storageController.readContacts();
+    List<LockDetails> locks = await _storageController.readLocks();
+
+    LockDetails lock = LockDetails(
+        lockld: "default",
+        lockSSID: "def",
+        isAutoLock: false,
+        privatePin: "1234",
+        lockPassword: "default",
+        iPAddress: "0.0.0.0");
+    ContactsModel contact = ContactsModel(
+        accessType: "default",
+        date: "default",
+        time: "default",
+        name: "default");
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Generate QR"),
+      // content: Text(
+      //     "Would you like to continue learning how to use Flutter alerts?"),
+      actions: [
+        Column(
+          children: [
+            const Text("Select Contact"),
+            DropdownMenu(
+                onSelected: (value) async {
+                  contact = await _storageController.getContactByPhone(value);
+                },
+                dropdownMenuEntries: contacts
+                    .map((e) => DropdownMenuEntry(value: e.name, label: e.name))
+                    .toList()),
+            SizedBox(
+              height: 10,
+            ),
+            const Text("Select Lock"),
+            DropdownMenu(
+                onSelected: (value) async {
+                  lock = await _storageController.getLockBySSID(value);
+                },
+                dropdownMenuEntries: locks
+                    .map((e) =>
+                        DropdownMenuEntry(value: e.lockSSID, label: e.lockSSID))
+                    .toList()),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QRPage(
+                                data: lock.toLockQR() +
+                                    "," +
+                                    contact.toContactsQR())));
+                  },
+                  child: new Text("Generate"),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: new Text("Cancel"),
+                ),
+              ],
+            )
+          ],
+        )
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -258,6 +356,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MacsPage()));
+                  },
+                ),
+                CustomButton(
+                  text: "Generate QR",
+                  onPressed: () async {
+                    showAlertDialog(context);
+                    // Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => MacsPage()));
                   },
                 ),
               ],
