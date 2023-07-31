@@ -32,6 +32,10 @@ class StorageController {
     await storage.delete(key: "locks");
   }
 
+  deleteMacs() async {
+    await storage.delete(key: "macs");
+  }
+
   deleteOneContact(ContactsModel contactsModel) async {
     List<ContactsModel> contactList = await readContacts();
     contactList.removeWhere((element) => element.name == contactsModel.name);

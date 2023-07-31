@@ -248,7 +248,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     showToast(context, "Invalid Pin");
                   },
                 ),
-                // CustomButton(text: "Set AutoLock", onPressed: () {}),
+                // CustomButton(
+                //     text: "Set AutoLock",
+                //     onPressed: () {
+                //       _storageController.deleteMacs();
+                //     }),
                 CustomButton(
                   text: "Mac",
                   onPressed: () {

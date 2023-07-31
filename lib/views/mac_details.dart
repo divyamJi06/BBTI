@@ -94,7 +94,10 @@ class _MacsPageState extends State<MacsPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
                   }
-                  if (snapshot.hasError) return Text("ERROR");
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Text("ERROR");
+                  }
 
                   return ListView.builder(
                       physics: NeverScrollableScrollPhysics(),

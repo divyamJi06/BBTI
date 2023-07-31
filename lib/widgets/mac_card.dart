@@ -58,6 +58,30 @@ class _MacCardState extends State<MacCard> {
                 Row(
                   children: [
                     Text(
+                      "Lock ID : ",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: blackColour,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Wrap(
+                      children: [
+                        Text(
+                          widget.macsDetails.lockDetails.lockSSID,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: blackColour,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
                       "Mac ID : ",
                       style: TextStyle(
                           fontSize: 20,
@@ -157,6 +181,7 @@ class _MacCardState extends State<MacCard> {
                             }
                             MacsDetails macD = MacsDetails(
                                 id: widget.macsDetails.id,
+                                lockDetails: widget.macsDetails.lockDetails,
                                 name: widget.macsDetails.name,
                                 isPresentInESP: isSwitched);
                             _storageController.updateMacStatus(macD);
