@@ -30,6 +30,7 @@ class _LockOnOffState extends State<LockOnOff> {
 
   void updateLock() async {
     String res = await ApiConnect.hitApiGet(widget.IP + "/lockstatus");
+    print(res);
     setState(() {
       if (res == "OK CLOSE") {
         lockClosed = true;
@@ -87,8 +88,6 @@ class _LockOnOffState extends State<LockOnOff> {
                         try {
                           String res = await ApiConnect.hitApiGet(
                               widget.IP + "/lockstatus");
-                          // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
-                          print(res);
                           if (res == "OK CLOSE") {
                             ApiConnect.hitApiPost(widget.IP + "/getlockcmd", {
                               "Lock_id": widget.lockID,
