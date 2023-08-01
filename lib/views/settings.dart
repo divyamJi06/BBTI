@@ -338,12 +338,12 @@ class _SettingsPageState extends State<SettingsPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PinCodeWidget(
-                                      pin: element.privatePin,
+                                      lockDetails: element,
                                     )));
                         return;
                       }
                     }
-                    showToast(context, "Invalid Pin");
+                    showToast(context, "You may not be connected to AP Mode.");
                   },
                 ),
                 // CustomButton(

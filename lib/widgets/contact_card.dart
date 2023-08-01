@@ -115,37 +115,43 @@ class ContactsCard extends StatelessWidget {
                   ],
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // SizedBox(
-                    //   width: 20,
-                    // ),
-                    IconButton(
-                        icon: Icon(Icons.copy),
-                        onPressed: () {
-                          String toCopy =
-                              '${contactsDetails.name},${contactsDetails.accessType},${contactsDetails.date},${contactsDetails.time}';
-                          print(toCopy);
-                        }),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          _storageController.deleteOneContact(contactsDetails);
-                          Navigator.pushAndRemoveUntil<dynamic>(
-                            context,
-                            MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) =>
-                                  MyNavigationBar(),
-                            ),
-                            (route) =>
-                                false, //if you want to disable back feature set to false
-                          );
-                        },
-                        icon: Icon(Icons.delete))
-                  ],
+                Container(
+                  decoration: BoxDecoration(
+                      color: backGroundColour,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // SizedBox(
+                      //   width: 20,
+                      // ),
+                      // IconButton(
+                      //     icon: Icon(Icons.copy),
+                      //     onPressed: () {
+                      //       String toCopy =
+                      //           '${contactsDetails.name},${contactsDetails.accessType},${contactsDetails.date},${contactsDetails.time}';
+                      //       print(toCopy);
+                      //     }),
+                      // SizedBox(
+                      //   width: 20,
+                      // ),
+                      IconButton(
+                          onPressed: () {
+                            _storageController
+                                .deleteOneContact(contactsDetails);
+                            Navigator.pushAndRemoveUntil<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) =>
+                                    MyNavigationBar(),
+                              ),
+                              (route) =>
+                                  false, //if you want to disable back feature set to false
+                            );
+                          },
+                          icon: Icon(Icons.delete))
+                    ],
+                  ),
                 ),
                 // Text("Access Permission  : FULL TIME ACCESS"),
                 // Text("Start and End Date : 00-00"),

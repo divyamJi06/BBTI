@@ -129,76 +129,81 @@ class _LocksCardState extends State<LocksCard> {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Transform.scale(
-                        scale: 1,
-                        child: Switch(
-                          onChanged: (value) async {
-                            print("===============");
-                            print(value);
-                            if (value) {
-                              await ApiConnect.hitApiPost(
-                                  "${widget.locksDetails.iPAddress}/Autolock",
-                                  {"AutoLockTime": "ON"});
-                            } else {
-                              await ApiConnect.hitApiPost(
-                                  "${widget.locksDetails.iPAddress}/Autolock",
-                                  {"AutoLockTime": "OFF"});
-                            }
-                            setState(() {
-                              _storageController.updateLockAutoStatus(
-                                  widget.locksDetails.lockSSID, value);
-                            });
-                          },
-                          value: widget.locksDetails.isAutoLock,
-                          activeColor: appBarColour,
-                          activeTrackColor: backGroundColour,
-                          inactiveThumbColor: blackColour,
-                          inactiveTrackColor: whiteColour,
-                        )),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.copy),
-                        onPressed: () {
-                          // String toCopy =
-                          //     '${locksDetails.name},${locksDetails.accessType},${locksDetails.date},${locksDetails.time}';
-                          // print(toCopy);
-                        }),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          _storageController.deleteOneLock(widget.locksDetails);
-                          Navigator.pushAndRemoveUntil<dynamic>(
-                            context,
-                            MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) =>
-                                  MyNavigationBar(),
-                            ),
-                            (route) =>
-                                false, //if you want to disable back feature set to false
-                          );
-                        },
-                        icon: Icon(Icons.delete)),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
+                Container(
+                  decoration: BoxDecoration(
+                      color: backGroundColour,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Transform.scale(
+                          scale: 1,
+                          child: Switch(
+                            onChanged: (value) async {
+                              print("===============");
+                              print(value);
+                              if (value) {
+                                await ApiConnect.hitApiPost(
+                                    "${widget.locksDetails.iPAddress}/Autolock",
+                                    {"AutoLockTime": "ON"});
+                              } else {
+                                await ApiConnect.hitApiPost(
+                                    "${widget.locksDetails.iPAddress}/Autolock",
+                                    {"AutoLockTime": "OFF"});
+                              }
+                              setState(() {
+                                _storageController.updateLockAutoStatus(
+                                    widget.locksDetails.lockSSID, value);
+                              });
+                              Navigator.pushAndRemoveUntil<dynamic>(
+                                context,
+                                MaterialPageRoute<dynamic>(
+                                  builder: (BuildContext context) =>
+                                      MyNavigationBar(),
+                                ),
+                                (route) =>
+                                    false, //if you want to disable back feature set to false
+                              );
+                            },
+                            value: widget.locksDetails.isAutoLock,
+                            activeColor: appBarColour,
+                            activeTrackColor: backGroundColour,
+                            inactiveThumbColor: blackColour,
+                            inactiveTrackColor: whiteColour,
+                          )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            _storageController
+                                .deleteOneLock(widget.locksDetails);
+                            Navigator.pushAndRemoveUntil<dynamic>(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      UpdateLockInstallationPage(
-                                          lockDetails: widget.locksDetails)));
-                        },
-                        icon: Icon(Icons.refresh_rounded))
-                  ],
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) =>
+                                    MyNavigationBar(),
+                              ),
+                              (route) =>
+                                  false, //if you want to disable back feature set to false
+                            );
+                          },
+                          icon: Icon(Icons.delete)),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateLockInstallationPage(
+                                            lockDetails: widget.locksDetails)));
+                          },
+                          icon: Icon(Icons.refresh_rounded))
+                    ],
+                  ),
                 ),
               ],
             ),

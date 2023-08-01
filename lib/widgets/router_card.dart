@@ -129,42 +129,38 @@ class _RouterCardState extends State<RouterCard> {
                   ],
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // SizedBox(
-                    //   width: 20,
-                    // ),
-                    IconButton(
-                        icon: Icon(Icons.copy),
-                        onPressed: () {
-                          // String toCopy =
-                          //     '${routerDetails.name},${routerDetails.accessType},${routerDetails.date},${routerDetails.time}';
-                          // print(toCopy);
-                        }),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          _storageController
-                              .deleteOneRouter(widget.routerDetails);
-                          Navigator.pushAndRemoveUntil<dynamic>(
-                            context,
-                            MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) => MyNavigationBar(),
-                            ),
-                            (route) =>
-                                false, //if you want to disable back feature set to false
-                          );
-                        },
-                        icon: Icon(Icons.delete)),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    IconButton(
-                        onPressed: () {}, icon: Icon(Icons.refresh_rounded))
-                  ],
+                Container(
+                  decoration: BoxDecoration(
+                      color: backGroundColour,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // SizedBox(
+                      //   width: 10,
+                      // ),
+                      IconButton(
+                          onPressed: () {
+                            _storageController
+                                .deleteOneRouter(widget.routerDetails);
+                            Navigator.pushAndRemoveUntil<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) =>
+                                    MyNavigationBar(),
+                              ),
+                              (route) =>
+                                  false, //if you want to disable back feature set to false
+                            );
+                          },
+                          icon: Icon(Icons.delete)),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      // IconButton(
+                      //     onPressed: () {}, icon: Icon(Icons.refresh_rounded))
+                    ],
+                  ),
                 ),
                 // Text("Access Permission  : FULL TIME ACCESS"),
                 // Text("Start and End Date : 00-00"),

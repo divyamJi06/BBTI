@@ -1,6 +1,8 @@
 import 'package:bbti/bottom_nav_bar.dart';
 import 'package:bbti/constants.dart';
 import 'package:bbti/controllers/apis.dart';
+import 'package:bbti/controllers/storage.dart';
+import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/custom_appbar.dart';
 
 class PinCodeWidget extends StatefulWidget {
-  const PinCodeWidget({required this.pin, Key? key}) : super(key: key);
-  final String pin;
-
+  const PinCodeWidget({required this.lockDetails, Key? key}) : super(key: key);
+  final LockDetails lockDetails;
   @override
   _PinCodeWidgetState createState() => _PinCodeWidgetState();
 }
@@ -19,7 +20,7 @@ class PinCodeWidget extends StatefulWidget {
 class _PinCodeWidgetState extends State<PinCodeWidget> {
   TextEditingController _controller = new TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  StorageController _storageController = StorageController();
   @override
   void initState() {
     super.initState();
@@ -85,10 +86,15 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                   text: "Confirm",
                   width: 250,
                   onPressed: () async {
-                    if (_controller.text == widget.pin) {
-                      var res = await ApiConnect.hitApiGet(
-                          routerIP + "/Factoryreset");
-                      print(res);
+                    if (_controller.text == widget.lockDetails.privatePin) {
+                      var res = await ApiConnect.hitApiPost(
+                          "${widget.lockDetails.iPAddress}/Factoryreset", {
+                        "USER_DEVID": widget.lockDetails.lockld,
+                        "USER_PASSKEY": widget.lockDetails.lockPassKey
+                      });
+
+                      print(res.toString());
+                      _storageController.deleteOneLock(widget.lockDetails);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

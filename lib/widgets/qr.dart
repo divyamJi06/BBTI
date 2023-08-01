@@ -4,12 +4,40 @@ import 'package:bbti/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter/services.dart';
+import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui';
+import 'dart:io';
+import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 class QRPage extends StatelessWidget {
   final String data;
-  const QRPage({required this.data, super.key});
+  QRPage({required this.data, super.key});
+
+  GlobalKey globalKey = GlobalKey();
+
+  // Future<void> _captureAndSharePng() async {
+  //   try {
+  //     RenderRepaintBoundary boundary =
+  //         globalKey.currentContext.findRenderObject();
+  //     var image = await boundary.toImage();
+  //     ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+  //     Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+  //     final tempDir = await getTemporaryDirectory();
+  //     final file = await new File('${tempDir.path}/image.png').create();
+  //     await file.writeAsBytes(pngBytes);
+
+  //     final channel = const MethodChannel('channel:me.alfian.share/share');
+  //     channel.invokeMethod('shareFile', 'image.png');
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
+
   Future _shareQRImage() async {
     final image = await QrPainter(
       data: data,
@@ -43,16 +71,20 @@ class QRPage extends StatelessWidget {
         preferredSize: Size.fromHeight(60),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            QrImageView(
-              data: data,
-              version: QrVersions.auto,
-              size: 200.0,
-            ),
-            ElevatedButton(onPressed: _shareQRImage, child: Text("Share"))
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              QrImageView(
+                data: data,
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+              Text(data),
+              ElevatedButton(onPressed: _shareQRImage, child: Text("Share"))
+            ],
+          ),
         ),
       ),
     );
