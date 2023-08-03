@@ -161,10 +161,9 @@ class _LocksCardState extends State<LocksCard> {
                                     "${widget.locksDetails.iPAddress}/Autolock",
                                     {"AutoLockTime": "OFF"});
                               }
-                              setState(() {
+                              
                                 _storageController.updateLockAutoStatus(
                                     widget.locksDetails.lockSSID, value);
-                              });
                               Navigator.pushAndRemoveUntil<dynamic>(
                                 context,
                                 MaterialPageRoute<dynamic>(

@@ -98,10 +98,12 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                       } catch (e) {
                         print(e.toString());
                       } finally {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyNavigationBar()));
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyNavigationBar()),
+                          (route) => false,
+                        );
                       }
                     } else {
                       final scaffold = ScaffoldMessenger.of(context);

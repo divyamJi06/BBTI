@@ -4,6 +4,7 @@ import 'package:bbti/views/passkey.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
+import '../bottom_nav_bar.dart';
 import '../constants.dart';
 import '../controllers/apis.dart';
 import '../widgets/custom_appbar.dart';
@@ -120,7 +121,15 @@ class _UpdateLockInstallationPageState
                         _storageController.updateLock(widget.lockDetails.lockld,
                             _lockId.text, _ssid.text, _password.text);
 
-                        Navigator.pop(context);
+                        Navigator.pushAndRemoveUntil<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) =>
+                                MyNavigationBar(),
+                          ),
+                          (route) =>
+                              false, //if you want to disable back feature set to false
+                        );
                       }
                     },
                   )

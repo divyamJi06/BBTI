@@ -45,6 +45,7 @@ class _LockOnOffState extends State<LockOnOff> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: updateLock,child: Icon(Icons.refresh_rounded),),
       appBar: PreferredSize(
         child: CustomAppBar(heading: ""),
         preferredSize: Size.fromHeight(60),
