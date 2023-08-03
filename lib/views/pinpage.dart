@@ -87,21 +87,24 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                   width: 250,
                   onPressed: () async {
                     if (_controller.text == widget.lockDetails.privatePin) {
-                      var res = await ApiConnect.hitApiPost(
-                          "${widget.lockDetails.iPAddress}/Factoryreset", {
-                        "USER_DEVID": widget.lockDetails.lockld,
-                        "USER_PASSKEY": widget.lockDetails.lockPassKey
-                      });
-
-                      print(res.toString());
-                      _storageController.deleteOneLock(widget.lockDetails);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyNavigationBar()));
+                      try {
+                        var res = await ApiConnect.hitApiPost(
+                            "${widget.lockDetails.iPAddress}/Factoryreset", {
+                          "USER_DEVID": widget.lockDetails.lockld,
+                          "USER_PASSKEY": widget.lockDetails.lockPassKey
+                        });
+                        print(res.toString());
+                        _storageController.deleteOneLock(widget.lockDetails);
+                      } catch (e) {
+                        print(e.toString());
+                      } finally {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyNavigationBar()));
+                      }
                     } else {
                       final scaffold = ScaffoldMessenger.of(context);
-
                       scaffold.showSnackBar(
                         SnackBar(
                           content: Text("Incorrect Pin"),

@@ -98,6 +98,7 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                     height: 20,
                   ),
                   TextFormField(
+                    maxLength: 4,
                     controller: _privatePin,
                     validator: (value) {
                       if (value!.length <= 3)

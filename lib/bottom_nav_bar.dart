@@ -1,6 +1,5 @@
 import 'package:bbti/constants.dart';
 import 'package:bbti/views/contacts.dart';
-import 'package:bbti/views/home_page.dart';
 import 'package:bbti/views/locks_page.dart';
 import 'package:bbti/views/new_home_page.dart';
 import 'package:bbti/views/router_page.dart';

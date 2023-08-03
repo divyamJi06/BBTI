@@ -128,11 +128,8 @@ class _MacCardState extends State<MacCard> {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      width: 10,
-                    ),
                     IconButton(
                         onPressed: () async {
                           _storageController.deleteOneMacs(widget.macsDetails);

@@ -2,6 +2,7 @@ import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/locks_page.dart';
 import 'package:bbti/views/update_lock_name.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../bottom_nav_bar.dart';
@@ -21,6 +22,7 @@ class LocksCard extends StatefulWidget {
 
 class _LocksCardState extends State<LocksCard> {
   StorageController _storageController = StorageController();
+  bool hide = true;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +105,11 @@ class _LocksCardState extends State<LocksCard> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      widget.locksDetails.lockPassKey!,
+                      hide
+                          ? List.generate(
+                              widget.locksDetails.lockPassKey!.length,
+                              (index) => "*").join()
+                          : widget.locksDetails.lockPassKey!,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -121,7 +127,11 @@ class _LocksCardState extends State<LocksCard> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      widget.locksDetails.lockPassword!,
+                      hide
+                          ? List.generate(
+                              widget.locksDetails.lockPassword.length,
+                              (index) => "*").join()
+                          : widget.locksDetails.lockPassword,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -175,6 +185,7 @@ class _LocksCardState extends State<LocksCard> {
                         width: 10,
                       ),
                       IconButton(
+                          tooltip: "Delete Lock",
                           onPressed: () {
                             _storageController
                                 .deleteOneLock(widget.locksDetails);
@@ -193,6 +204,7 @@ class _LocksCardState extends State<LocksCard> {
                         width: 10,
                       ),
                       IconButton(
+                          tooltip: "Refresh Lock",
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -201,7 +213,20 @@ class _LocksCardState extends State<LocksCard> {
                                         UpdateLockInstallationPage(
                                             lockDetails: widget.locksDetails)));
                           },
-                          icon: Icon(Icons.refresh_rounded))
+                          icon: Icon(Icons.refresh_rounded)),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      IconButton(
+                          tooltip: "Show Details",
+                          onPressed: () {
+                            setState(() {
+                              hide = !hide;
+                            });
+                          },
+                          icon: hide
+                              ? Icon(Icons.remove_red_eye)
+                              : Icon(CupertinoIcons.eye_slash_fill)),
                     ],
                   ),
                 ),

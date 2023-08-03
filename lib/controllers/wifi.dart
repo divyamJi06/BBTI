@@ -1,17 +1,16 @@
+// ignore_for_file: unused_local_variable, unused_import
+
 import 'dart:async';
 import 'dart:io';
 import 'dart:developer' as developer;
 import 'package:bbti/controllers/permission.dart';
 import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../constants.dart';
-import 'apis.dart';
 
 enum NetworkStatus { Online, Offline }
 
@@ -35,7 +34,6 @@ class NetworkStatusService {
   // ConnectivityResult _connectionStatusS = ConnectivityResult.none;
   // final Connectivity _connectivity = Connectivity();
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  StorageController _sto = new StorageController();
   // @override
   // void dispose() {
   //   _connectivitySubscription.cancel();

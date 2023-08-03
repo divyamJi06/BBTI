@@ -3,6 +3,7 @@ import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/models/router_model.dart';
 import 'package:bbti/views/router_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -19,6 +20,7 @@ class RouterCard extends StatefulWidget {
 }
 
 class _RouterCardState extends State<RouterCard> {
+  bool hide = true;
   StorageController _storageController = StorageController();
 
   @override
@@ -102,7 +104,11 @@ class _RouterCardState extends State<RouterCard> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      widget.routerDetails.lockPasskey,
+                      hide
+                          ? List.generate(
+                              widget.routerDetails.lockPasskey.length,
+                              (index) => "*").join()
+                          : widget.routerDetails.lockPasskey,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -120,7 +126,10 @@ class _RouterCardState extends State<RouterCard> {
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      widget.routerDetails.password,
+                      hide
+                          ? List.generate(widget.routerDetails.password.length,
+                              (index) => "*").join()
+                          : widget.routerDetails.password,
                       style: TextStyle(
                           fontSize: 20,
                           color: blackColour,
@@ -128,7 +137,6 @@ class _RouterCardState extends State<RouterCard> {
                     )
                   ],
                 ),
-
                 Container(
                   decoration: BoxDecoration(
                       color: backGroundColour,
@@ -140,6 +148,7 @@ class _RouterCardState extends State<RouterCard> {
                       //   width: 10,
                       // ),
                       IconButton(
+                          tooltip: "Delete Router",
                           onPressed: () {
                             _storageController
                                 .deleteOneRouter(widget.routerDetails);
@@ -157,14 +166,19 @@ class _RouterCardState extends State<RouterCard> {
                       SizedBox(
                         width: 10,
                       ),
-                      // IconButton(
-                      //     onPressed: () {}, icon: Icon(Icons.refresh_rounded))
+                      IconButton(
+                          tooltip: "Show Details",
+                          onPressed: () {
+                            setState(() {
+                              hide = !hide;
+                            });
+                          },
+                          icon: hide
+                              ? Icon(Icons.remove_red_eye)
+                              : Icon(CupertinoIcons.eye_slash_fill)),
                     ],
                   ),
                 ),
-                // Text("Access Permission  : FULL TIME ACCESS"),
-                // Text("Start and End Date : 00-00"),
-                // Text("Start and End Time : 00:00-00:00"),
               ],
             ),
           ),

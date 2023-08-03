@@ -48,7 +48,6 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
   final TextEditingController _password =
       new TextEditingController(text: "nandan022");
 
-  ConnectivityResult _connectionStatusS = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   late LockDetails _lockDetails;

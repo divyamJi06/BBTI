@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 
@@ -12,8 +10,6 @@ class ApiConnect {
       url,
       data: (params),
     );
-    print(response);
-    print(response.data);
     return response.data;
   }
 
