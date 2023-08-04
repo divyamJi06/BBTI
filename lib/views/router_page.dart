@@ -1,18 +1,14 @@
 import 'package:bbti/models/router_model.dart';
 import 'package:bbti/views/add_router.dart';
-import 'package:bbti/views/lock_on_off.dart';
 import 'package:bbti/widgets/router_card.dart';
 import 'package:flutter/material.dart';
-
-import '../bottom_nav_bar.dart';
 import '../constants.dart';
 import '../controllers/storage.dart';
-import '../widgets/custom_appbar.dart';
 import 'connecttolock.dart';
 
 class RouterPage extends StatelessWidget {
   RouterPage({super.key});
-  final StorageController _storageController = new StorageController();
+  final StorageController _storageController = StorageController();
 
   Future<List<RouterDetails>> fetchRouters() async {
     return _storageController.readRouters();
@@ -26,7 +22,7 @@ class RouterPage extends StatelessWidget {
         height: 120,
         width: 120,
         child: FloatingActionButton.large(
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
@@ -47,10 +43,9 @@ class RouterPage extends StatelessWidget {
             }),
       ),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           iconTheme: IconThemeData(color: appBarColour),
-
           backgroundColor: backGroundColour,
           automaticallyImplyLeading: false,
           title: Text(
@@ -67,20 +62,20 @@ class RouterPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             FutureBuilder(
                 future: fetchRouters(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
-                  if (snapshot.hasError) return Text("ERROR");
+                  if (snapshot.hasError) return const Text("ERROR");
 
                   return ListView.builder(
-                      padding: EdgeInsets.only(top: 10),
-                      physics: NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.only(top: 10),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
@@ -91,6 +86,7 @@ class RouterPage extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => ConnectToLockWidget(
                                           IP: snapshot.data![index].iPAddress!,
+                                          lockName: snapshot.data![index].name,
                                           lockID: snapshot.data![index].lockID,
                                           lockPassKey:
                                               snapshot.data![index].lockPasskey,

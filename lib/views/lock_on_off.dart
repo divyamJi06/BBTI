@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:bbti/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
+import '../bottom_nav_bar.dart';
 import '../constants.dart';
 import '../controllers/apis.dart';
 
@@ -20,17 +23,37 @@ class LockOnOff extends StatefulWidget {
 class _LockOnOffState extends State<LockOnOff> {
   String lockStatus = "Closed";
   bool lockClosed = true;
+  late Timer _timer;
 
   @override
   void initState() {
     // TODO: implement initState
+    _timer = Timer(const Duration(seconds: 15), () {
+      _navigateToNextPage();
+    });
     super.initState();
     updateLock();
   }
 
+  void _navigateToNextPage() {
+    Navigator.pushAndRemoveUntil<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => MyNavigationBar(),
+      ),
+      (route) => false, //if you want to disable back feature set to false
+    );
+  }
+
+  void _buttonPressed() {
+    _timer.cancel();
+    _timer = Timer(const Duration(seconds: 15), () {
+      _navigateToNextPage();
+    });
+  }
+
   void updateLock() async {
-    String res = await ApiConnect.hitApiGet(widget.IP + "/lockstatus");
-    print(res);
+    String res = await ApiConnect.hitApiGet("${widget.IP}/lockstatus");
     setState(() {
       if (res == "OK CLOSE") {
         lockClosed = true;
@@ -40,15 +63,19 @@ class _LockOnOffState extends State<LockOnOff> {
         lockStatus = "Open";
       }
     });
+    _buttonPressed();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: updateLock,child: Icon(Icons.refresh_rounded),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: updateLock,
+        child: const Icon(Icons.refresh_rounded),
+      ),
       appBar: PreferredSize(
         child: CustomAppBar(heading: ""),
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
       ),
       body: Center(
         child: Stack(
@@ -62,16 +89,16 @@ class _LockOnOffState extends State<LockOnOff> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text(
+                  const Text(
                     "The status of the Lock is ",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                   ),
                   Text(
                     lockStatus.toUpperCase(),
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -86,11 +113,12 @@ class _LockOnOffState extends State<LockOnOff> {
                 children: [
                   GestureDetector(
                       onTap: () async {
+                        _buttonPressed();
                         try {
                           String res = await ApiConnect.hitApiGet(
-                              widget.IP + "/lockstatus");
+                              "${widget.IP}/lockstatus");
                           if (res == "OK CLOSE") {
-                            ApiConnect.hitApiPost(widget.IP + "/getlockcmd", {
+                            ApiConnect.hitApiPost("${widget.IP}/getlockcmd", {
                               "Lock_id": widget.lockID,
                               "lock_passkey": widget.lockPassKey,
                               "lock_cmd": "ON"
@@ -100,7 +128,7 @@ class _LockOnOffState extends State<LockOnOff> {
                               lockStatus = "Open";
                             });
                           } else if (res == "OK OPEN") {
-                            ApiConnect.hitApiPost(widget.IP + "/getlockcmd", {
+                            ApiConnect.hitApiPost("${widget.IP}/getlockcmd", {
                               "Lock_id": widget.lockID,
                               "lock_passkey": widget.lockPassKey,
                               "lock_cmd": "OFF"
@@ -110,18 +138,14 @@ class _LockOnOffState extends State<LockOnOff> {
                               lockClosed = true;
                             });
                           } else {
-                            print("here in else");
                           }
-                          print("HERE");
                           // res = await ApiConnect.hitApiGet(
                           //     widget.IP + "/lockstatus");
                           // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
-                          print(res);
                         } catch (e) {
-                          print(e.toString());
                           final scaffold = ScaffoldMessenger.of(context);
                           scaffold.showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text("Unable to perform"),
                               // action: SnackBarAction(
                               // label: 'UNDO',
@@ -139,7 +163,7 @@ class _LockOnOffState extends State<LockOnOff> {
                               // spreadRadius: 5,
                               blurRadius: 7,
                               offset:
-                                  Offset(5, 5), // changes position of shadow
+                                  const Offset(5, 5), // changes position of shadow
                             ),
                           ],
                         ),

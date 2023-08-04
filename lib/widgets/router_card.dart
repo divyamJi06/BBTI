@@ -1,8 +1,6 @@
 import 'package:bbti/bottom_nav_bar.dart';
 import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/models/router_model.dart';
-import 'package:bbti/views/router_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +35,7 @@ class _RouterCardState extends State<RouterCard> {
               color: Colors.grey.shade400,
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(5, 5), // changes position of shadow
+              offset: const Offset(5, 5), // changes position of shadow
             ),
           ], color: whiteColour, borderRadius: BorderRadius.circular(12)),
           child: Padding(
@@ -162,8 +160,8 @@ class _RouterCardState extends State<RouterCard> {
                                   false, //if you want to disable back feature set to false
                             );
                           },
-                          icon: Icon(Icons.delete)),
-                      SizedBox(
+                          icon: const Icon(Icons.delete)),
+                      const SizedBox(
                         width: 10,
                       ),
                       IconButton(
@@ -174,8 +172,8 @@ class _RouterCardState extends State<RouterCard> {
                             });
                           },
                           icon: hide
-                              ? Icon(Icons.remove_red_eye)
-                              : Icon(CupertinoIcons.eye_slash_fill)),
+                              ? const Icon(Icons.remove_red_eye)
+                              : const Icon(CupertinoIcons.eye_slash_fill)),
                     ],
                   ),
                 ),

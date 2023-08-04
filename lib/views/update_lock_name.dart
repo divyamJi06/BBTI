@@ -42,7 +42,7 @@ class _UpdateLockInstallationPageState
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: CustomAppBar(heading: "AP Updation")),
         body: Center(
           child: Form(
@@ -62,10 +62,10 @@ class _UpdateLockInstallationPageState
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "LockID",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   TextFormField(
@@ -79,10 +79,10 @@ class _UpdateLockInstallationPageState
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Lock Name",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
@@ -97,10 +97,10 @@ class _UpdateLockInstallationPageState
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Password",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(

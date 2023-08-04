@@ -18,12 +18,12 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   static List<Widget> _widgetOptions = <Widget>[
     // Text('Home Page',
     //     style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    NewHomePage(),
+    const NewHomePage(),
     // HomePage(),
-    ContactsPage(),
+    const ContactsPage(),
     LockPage(),
     RouterPage(),
-    SettingsPage()
+    const SettingsPage()
   ];
 
   void _onItemTapped(int index) {
@@ -43,25 +43,25 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 label: ('Home'),
                 backgroundColor: backGroundColour),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: const Icon(Icons.person),
                 label: ('User'),
                 backgroundColor: backGroundColour),
             BottomNavigationBarItem(
-              icon: Icon(Icons.lock_rounded),
+              icon: const Icon(Icons.lock_rounded),
               label: ('Locks'),
               backgroundColor: backGroundColour,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.wifi_outlined),
+              icon: const Icon(Icons.wifi_outlined),
               label: ('Router'),
               backgroundColor: backGroundColour,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
               label: ('Settings'),
               backgroundColor: backGroundColour,
             ),

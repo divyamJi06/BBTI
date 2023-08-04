@@ -60,7 +60,6 @@ class StorageController {
     } else {
       _model = [];
       var jsonContacts = json.decode(contacts);
-      print(jsonContacts);
       for (var element in jsonContacts) {
         _model.add(ContactsModel.fromJson(element));
       }
@@ -79,7 +78,6 @@ class StorageController {
     } else {
       _model = [];
       var jsonContacts = json.decode(locks);
-      print(jsonContacts);
       for (var element in jsonContacts) {
         _model.add(LockDetails.fromJson(element));
       }
@@ -117,7 +115,6 @@ class StorageController {
   updateLockAutoStatus(String lockname, bool status) async {
     List<LockDetails> locksList = await readLocks();
     deleteLocks();
-    print(lockname);
     for (var element in locksList) {
       if (element.lockSSID == lockname) {
         element.isAutoLock = status;
@@ -133,6 +130,14 @@ class StorageController {
     List<LockDetails> locksList = await readLocks();
     for (var element in locksList) {
       if (element.lockSSID == lockSSID) return element;
+    }
+    return null;
+  }
+
+  getRouterByName(lockSSID) async {
+    List<RouterDetails> routerList = await readRouters();
+    for (var element in routerList) {
+      if (element.name == lockSSID) return element;
     }
     return null;
   }
@@ -166,7 +171,6 @@ class StorageController {
     } else {
       _model = [];
       var jsonContacts = json.decode(locks);
-      print(jsonContacts);
       for (var element in jsonContacts) {
         _model.add(RouterDetails.fromJson(element));
       }
@@ -204,7 +208,6 @@ class StorageController {
     } else {
       _model = [];
       var jsonContacts = json.decode(locks);
-      print(jsonContacts);
       for (var element in jsonContacts) {
         _model.add(MacsDetails.fromJson(element));
       }

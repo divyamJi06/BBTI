@@ -221,7 +221,6 @@ class _QRViewExampleState extends State<QRViewExample> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.QR);
-      print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
@@ -234,7 +233,6 @@ class _QRViewExampleState extends State<QRViewExample> {
     setState(() {
       _scanBarcode = barcodeScanRes;
       var jsonR = json.decode(barcodeScanRes);
-      print(jsonR);
       details = LockDetails(
           lockld: jsonR['LockId'],
           isAutoLock: false,
@@ -249,14 +247,14 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
     if (details.lockld == "Unknown")
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     return GestureDetector(
       // onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         // key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: CustomAppBar(heading: "QR Details")),
         body: SafeArea(
           top: true,
@@ -264,7 +262,7 @@ class _QRViewExampleState extends State<QRViewExample> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Align(
@@ -280,7 +278,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                             color: Colors.grey.shade400,
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(5, 5), // changes position of shadow
+                            offset: const Offset(5, 5), // changes position of shadow
                           ),
                         ],
                         color: whiteColour,
@@ -358,7 +356,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                             ],
                           ),
 
-                          Text(
+                          const Text(
                             "Please NOTE down the password you will need to configure and chnage the lock",
                             style: TextStyle(fontSize: 18),
                           ),
@@ -370,7 +368,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               CustomButton(

@@ -60,11 +60,9 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
   String? lockID;
   getLockId() async {
     List<LockDetails> locks = await _storage.readLocks();
-    print(_connectionStatus);
     for (var element in locks) {
       if (_connectionStatus.contains(element.lockSSID)) {
         setState(() {
-          print("HELLO");
           lockID = element.lockld;
           _lockId.text = element.lockld;
         });
@@ -98,7 +96,6 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
       await requestPermission(Permission.nearbyWifiDevices);
       // await requestPermission(Permission.locationWhenInUse);
     } catch (e) {
-      print(e.toString());
     }
 
     try {
@@ -203,7 +200,7 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: CustomAppBar(heading: "Add Router")),
         body: Center(
           child: Form(
@@ -232,7 +229,7 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                   TextFormField(
                     controller: _ssid,
                     validator: (value) {
-                      if (value!.length <= 0) return "SSID cannot be empty";
+                      if (value!.isEmpty) return "SSID cannot be empty";
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -240,10 +237,10 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Router Name",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
@@ -258,10 +255,10 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Router Password",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(
@@ -269,15 +266,10 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         await getLockId();
-                        print(lockID);
-                        print("---------1");
-                        print(_connectionStatus);
                         String ssidd = _connectionStatus.substring(
                             1, _connectionStatus.length - 1);
-                        print(ssidd);
                         String? passkey =
                             await RouterAddController().fetchLocks(ssidd);
-                        print("---------1.5");
                         if (passkey == null) {
                           showToast(context, "No lock found with lock $ssidd");
                           return;
@@ -287,7 +279,6 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                         await ApiConnect.hitApiGet(
                           routerIP + "/",
                         );
-                        print("---------2");
 
                         var res = await ApiConnect.hitApiPost(
                             "$routerIP/getWifiParem", {
@@ -295,15 +286,12 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                           "router_password": _password.text,
                           "lock_passkey": passkey
                         });
-                        print("---------3");
 
-                        print(res);
                         String IPAddr = res['IPAddress'];
                         if (IPAddr.contains("0.0.0.0")) {
                           showToast(context, "Unable to connect. Try Again.");
                           return;
                         }
-                        print("---------4");
 
                         _storage.addRouters(RouterDetails(
                             lockID: _lockId.text,
@@ -311,7 +299,6 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                             password: _password.text,
                             lockPasskey: passkey,
                             iPAddress: res['IPAddress']));
-                        print("---------5");
                         Navigator.push(
                             context,
                             MaterialPageRoute(

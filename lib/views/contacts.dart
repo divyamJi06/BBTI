@@ -34,8 +34,8 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
-  final FlutterContactPicker _contactPicker = new FlutterContactPicker();
-  final StorageController _storageController = new StorageController();
+  final FlutterContactPicker _contactPicker = FlutterContactPicker();
+  final StorageController _storageController = StorageController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -62,7 +62,7 @@ class _ContactsPageState extends State<ContactsPage> {
         height: 120,
         width: 120,
         child: FloatingActionButton.large(
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
@@ -104,13 +104,13 @@ class _ContactsPageState extends State<ContactsPage> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           // mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             // CustomButton(
@@ -138,12 +138,12 @@ class _ContactsPageState extends State<ContactsPage> {
                 future: fetchContacts(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
-                  if (snapshot.hasError) return Text("ERROR");
+                  if (snapshot.hasError) return const Text("ERROR");
 
                   return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {

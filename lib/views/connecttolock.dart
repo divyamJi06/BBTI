@@ -4,6 +4,7 @@ import 'package:bbti/controllers/permission.dart';
 import 'package:bbti/views/lock_on_off.dart';
 import 'package:bbti/views/newlockinstallation.dart';
 import 'package:bbti/widgets/custom_button.dart';
+import 'package:bbti/widgets/toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:open_settings/open_settings.dart';
@@ -29,9 +30,11 @@ class ConnectToLockWidget extends StatefulWidget {
   final String lockID;
   final String lockPassKey;
   final String IP;
+  final String lockName;
   const ConnectToLockWidget(
       {required this.IP,
       required this.lockID,
+      required this.lockName,
       required this.lockPassKey,
       Key? key})
       : super(key: key);
@@ -214,6 +217,11 @@ class _ConnectToLockWidgetState extends State<ConnectToLockWidget> {
                     CustomButton(
                         text: "Connect to Lock",
                         onPressed: () {
+                          if (widget.lockName != _connectionStatus) {
+                            showToast(context,
+                                "Wifi is not connected to the correct lock");
+                            return;
+                          }
                           Navigator.push(
                               context,
                               MaterialPageRoute(

@@ -1,11 +1,9 @@
 import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/models/mac_model.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
 import '../controllers/apis.dart';
-import '../views/mac_details.dart';
 
 class MacCard extends StatefulWidget {
   final MacsDetails macsDetails;
@@ -46,7 +44,7 @@ class _MacCardState extends State<MacCard> {
               color: Colors.grey.shade400,
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(5, 5), // changes position of shadow
+              offset: const Offset(5, 5), // changes position of shadow
             ),
           ], color: whiteColour, borderRadius: BorderRadius.circular(12)),
           child: Padding(
@@ -134,7 +132,7 @@ class _MacCardState extends State<MacCard> {
                         onPressed: () async {
                           _storageController.deleteOneMacs(widget.macsDetails);
                           await ApiConnect.hitApiGet(
-                            routerIP + "/",
+                            "$routerIP/",
                           );
                           Navigator.pop(context);
 
@@ -143,10 +141,9 @@ class _MacCardState extends State<MacCard> {
                             "MacID": widget.macsDetails.id.toLowerCase(),
                           });
 
-                          print(res);
                         },
-                        icon: Icon(Icons.delete)),
-                    SizedBox(
+                        icon: const Icon(Icons.delete)),
+                    const SizedBox(
                       width: 10,
                     ),
                     Transform.scale(
@@ -159,22 +156,14 @@ class _MacCardState extends State<MacCard> {
                             // return;
                             if (value) {
                               await ApiConnect.hitApiGet(
-                                routerIP + "/",
+                                "$routerIP/",
                               );
 
-                              var res = await ApiConnect.hitApiPost(
-                                  "$routerIP/macid", {
-                                "MacID": widget.macsDetails.id.toLowerCase(),
-                              });
                             } else {
                               await ApiConnect.hitApiGet(
-                                routerIP + "/",
+                                "$routerIP/",
                               );
 
-                              var res = await ApiConnect.hitApiPost(
-                                  "$routerIP/deletemac", {
-                                "MacID": widget.macsDetails.id.toLowerCase(),
-                              });
                             }
                             MacsDetails macD = MacsDetails(
                                 id: widget.macsDetails.id,

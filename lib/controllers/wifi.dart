@@ -59,7 +59,6 @@ class NetworkStatusService {
       await requestPermission(Permission.nearbyWifiDevices);
       // await requestPermission(Permission.locationWhenInUse);
     } catch (e) {
-      print(e.toString());
     }
 
     try {
@@ -149,10 +148,6 @@ class NetworkStatusService {
       wifiGatewayIP = 'Failed to get Wifi gateway address';
     }
     _connectionStatus = wifiName!.toString();
-    print("Inside wifi controllers-----------------");
-    print("-----------------");
-    print(_connectionStatus.toString());
-    print("-----------------");
 
     fetchLocks(_connectionStatus);
   }

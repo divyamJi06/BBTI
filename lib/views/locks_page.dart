@@ -1,10 +1,7 @@
 import 'package:bbti/constants.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/connecttolock.dart';
-import 'package:bbti/views/lock_on_off.dart';
 import 'package:bbti/views/qr_view.dart';
-import 'package:bbti/widgets/custom_appbar.dart';
-import 'package:bbti/widgets/custom_button.dart';
 import 'package:bbti/widgets/lock_card.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +23,7 @@ class LockPage extends StatelessWidget {
           height: 120,
           width: 120,
           child: FloatingActionButton.large(
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -46,7 +43,7 @@ class LockPage extends StatelessWidget {
               }),
         ),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(60),
           child: AppBar(
             iconTheme: IconThemeData(color: appBarColour),
             backgroundColor: backGroundColour,
@@ -58,7 +55,7 @@ class LockPage extends StatelessWidget {
                   fontSize: 40,
                   fontWeight: FontWeight.bold),
             ),
-            actions: [],
+            actions: const [],
             centerTitle: true,
             elevation: 0,
           ),
@@ -67,13 +64,13 @@ class LockPage extends StatelessWidget {
             future: fetchLocks(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
-              if (snapshot.hasError) return Text("ERROR");
+              if (snapshot.hasError) return const Text("ERROR");
 
               return ListView.builder(
-                  padding: EdgeInsets.only(top: 10),
-                  physics: NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 10),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
@@ -83,6 +80,7 @@ class LockPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ConnectToLockWidget(
+                                      lockName: snapshot.data![index].lockSSID,
                                       IP: snapshot.data![index].iPAddress,
                                       lockID: snapshot.data![index].lockld,
                                       lockPassKey:

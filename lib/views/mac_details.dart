@@ -13,7 +13,7 @@ class MacsPage extends StatefulWidget {
 }
 
 class _MacsPageState extends State<MacsPage> {
-  final StorageController _storageController = new StorageController();
+  final StorageController _storageController = StorageController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -40,7 +40,7 @@ class _MacsPageState extends State<MacsPage> {
         height: 120,
         width: 120,
         child: FloatingActionButton.large(
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
@@ -79,28 +79,28 @@ class _MacsPageState extends State<MacsPage> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           // mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             FutureBuilder(
                 future: fetchContacts(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   if (snapshot.hasError) {
                     print(snapshot.error);
-                    return Text("ERROR");
+                    return const Text("ERROR");
                   }
 
                   return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {

@@ -1,8 +1,6 @@
 import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/views/connecttolock.dart';
 import 'package:bbti/views/newlockinstallation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class BarCodeDetailsWidget extends StatelessWidget {
   BarCodeDetailsWidget({required this.details, Key? key}) : super(key: key);
@@ -34,7 +32,7 @@ class BarCodeDetailsWidget extends StatelessWidget {
           //     context.pop();
           //   },
           // ),
-          actions: [],
+          actions: const [],
           centerTitle: true,
           elevation: 0,
         ),
@@ -49,7 +47,7 @@ class BarCodeDetailsWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -73,21 +71,21 @@ class BarCodeDetailsWidget extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         height: 12,
                         thickness: 1,
                         color: Color(0xFFE0E3E7),
                       ),
                       Align(
-                        alignment: AlignmentDirectional(0, 0),
+                        alignment: const AlignmentDirectional(0, 0),
                         child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
                           child: Container(
                             width: 350,
                             height: 230,
                             decoration: BoxDecoration(
-                              color: Color(0xEE6C43BD),
-                              boxShadow: [
+                              color: const Color(0xEE6C43BD),
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Color(0xFF4B39EF),
                                   offset: Offset(0, 5),
@@ -96,7 +94,7 @@ class BarCodeDetailsWidget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Align(
-                              alignment: AlignmentDirectional(-1, 0),
+                              alignment: const AlignmentDirectional(-1, 0),
                               child: Text(
                                 'LOCKID : ${details.lockld}\n\nSSID:${details.lockSSID}\n\nPassword:${details.lockPassword}\n\nPlease NOTE down the password,you will need to configure and change the lock ',
                                 textAlign: TextAlign.start,
@@ -114,7 +112,7 @@ class BarCodeDetailsWidget extends StatelessWidget {
                         ),
                       ),
                       Align(
-                        alignment: AlignmentDirectional(-1, 1),
+                        alignment: const AlignmentDirectional(-1, 1),
                         child: ElevatedButton(
                           onPressed: () {
                             // print('Button pressed ...');
@@ -147,7 +145,7 @@ class BarCodeDetailsWidget extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text('NEXT'),
+                          child: const Text('NEXT'),
                           // options: FFButtonOptions(
                           //   height: 40,
                           //   padding:
@@ -171,12 +169,12 @@ class BarCodeDetailsWidget extends StatelessWidget {
                         ),
                       ),
                       Align(
-                        alignment: AlignmentDirectional(1, 0),
+                        alignment: const AlignmentDirectional(1, 0),
                         child: ElevatedButton(
                           onPressed: () {
                             print('Button pressed ...');
                           },
-                          child: Text("Back"),
+                          child: const Text("Back"),
                           // options: FFButtonOptions(
                           //   height: 40,
                           //   padding:

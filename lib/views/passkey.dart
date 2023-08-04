@@ -2,7 +2,6 @@ import 'package:bbti/bottom_nav_bar.dart';
 import 'package:bbti/constants.dart';
 import 'package:bbti/controllers/apis.dart';
 import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/views/lock_on_off.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -13,13 +12,13 @@ class PassKeyPage extends StatelessWidget {
   PassKeyPage({required this.lockDetails, super.key});
   final LockDetails lockDetails;
   final TextEditingController _passKey = TextEditingController();
-  final StorageController _storageController = new StorageController();
+  final StorageController _storageController = StorageController();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: CustomAppBar(heading: "PassKey")),
         body: Center(
           child: Form(
@@ -27,7 +26,7 @@ class PassKeyPage extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextFormField(
@@ -51,10 +50,10 @@ class PassKeyPage extends StatelessWidget {
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Passkey",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(

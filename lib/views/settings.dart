@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/contacts.dart';
 import 'package:bbti/models/lock_initial.dart';
+import 'package:bbti/models/router_model.dart';
 import 'package:bbti/views/mac_details.dart';
 import 'package:bbti/views/pinpage.dart';
 import 'package:bbti/widgets/custom_button.dart';
@@ -11,7 +12,6 @@ import 'package:flutter/material.dart';
 
 import 'package:bbti/widgets/toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
 
 import 'dart:developer' as developer;
 import 'dart:io';
@@ -21,12 +21,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../bottom_nav_bar.dart';
 import '../constants.dart';
-import '../controllers/apis.dart';
 import '../controllers/permission.dart';
-import '../widgets/custom_appbar.dart';
-import 'add_mac.dart';
 
 // class SettingsPage extends StatelessWidget {
 //   const SettingsPage({super.key});
@@ -197,17 +193,19 @@ class _SettingsPageState extends State<SettingsPage> {
 
   showAlertDialog(BuildContext context) async {
     // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("Cancel"),
-      onPressed: () {},
-    );
-    Widget continueButton = TextButton(
-      child: Text("Continue"),
-      onPressed: () {},
-    );
+    // Widget cancelButton = TextButton(
+    //   child: Text("Cancel"),
+    //   onPressed: () {},
+    // );
+    // Widget continueButton = TextButton(
+    //   child: Text("Continue"),
+    //   onPressed: () {},
+    // );
 
     List<ContactsModel> contacts = await _storageController.readContacts();
     List<LockDetails> locks = await _storageController.readLocks();
+    List<RouterDetails> routers = await _storageController.readRouters();
+    bool isSelected = true;
 
     LockDetails lock = LockDetails(
         lockld: "default",
@@ -216,6 +214,11 @@ class _SettingsPageState extends State<SettingsPage> {
         privatePin: "1234",
         lockPassword: "default",
         iPAddress: "0.0.0.0");
+    RouterDetails router = RouterDetails(
+        lockID: "default",
+        name: "default",
+        password: "default",
+        lockPasskey: "default");
     ContactsModel contact = ContactsModel(
         accessType: "default",
         date: "default",
@@ -223,7 +226,7 @@ class _SettingsPageState extends State<SettingsPage> {
         name: "default");
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Generate QR"),
+      title: const Text("Generate QR"),
       // content: Text(
       //     "Would you like to continue learning how to use Flutter alerts?"),
       actions: [
@@ -237,19 +240,41 @@ class _SettingsPageState extends State<SettingsPage> {
                 dropdownMenuEntries: contacts
                     .map((e) => DropdownMenuEntry(value: e.name, label: e.name))
                     .toList()),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            const Text("Select Lock"),
             DropdownMenu(
+                initialSelection: "Locks",
                 onSelected: (value) async {
-                  lock = await _storageController.getLockBySSID(value);
+                  if (value == "Locks") {
+                    isSelected = true;
+                  } else {
+                    isSelected = false;
+                  }
                 },
-                dropdownMenuEntries: locks
-                    .map((e) =>
-                        DropdownMenuEntry(value: e.lockSSID, label: e.lockSSID))
-                    .toList()),
-            SizedBox(
+                dropdownMenuEntries: [
+                  const DropdownMenuEntry(value: "Locks", label: "Locks"),
+                  const DropdownMenuEntry(value: "Routers", label: "Routers"),
+                ]),
+            isSelected ? const Text("Select Lock") : const Text("Select Router"),
+            isSelected
+                ? DropdownMenu(
+                    onSelected: (value) async {
+                      lock = await _storageController.getLockBySSID(value);
+                    },
+                    dropdownMenuEntries: locks
+                        .map((e) => DropdownMenuEntry(
+                            value: e.lockSSID, label: e.lockSSID))
+                        .toList())
+                : DropdownMenu(
+                    onSelected: (value) async {
+                      router = await _storageController.getRouterByName(value);
+                    },
+                    dropdownMenuEntries: routers
+                        .map((e) =>
+                            DropdownMenuEntry(value: e.name, label: e.name))
+                        .toList()),
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -260,13 +285,13 @@ class _SettingsPageState extends State<SettingsPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => QRPage(
-                                data: lock.toLockQR() +
-                                    "," +
-                                    contact.toContactsQR())));
+                                data: isSelected
+                                    ? "${lock.toLockQR()},${contact.toContactsQR()}"
+                                    : "${router.toRouterQR()},${contact.toContactsQR()}")));
                   },
                   child: new Text("Generate"),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 ElevatedButton(
@@ -299,7 +324,7 @@ class _SettingsPageState extends State<SettingsPage> {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(60),
           child: AppBar(
             iconTheme: IconThemeData(color: appBarColour),
             backgroundColor: backGroundColour,
@@ -323,7 +348,7 @@ class _SettingsPageState extends State<SettingsPage> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 CustomButton(
@@ -355,7 +380,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   text: "Mac",
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MacsPage()));
+                        MaterialPageRoute(builder: (context) => const MacsPage()));
                   },
                 ),
                 CustomButton(

@@ -1,6 +1,4 @@
 import 'package:bbti/bottom_nav_bar.dart';
-import 'package:bbti/views/connecttolock.dart';
-import 'package:bbti/views/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {

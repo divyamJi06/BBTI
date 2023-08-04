@@ -1,6 +1,5 @@
 import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/views/locks_page.dart';
 import 'package:bbti/views/update_lock_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class _LocksCardState extends State<LocksCard> {
               color: Colors.grey.shade400,
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(5, 5), // changes position of shadow
+              offset: const Offset(5, 5), // changes position of shadow
             ),
           ], color: whiteColour, borderRadius: BorderRadius.circular(12)),
           child: Padding(
@@ -59,7 +58,7 @@ class _LocksCardState extends State<LocksCard> {
                     Wrap(
                       children: [
                         Text(
-                          widget.locksDetails.lockld!,
+                          widget.locksDetails.lockld,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -83,7 +82,7 @@ class _LocksCardState extends State<LocksCard> {
                     Wrap(
                       children: [
                         Text(
-                          widget.locksDetails.lockSSID!,
+                          widget.locksDetails.lockSSID,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -146,12 +145,56 @@ class _LocksCardState extends State<LocksCard> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      IconButton(
+                          tooltip: "Delete Lock",
+                          onPressed: () {
+                            _storageController
+                                .deleteOneLock(widget.locksDetails);
+                            Navigator.pushAndRemoveUntil<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) =>
+                                    MyNavigationBar(),
+                              ),
+                              (route) =>
+                                  false, //if you want to disable back feature set to false
+                            );
+                          },
+                          icon: const Icon(Icons.delete)),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      IconButton(
+                          tooltip: "Refresh Lock",
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateLockInstallationPage(
+                                            lockDetails: widget.locksDetails)));
+                          },
+                          icon: const Icon(Icons.refresh_rounded)),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      IconButton(
+                          tooltip: "Show Details",
+                          onPressed: () {
+                            setState(() {
+                              hide = !hide;
+                            });
+                          },
+                          icon: hide
+                              ? const Icon(Icons.remove_red_eye)
+                              : const Icon(CupertinoIcons.eye_slash_fill)),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       Transform.scale(
                           scale: 1,
                           child: Switch(
                             onChanged: (value) async {
-                              print("===============");
-                              print(value);
                               if (value) {
                                 await ApiConnect.hitApiPost(
                                     "${widget.locksDetails.iPAddress}/Autolock",
@@ -161,9 +204,9 @@ class _LocksCardState extends State<LocksCard> {
                                     "${widget.locksDetails.iPAddress}/Autolock",
                                     {"AutoLockTime": "OFF"});
                               }
-                              
-                                _storageController.updateLockAutoStatus(
-                                    widget.locksDetails.lockSSID, value);
+
+                              _storageController.updateLockAutoStatus(
+                                  widget.locksDetails.lockSSID, value);
                               Navigator.pushAndRemoveUntil<dynamic>(
                                 context,
                                 MaterialPageRoute<dynamic>(
@@ -180,52 +223,6 @@ class _LocksCardState extends State<LocksCard> {
                             inactiveThumbColor: blackColour,
                             inactiveTrackColor: whiteColour,
                           )),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      IconButton(
-                          tooltip: "Delete Lock",
-                          onPressed: () {
-                            _storageController
-                                .deleteOneLock(widget.locksDetails);
-                            Navigator.pushAndRemoveUntil<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) =>
-                                    MyNavigationBar(),
-                              ),
-                              (route) =>
-                                  false, //if you want to disable back feature set to false
-                            );
-                          },
-                          icon: Icon(Icons.delete)),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      IconButton(
-                          tooltip: "Refresh Lock",
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        UpdateLockInstallationPage(
-                                            lockDetails: widget.locksDetails)));
-                          },
-                          icon: Icon(Icons.refresh_rounded)),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      IconButton(
-                          tooltip: "Show Details",
-                          onPressed: () {
-                            setState(() {
-                              hide = !hide;
-                            });
-                          },
-                          icon: hide
-                              ? Icon(Icons.remove_red_eye)
-                              : Icon(CupertinoIcons.eye_slash_fill)),
                     ],
                   ),
                 ),

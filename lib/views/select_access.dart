@@ -142,24 +142,24 @@ class _AccessRequestPageState extends State<AccessRequestPage> {
             dropdownvalue == "Timed Access" ? selectDateTime() : Container(),
             dropdownvalue == "Timed Access"
                 ? TimeRange(
-                    fromTitle: Text(
+                    fromTitle: const Text(
                       'From',
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
-                    toTitle: Text(
+                    toTitle: const Text(
                       'To',
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     titlePadding: 20,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         fontWeight: FontWeight.normal, color: Colors.black87),
-                    activeTextStyle: TextStyle(
+                    activeTextStyle: const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                     borderColor: Colors.black,
                     backgroundColor: Colors.transparent,
                     activeBackgroundColor: Colors.black38,
-                    firstTime: TimeOfDay(hour: 14, minute: 30),
-                    lastTime: TimeOfDay(hour: 20, minute: 00),
+                    firstTime: const TimeOfDay(hour: 14, minute: 30),
+                    lastTime: const TimeOfDay(hour: 20, minute: 00),
                     timeStep: 10,
                     timeBlock: 30,
                     onRangeCompleted: (range) => setState(() {
@@ -204,7 +204,7 @@ class _AccessRequestPageState extends State<AccessRequestPage> {
                       MaterialPageRoute(
                           builder: (context) => MyNavigationBar()));
                 },
-                child: Text("Submit"))
+                child: const Text("Submit"))
           ],
         ),
       ),
@@ -250,7 +250,7 @@ class _DateRangeWidgetState extends State<DateRangeWidget> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 20),
+            margin: const EdgeInsets.only(left: 20),
             child: ElevatedButton(
               child: Text(
                 '${end.year}/${end.month}/${end.day}',

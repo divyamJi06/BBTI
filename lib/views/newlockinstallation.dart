@@ -23,12 +23,12 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
     super.initState();
   }
 
-  final TextEditingController _lockId = new TextEditingController();
+  final TextEditingController _lockId = TextEditingController();
 
-  final TextEditingController _ssid = new TextEditingController();
+  final TextEditingController _ssid = TextEditingController();
 
-  final TextEditingController _password = new TextEditingController();
-  final TextEditingController _privatePin = new TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _privatePin = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -36,7 +36,7 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: CustomAppBar(heading: "New AP Installation")),
         body: Center(
           child: Form(
@@ -56,10 +56,10 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "LockID",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   TextFormField(
@@ -73,17 +73,18 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Lock Name",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     controller: _password,
                     validator: (value) {
-                      if (value!.length <= 7)
+                      if (value!.length <= 7) {
                         return "Lock Password cannot be less than 8 letters";
+                      }
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -91,18 +92,19 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Password",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     maxLength: 4,
                     controller: _privatePin,
                     validator: (value) {
-                      if (value!.length <= 3)
+                      if (value!.length <= 3) {
                         return "Lock Pin cannot be less than 4 letters";
+                      }
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -110,10 +112,10 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                         // borderSide: BorderSide(width: 40),
                       ),
                       labelText: "New Pin",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(

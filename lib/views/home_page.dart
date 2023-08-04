@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   child: Container(
     width: double.infinity,
     height: 500,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       gradient: LinearGradient(
         colors: [Color(0xFF4B39EF), Color(0xFFFF5963), Color(0xFFEE8B60)],
         stops: [0, 0.5, 1],
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     child: Container(
       width: 100,
       height: 100,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0x00FFFFFF), Colors.white],
           stops: [0, 1],
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(300),
                   child: Image.asset("assets/images/BBT_Logo.png",fit: BoxFit.cover,))),
-            Padding(
+            const Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,

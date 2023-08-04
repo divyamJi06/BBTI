@@ -21,12 +21,16 @@ class RouterDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['LockId'] = this.lockID;
-    data['LockSSID'] = this.name;
-    data['LockPassword'] = this.password;
-    data['LockPassKey'] = this.lockPasskey;
-    data['IPAddress'] = this.iPAddress;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['LockId'] = lockID;
+    data['LockSSID'] = name;
+    data['LockPassword'] = password;
+    data['LockPassKey'] = lockPasskey;
+    data['IPAddress'] = iPAddress;
     return data;
+  }
+
+  String toRouterQR() {
+    return "$lockID,$name,$password,$lockPasskey,$iPAddress";
   }
 }

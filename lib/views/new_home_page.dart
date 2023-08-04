@@ -11,7 +11,7 @@ class NewHomePage extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF4B39EF), Color(0xFFFF5963), Color(0xFFEE8B60)],
             stops: [0, 0.5, 1],
@@ -22,7 +22,7 @@ class NewHomePage extends StatelessWidget {
         child: Container(
           width: 100,
           // height: 100,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0x00FFFFFF), Colors.white],
               stops: [0, 1],
@@ -43,7 +43,7 @@ class NewHomePage extends StatelessWidget {
                       BoxShadow(
                         blurRadius: 100,
                         color: backGroundColour,
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                       )
                     ],
                     borderRadius: BorderRadius.circular(radius - 100),
@@ -61,11 +61,11 @@ class NewHomePage extends StatelessWidget {
                           fit: BoxFit.fill,
                         ))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                 child: Text(
                   'BelBird Technologies',
                   style: TextStyle(
@@ -75,11 +75,11 @@ class NewHomePage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                 child: Wrap(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -94,7 +94,7 @@ class NewHomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 180,
               ),
             ],

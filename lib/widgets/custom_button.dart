@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -22,7 +21,7 @@ class CustomButton extends StatelessWidget {
     return Align(
       // alignment: AlignmentDirectional(1, 0),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
+        padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
         child: InkWell(
           splashColor: bgmColor,
           onTap: onPressed,
@@ -35,7 +34,7 @@ class CustomButton extends StatelessWidget {
                 BoxShadow(
                   blurRadius: 1,
                   color: bgmColor ?? backGroundColour,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 )
               ],
               borderRadius: BorderRadius.circular(12),
@@ -44,7 +43,7 @@ class CustomButton extends StatelessWidget {
                 width: 1,
               ),
             ),
-            alignment: AlignmentDirectional(0, 0),
+            alignment: const AlignmentDirectional(0, 0),
             child: Text(
               text,
               style: TextStyle(

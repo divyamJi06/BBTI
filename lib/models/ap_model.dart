@@ -21,11 +21,11 @@ class APMode {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['LockId'] = this.lockID;
-    data['LockSSID'] = this.lockName;
-    data['LockPassword'] = this.lockPassword;
-    data['IPAddress'] = this.iPAddress;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['LockId'] = lockID;
+    data['LockSSID'] = lockName;
+    data['LockPassword'] = lockPassword;
+    data['IPAddress'] = iPAddress;
     return data;
   }
 }

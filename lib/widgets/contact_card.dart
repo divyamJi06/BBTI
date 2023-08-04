@@ -27,7 +27,7 @@ class ContactsCard extends StatelessWidget {
               color: Colors.grey.shade400,
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(5, 5), // changes position of shadow
+              offset: const Offset(5, 5), // changes position of shadow
             ),
           ], color: whiteColour, borderRadius: BorderRadius.circular(12)),
           child: Padding(
@@ -149,7 +149,7 @@ class ContactsCard extends StatelessWidget {
                                   false, //if you want to disable back feature set to false
                             );
                           },
-                          icon: Icon(Icons.delete))
+                          icon: const Icon(Icons.delete))
                     ],
                   ),
                 ),

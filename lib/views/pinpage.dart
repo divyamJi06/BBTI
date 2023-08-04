@@ -1,12 +1,10 @@
 import 'package:bbti/bottom_nav_bar.dart';
-import 'package:bbti/constants.dart';
 import 'package:bbti/controllers/apis.dart';
 import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/custom_appbar.dart';
 
@@ -18,7 +16,7 @@ class PinCodeWidget extends StatefulWidget {
 }
 
 class _PinCodeWidgetState extends State<PinCodeWidget> {
-  TextEditingController _controller = new TextEditingController();
+  TextEditingController _controller = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   StorageController _storageController = StorageController();
   @override
@@ -38,20 +36,20 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: CustomAppBar(
               heading: 'PinCode',
             )),
         body: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text(
+              const Text(
                 'Enter Your Pin',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(44, 8, 44, 0),
                 child: Text(
                   'This code helps keep your account safe and secure.',
@@ -60,7 +58,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                 child: PinCodeTextField(
                   autoDisposeControllers: false,
                   appContext: context,
@@ -71,7 +69,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                   enablePinAutofill: false,
                   errorTextSpace: 0,
                   showCursor: true,
-                  cursorColor: Color(0xFF4B39EF),
+                  cursorColor: const Color(0xFF4B39EF),
                   obscureText: false,
                   hintCharacter: '-',
                   controller: _controller,
@@ -81,7 +79,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                 child: CustomButton(
                   text: "Confirm",
                   width: 250,
@@ -93,10 +91,8 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                           "USER_DEVID": widget.lockDetails.lockld,
                           "USER_PASSKEY": widget.lockDetails.lockPassKey
                         });
-                        print(res.toString());
                         _storageController.deleteOneLock(widget.lockDetails);
                       } catch (e) {
-                        print(e.toString());
                       } finally {
                         Navigator.pushAndRemoveUntil(
                           context,
@@ -108,7 +104,7 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                     } else {
                       final scaffold = ScaffoldMessenger.of(context);
                       scaffold.showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text("Incorrect Pin"),
                         ),
                       );

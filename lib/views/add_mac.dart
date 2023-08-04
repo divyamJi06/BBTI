@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bbti/bottom_nav_bar.dart';
 import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/mac_model.dart';
-import 'package:bbti/views/passkey.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -30,9 +29,9 @@ class NewMacInstallationPage extends StatefulWidget {
 }
 
 class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
-  final TextEditingController _macID = new TextEditingController();
+  final TextEditingController _macID = TextEditingController();
 
-  final TextEditingController _macName = new TextEditingController();
+  final TextEditingController _macName = TextEditingController();
 
   StorageController _storageController = StorageController();
 
@@ -42,11 +41,9 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
 
   final TextEditingController _lockId = TextEditingController();
 
-  final TextEditingController _ssid =
-      new TextEditingController(text: "nandan1");
 
   final TextEditingController _password =
-      new TextEditingController(text: "nandan022");
+      TextEditingController(text: "nandan022");
 
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -65,11 +62,9 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
   String? lockID;
   getLockId() async {
     List<LockDetails> locks = await _storage.readLocks();
-    print(_connectionStatus);
     for (var element in locks) {
       if (_connectionStatus.contains(element.lockSSID)) {
         setState(() {
-          print("HELLO");
           _lockDetails = element;
           lockID = element.lockld;
           _lockId.text = element.lockld;
@@ -104,7 +99,6 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
       await requestPermission(Permission.nearbyWifiDevices);
       // await requestPermission(Permission.locationWhenInUse);
     } catch (e) {
-      print(e.toString());
     }
 
     try {
@@ -209,7 +203,7 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: const Size.fromHeight(60),
             child: CustomAppBar(heading: "Add Mac")),
         body: Center(
           child: Form(
@@ -221,7 +215,7 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
                   TextFormField(
                     controller: _macID,
                     validator: (value) {
-                      if (value!.length <= 0) return "Mac ID cannot be empty";
+                      if (value!.isEmpty) return "Mac ID cannot be empty";
                       return null;
                     },
                     decoration: InputDecoration(
@@ -229,16 +223,16 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       labelText: "Mac ID",
-                      labelStyle: TextStyle(fontSize: 15),
+                      labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                       controller: _macName,
                       validator: (value) {
-                        if (value!.length <= 0)
+                        if (value!.isEmpty)
                           return "Mac Name cannot be empty";
                         return null;
                       },
@@ -247,9 +241,9 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         labelText: "Mac Name",
-                        labelStyle: TextStyle(fontSize: 15),
+                        labelStyle: const TextStyle(fontSize: 15),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(
@@ -274,7 +268,6 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
                             name: _macName.text,
                             isPresentInESP: true);
                         _storageController.addmacs(macsDetails);
-                        print(res);
 
                         Navigator.push(
                             context,
@@ -295,14 +288,13 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
                             "MacID": _macID.text.toLowerCase(),
                           });
 
-                          print(res);
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(
                           //         builder: (context) => PassKeyPage()));
                         }
                       },
-                      child: Text("Delete")),
+                      child: const Text("Delete")),
                 ],
               ),
             ),
