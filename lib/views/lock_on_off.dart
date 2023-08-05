@@ -98,7 +98,8 @@ class _LockOnOffState extends State<LockOnOff> {
                   ),
                   Text(
                     lockStatus.toUpperCase(),
-                    style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -137,8 +138,7 @@ class _LockOnOffState extends State<LockOnOff> {
                               lockStatus = "Closed";
                               lockClosed = true;
                             });
-                          } else {
-                          }
+                          } else {}
                           // res = await ApiConnect.hitApiGet(
                           //     widget.IP + "/lockstatus");
                           // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
@@ -152,6 +152,8 @@ class _LockOnOffState extends State<LockOnOff> {
                               // onPressed: scaffold.hideCurrentSnackBar),
                             ),
                           );
+                        } finally {
+                          _buttonPressed();
                         }
                       },
                       child: Container(
@@ -162,8 +164,8 @@ class _LockOnOffState extends State<LockOnOff> {
                               color: Colors.grey.shade400,
                               // spreadRadius: 5,
                               blurRadius: 7,
-                              offset:
-                                  const Offset(5, 5), // changes position of shadow
+                              offset: const Offset(
+                                  5, 5), // changes position of shadow
                             ),
                           ],
                         ),

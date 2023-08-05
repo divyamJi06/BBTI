@@ -41,23 +41,21 @@ class ContactsCard extends StatelessWidget {
                     Text(
                       "Contact Name : ",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Wrap(
-                      children: [
-                        Text(
-                          contactsDetails.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: blackColour,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    )
+                    Flexible(
+                      child: Text(
+                        contactsDetails.name,
+                        // maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -69,12 +67,14 @@ class ContactsCard extends StatelessWidget {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      contactsDetails.accessType,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: blackColour,
-                          fontWeight: FontWeight.w400),
+                    Flexible(
+                      child: Text(
+                        contactsDetails.accessType,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -87,12 +87,14 @@ class ContactsCard extends StatelessWidget {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      contactsDetails.date.toString(),
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: blackColour,
-                          fontWeight: FontWeight.w400),
+                    Flexible(
+                      child: Text(
+                        contactsDetails.date.toString(),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -105,12 +107,14 @@ class ContactsCard extends StatelessWidget {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      contactsDetails.time,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: blackColour,
-                          fontWeight: FontWeight.w400),
+                    Flexible(
+                      child: Text(
+                        contactsDetails.time,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
                   ],
                 ),

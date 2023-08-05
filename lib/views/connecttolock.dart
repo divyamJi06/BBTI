@@ -217,7 +217,7 @@ class _ConnectToLockWidgetState extends State<ConnectToLockWidget> {
                     CustomButton(
                         text: "Connect to Lock",
                         onPressed: () {
-                          if (widget.lockName != _connectionStatus) {
+                          if (!_connectionStatus.contains(widget.lockName)) {
                             showToast(context,
                                 "Wifi is not connected to the correct lock");
                             return;

@@ -4,6 +4,7 @@ import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/contacts.dart';
 import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/models/router_model.dart';
+import 'package:bbti/views/generate_qr.dart';
 import 'package:bbti/views/mac_details.dart';
 import 'package:bbti/views/pinpage.dart';
 import 'package:bbti/widgets/custom_button.dart';
@@ -54,7 +55,6 @@ class _SettingsPageState extends State<SettingsPage> {
   ConnectivityResult _connectionStatusS = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  StorageController _storageController = StorageController();
 
   @override
   void initState() {
@@ -76,6 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   String _connectionStatus = 'Unknown';
+  StorageController _storageController = StorageController();
   final NetworkInfo _networkInfo = NetworkInfo();
   Future<void> _initNetworkInfo() async {
     String? wifiName,
@@ -202,109 +203,12 @@ class _SettingsPageState extends State<SettingsPage> {
     //   onPressed: () {},
     // );
 
-    List<ContactsModel> contacts = await _storageController.readContacts();
-    List<LockDetails> locks = await _storageController.readLocks();
-    List<RouterDetails> routers = await _storageController.readRouters();
-    bool isSelected = true;
-
-    LockDetails lock = LockDetails(
-        lockld: "default",
-        lockSSID: "def",
-        isAutoLock: false,
-        privatePin: "1234",
-        lockPassword: "default",
-        iPAddress: "0.0.0.0");
-    RouterDetails router = RouterDetails(
-        lockID: "default",
-        name: "default",
-        password: "default",
-        lockPasskey: "default");
-    ContactsModel contact = ContactsModel(
-        accessType: "default",
-        date: "default",
-        time: "default",
-        name: "default");
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Generate QR"),
       // content: Text(
       //     "Would you like to continue learning how to use Flutter alerts?"),
-      actions: [
-        Column(
-          children: [
-            const Text("Select Contact"),
-            DropdownMenu(
-                onSelected: (value) async {
-                  contact = await _storageController.getContactByPhone(value);
-                },
-                dropdownMenuEntries: contacts
-                    .map((e) => DropdownMenuEntry(value: e.name, label: e.name))
-                    .toList()),
-            const SizedBox(
-              height: 10,
-            ),
-            DropdownMenu(
-                initialSelection: "Locks",
-                onSelected: (value) async {
-                  if (value == "Locks") {
-                    isSelected = true;
-                  } else {
-                    isSelected = false;
-                  }
-                },
-                dropdownMenuEntries: [
-                  const DropdownMenuEntry(value: "Locks", label: "Locks"),
-                  const DropdownMenuEntry(value: "Routers", label: "Routers"),
-                ]),
-            isSelected ? const Text("Select Lock") : const Text("Select Router"),
-            isSelected
-                ? DropdownMenu(
-                    onSelected: (value) async {
-                      lock = await _storageController.getLockBySSID(value);
-                    },
-                    dropdownMenuEntries: locks
-                        .map((e) => DropdownMenuEntry(
-                            value: e.lockSSID, label: e.lockSSID))
-                        .toList())
-                : DropdownMenu(
-                    onSelected: (value) async {
-                      router = await _storageController.getRouterByName(value);
-                    },
-                    dropdownMenuEntries: routers
-                        .map((e) =>
-                            DropdownMenuEntry(value: e.name, label: e.name))
-                        .toList()),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => QRPage(
-                                data: isSelected
-                                    ? "${lock.toLockQR()},${contact.toContactsQR()}"
-                                    : "${router.toRouterQR()},${contact.toContactsQR()}")));
-                  },
-                  child: new Text("Generate"),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: new Text("Cancel"),
-                ),
-              ],
-            )
-          ],
-        )
-      ],
+      actions: [],
     );
 
     // show the dialog
@@ -379,14 +283,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 CustomButton(
                   text: "Mac",
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const MacsPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MacsPage()));
                   },
                 ),
                 CustomButton(
                   text: "Generate QR",
-                  onPressed: () async {
-                    showAlertDialog(context);
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GenerateQRPage()));
+                    // showAlertDialog(context);
                     // Navigator.push(context,
                     //     MaterialPageRoute(builder: (context) => MacsPage()));
                   },
