@@ -22,7 +22,8 @@ import '../models/lock_initial.dart';
 import '../widgets/custom_appbar.dart';
 
 class NewMacInstallationPage extends StatefulWidget {
-  NewMacInstallationPage({super.key});
+  NewMacInstallationPage({required this.lockDetails, super.key});
+  final LockDetails lockDetails;
 
   @override
   State<NewMacInstallationPage> createState() => _NewMacInstallationPageState();
@@ -41,38 +42,37 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
 
   final TextEditingController _lockId = TextEditingController();
 
-
   final TextEditingController _password =
       TextEditingController(text: "nandan022");
 
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  late LockDetails _lockDetails;
+  // late LockDetails? _lockDetails;
 
   @override
   void initState() {
     super.initState();
     _initNetworkInfo();
-    getLockId();
+    // getLockId();
 
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
-  String? lockID;
-  getLockId() async {
-    List<LockDetails> locks = await _storage.readLocks();
-    for (var element in locks) {
-      if (_connectionStatus.contains(element.lockSSID)) {
-        setState(() {
-          _lockDetails = element;
-          lockID = element.lockld;
-          _lockId.text = element.lockld;
-        });
-        break;
-      }
-    }
-  }
+  // String? lockID;
+  // getLockId() async {
+  //   List<LockDetails> locks = await _storage.readLocks();
+  //   for (var element in locks) {
+  //     if (_connectionStatus.contains(element.lockSSID)) {
+  //       setState(() {
+  //         _lockDetails = element;
+  //         lockID = element.lockld;
+  //         _lockId.text = element.lockld;
+  //       });
+  //       break;
+  //     }
+  //   }
+  // }
 
   @override
   void dispose() {
@@ -98,8 +98,7 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
     try {
       await requestPermission(Permission.nearbyWifiDevices);
       // await requestPermission(Permission.locationWhenInUse);
-    } catch (e) {
-    }
+    } catch (e) {}
 
     try {
       if (!kIsWeb && Platform.isIOS) {
@@ -207,98 +206,97 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
             child: CustomAppBar(heading: "Add Mac")),
         body: Center(
           child: Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _macID,
-                    validator: (value) {
-                      if (value!.isEmpty) return "Mac ID cannot be empty";
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      labelText: "Mac ID",
-                      labelStyle: const TextStyle(fontSize: 15),
+                  key: formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _macID,
+                          maxLength: 12,
+                          validator: (value) {
+                            if (value!.isEmpty) return "Mac ID cannot be empty";
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            labelText: "Mac ID",
+                            labelStyle: const TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                            controller: _macName,
+                            validator: (value) {
+                              if (value!.isEmpty)
+                                return "Mac Name cannot be empty";
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              labelText: "Mac Name",
+                              labelStyle: const TextStyle(fontSize: 15),
+                            )),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomButton(
+                          width: 200,
+                          text: "Submit",
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              await ApiConnect.hitApiGet(
+                                routerIP + "/",
+                              );
+
+                              var res = await ApiConnect.hitApiPost(
+                                  "$routerIP/macid", {
+                                "MacID": _macID.text.toLowerCase(),
+                              });
+
+                              MacsDetails macsDetails = MacsDetails(
+                                  lockDetails: widget.lockDetails,
+                                  id: _macID.text,
+                                  name: _macName.text,
+                                  isPresentInESP: true);
+                              _storageController.addmacs(macsDetails);
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyNavigationBar()));
+                            }
+                          },
+                        ),
+                        ElevatedButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                await ApiConnect.hitApiGet(
+                                  routerIP + "/",
+                                );
+
+                                var res = await ApiConnect.hitApiPost(
+                                    "$routerIP/deletemac", {
+                                  "MacID": _macID.text.toLowerCase(),
+                                });
+
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => PassKeyPage()));
+                              }
+                            },
+                            child: const Text("Delete")),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                      controller: _macName,
-                      validator: (value) {
-                        if (value!.isEmpty)
-                          return "Mac Name cannot be empty";
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        labelText: "Mac Name",
-                        labelStyle: const TextStyle(fontSize: 15),
-                      )),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomButton(
-                    width: 200,
-                    text: "Submit",
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        await getLockId();
-
-                        await ApiConnect.hitApiGet(
-                          routerIP + "/",
-                        );
-
-                        var res =
-                            await ApiConnect.hitApiPost("$routerIP/macid", {
-                          "MacID": _macID.text.toLowerCase(),
-                        });
-
-                        MacsDetails macsDetails = MacsDetails(
-                            lockDetails: _lockDetails,
-                            id: _macID.text,
-                            name: _macName.text,
-                            isPresentInESP: true);
-                        _storageController.addmacs(macsDetails);
-
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyNavigationBar()));
-                      }
-                    },
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          await ApiConnect.hitApiGet(
-                            routerIP + "/",
-                          );
-
-                          var res = await ApiConnect.hitApiPost(
-                              "$routerIP/deletemac", {
-                            "MacID": _macID.text.toLowerCase(),
-                          });
-
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => PassKeyPage()));
-                        }
-                      },
-                      child: const Text("Delete")),
-                ],
-              ),
-            ),
-          ),
+                ),
         ));
   }
 }

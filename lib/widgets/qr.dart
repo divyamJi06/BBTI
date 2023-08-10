@@ -14,26 +14,6 @@ class QRPage extends StatelessWidget {
   QRPage({required this.data, super.key});
 
   GlobalKey globalKey = GlobalKey();
-
-  // Future<void> _captureAndSharePng() async {
-  //   try {
-  //     RenderRepaintBoundary boundary =
-  //         globalKey.currentContext.findRenderObject();
-  //     var image = await boundary.toImage();
-  //     ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-  //     Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-  //     final tempDir = await getTemporaryDirectory();
-  //     final file = await new File('${tempDir.path}/image.png').create();
-  //     await file.writeAsBytes(pngBytes);
-
-  //     final channel = const MethodChannel('channel:me.alfian.share/share');
-  //     channel.invokeMethod('shareFile', 'image.png');
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
-
   Future _shareQRImage() async {
     final image = await QrPainter(
       data: data,
@@ -77,7 +57,7 @@ class QRPage extends StatelessWidget {
                 version: QrVersions.auto,
                 size: 200.0,
               ),
-              Text(data),
+              // Text(data),
               ElevatedButton(onPressed: _shareQRImage, child: Text("Share"))
             ],
           ),

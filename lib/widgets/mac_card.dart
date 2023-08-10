@@ -2,6 +2,7 @@ import 'package:bbti/controllers/storage.dart';
 import 'package:bbti/models/mac_model.dart';
 import 'package:flutter/material.dart';
 
+import '../bottom_nav_bar.dart';
 import '../constants.dart';
 import '../controllers/apis.dart';
 
@@ -140,7 +141,6 @@ class _MacCardState extends State<MacCard> {
                               "$routerIP/deletemac", {
                             "MacID": widget.macsDetails.id.toLowerCase(),
                           });
-
                         },
                         icon: const Icon(Icons.delete)),
                     const SizedBox(
@@ -154,16 +154,26 @@ class _MacCardState extends State<MacCard> {
                               isSwitched = value;
                             });
                             // return;
+                            print(value);
                             if (value) {
-                              await ApiConnect.hitApiGet(
-                                "$routerIP/",
-                              );
+                              // await ApiConnect.hitApiGet(
+                              //   "$routerIP/",
+                              // );
 
+                              // Navigator.pop(context);
+
+                              var res = await ApiConnect.hitApiPost(
+                                  "$routerIP/MacOnOff", {
+                                "MacCheck": "ON",
+                              });
+                              print(res);
                             } else {
-                              await ApiConnect.hitApiGet(
-                                "$routerIP/",
-                              );
-
+                              var res = await ApiConnect.hitApiPost(
+                                 
+                                  "$routerIP/MacOnOff", {
+                                "MacCheck": "OFF",
+                              });
+                              print(res);
                             }
                             MacsDetails macD = MacsDetails(
                                 id: widget.macsDetails.id,
@@ -172,7 +182,16 @@ class _MacCardState extends State<MacCard> {
                                 isPresentInESP: isSwitched);
                             _storageController.updateMacStatus(macD);
 
-                            Navigator.pop(context);
+                            // Navigator.pop(context);
+                            Navigator.pushAndRemoveUntil<dynamic>(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) =>
+                                    MyNavigationBar(),
+                              ),
+                              (route) =>
+                                  false, //if you want to disable back feature set to false
+                            );
                           },
                           value: isSwitched,
                           activeColor: appBarColour,

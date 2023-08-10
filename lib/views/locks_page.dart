@@ -60,36 +60,49 @@ class LockPage extends StatelessWidget {
             elevation: 0,
           ),
         ),
-        body: FutureBuilder(
-            future: fetchLocks(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              }
-              if (snapshot.hasError) return const Text("ERROR");
+        body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            // mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FutureBuilder(
+                  future: fetchLocks(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (snapshot.hasError) return const Text("ERROR");
 
-              return ListView.builder(
-                  padding: const EdgeInsets.only(top: 10),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ConnectToLockWidget(
-                                      lockName: snapshot.data![index].lockSSID,
-                                      IP: snapshot.data![index].iPAddress,
-                                      lockID: snapshot.data![index].lockld,
-                                      lockPassKey:
-                                          snapshot.data![index].lockPassKey!,
-                                    )));
-                      },
-                      child: LocksCard(locksDetails: snapshot.data![index]),
-                    );
-                  });
-            }));
+                    return ListView.builder(
+                        padding: const EdgeInsets.only(top: 10),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ConnectToLockWidget(
+                                            lockName:
+                                                snapshot.data![index].lockSSID,
+                                            IP: snapshot.data![index].iPAddress,
+                                            lockID:
+                                                snapshot.data![index].lockld,
+                                            lockPassKey: snapshot
+                                                .data![index].lockPassKey!,
+                                          )));
+                            },
+                            child:
+                                LocksCard(locksDetails: snapshot.data![index]),
+                          );
+                        });
+                  }),
+            ],
+          ),
+        ));
   }
 }

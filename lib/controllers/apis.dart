@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 
 /// More examples see https://github.com/cfug/dio/blob/main/example
@@ -10,6 +9,8 @@ class ApiConnect {
       url,
       data: (params),
     );
+    print(response.toString());
+    print(response.data.toString());
     return response.data;
   }
 

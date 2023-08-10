@@ -78,6 +78,7 @@ class StorageController {
     } else {
       _model = [];
       var jsonContacts = json.decode(locks);
+      print(jsonContacts);
       for (var element in jsonContacts) {
         _model.add(LockDetails.fromJson(element));
       }
@@ -91,25 +92,34 @@ class StorageController {
     List listContectsInJson = lockList.map((e) {
       return e.toJson();
     }).toList();
-    deleteLocks();
+    await deleteLocks();
     storage.write(key: "locks", value: json.encode(listContectsInJson));
   }
 
-  updateLock(String idOfLock, String newLockId, String newLockSSID,
-      String newLockPassword) async {
+  updateLock(String idOfLock, LockDetails lockDetails) async {
     List<LockDetails> locksList = await readLocks();
-    deleteLocks();
+    print("-------------");
+    List listContectsInJson = locksList.map((e) {
+      return e.toJson();
+    }).toList();
+    print(listContectsInJson);
+    // deleteOneLock(lockDetails);
+    print(locksList.length);
     for (var element in locksList) {
       if (element.lockld == idOfLock) {
-        element.lockld = newLockId;
-        element.lockPassword = newLockPassword;
-        element.lockSSID = newLockSSID;
+        element.lockld = lockDetails.lockld;
+        element.lockPassword = lockDetails.lockPassword;
+        element.lockSSID = lockDetails.lockSSID;
+        element.lockPassKey = lockDetails.lockPassKey;
         break;
       }
     }
-    for (var element in locksList) {
-      addlocks(element);
-    }
+    listContectsInJson = locksList.map((e) {
+      return e.toJson();
+    }).toList();
+    print(listContectsInJson);
+    await deleteLocks();
+    storage.write(key: "locks", value: json.encode(listContectsInJson));
   }
 
   updateLockAutoStatus(String lockname, bool status) async {

@@ -3,8 +3,6 @@ import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/views/passkey.dart';
 import 'package:bbti/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-
-import '../bottom_nav_bar.dart';
 import '../constants.dart';
 import '../controllers/apis.dart';
 import '../widgets/custom_appbar.dart';
@@ -118,18 +116,36 @@ class _UpdateLockInstallationPageState
                         };
                         print(data);
                         await ApiConnect.hitApiPost("$routerIP/settings", data);
-                        _storageController.updateLock(widget.lockDetails.lockld,
-                            _lockId.text, _ssid.text, _password.text);
+                        // _storageController.updateLock(widget.lockDetails.lockld,
+                        //     _lockId.text, _ssid.text, _password.text);
 
-                        Navigator.pushAndRemoveUntil<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) =>
-                                MyNavigationBar(),
-                          ),
-                          (route) =>
-                              false, //if you want to disable back feature set to false
-                        );
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PassKeyPage(
+                                      type: "edit",
+                                      // ssid:widget.lockDetails.lockSSID,
+                                      lockDetails: LockDetails(
+                                          isAutoLock:
+                                              widget.lockDetails.isAutoLock,
+                                          privatePin:
+                                              widget.lockDetails.privatePin,
+                                          lockld: _lockId.text,
+                                          lockSSID: _ssid.text,
+                                          lockPassword: _password.text,
+                                          iPAddress:
+                                              widget.lockDetails.iPAddress),
+                                    )));
+
+                        // Navigator.pushAndRemoveUntil<dynamic>(
+                        //   context,
+                        //   MaterialPageRoute<dynamic>(
+                        //     builder: (BuildContext context) =>
+                        //         MyNavigationBar(),
+                        //   ),
+                        //   (route) =>
+                        //       false, //if you want to disable back feature set to false
+                        // );
                       }
                     },
                   )

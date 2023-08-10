@@ -9,8 +9,10 @@ import '../models/lock_initial.dart';
 import '../widgets/custom_appbar.dart';
 
 class PassKeyPage extends StatelessWidget {
-  PassKeyPage({required this.lockDetails, super.key});
+  PassKeyPage(
+      {required this.lockDetails, required this.type,super.key});
   final LockDetails lockDetails;
+  final String type;
   final TextEditingController _passKey = TextEditingController();
   final StorageController _storageController = StorageController();
   final formKey = GlobalKey<FormState>();
@@ -64,12 +66,23 @@ class PassKeyPage extends StatelessWidget {
                         "lock_passkey": _passKey.text
                       });
                       lockDetails.lockPassKey = _passKey.text;
-                      _storageController.addlocks(lockDetails);
-            
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyNavigationBar()));
+
+                      if (type == "create") {
+                        _storageController.addlocks(lockDetails);
+                      } else if (type == "edit") {
+                        _storageController.updateLock(
+                            lockDetails.lockld, lockDetails);
+                      } else {
+                        print("hello");
+                      }
+                      Navigator.pushAndRemoveUntil<dynamic>(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (BuildContext context) => MyNavigationBar(),
+                        ),
+                        (route) =>
+                            false, //if you want to disable back feature set to false
+                      );
                     },
                     width: 200,
                   )

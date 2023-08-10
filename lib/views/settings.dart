@@ -259,6 +259,19 @@ class _SettingsPageState extends State<SettingsPage> {
                   text: "Factory Reset",
                   bgmColor: redButtonColour,
                   onPressed: () async {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => PinCodeWidget(
+                    //               lockDetails: LockDetails(
+                    //                   lockld: "",
+                    //                   lockSSID: "",
+                    //                   isAutoLock: false,
+                    //                   privatePin: "1234",
+                    //                   lockPassword: "",
+                    //                   iPAddress: routerIP),
+                    //             )));
+                    // return;
                     List<LockDetails> locks =
                         await _storageController.readLocks();
                     for (var element in locks) {
@@ -281,14 +294,26 @@ class _SettingsPageState extends State<SettingsPage> {
                 //       _storageController.deleteMacs();
                 //     }),
                 CustomButton(
-                  text: "Mac",
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MacsPage()));
-                  },
-                ),
+                    text: "Mac",
+                    onPressed: () async {
+                      List<LockDetails> locks =
+                          await _storageController.readLocks();
+                      for (var element in locks) {
+                        if (_connectionStatus.contains(element.lockSSID)) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MacsPage(
+                                        lockDetails: element,
+                                      )));
+                          return;
+                        }
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const MacsPage()));
+                      }
+                    }),
                 CustomButton(
                   text: "Generate QR",
                   onPressed: () {

@@ -59,45 +59,55 @@ class RouterPage extends StatelessWidget {
         ),
       ),
       // bottomNavigationBar: MyNavigationBar(),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            FutureBuilder(
-                future: fetchRouters(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (snapshot.hasError) return const Text("ERROR");
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            // mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-                  return ListView.builder(
-                      padding: const EdgeInsets.only(top: 10),
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ConnectToLockWidget(
-                                          IP: snapshot.data![index].iPAddress!,
-                                          lockName: snapshot.data![index].name,
-                                          lockID: snapshot.data![index].lockID,
-                                          lockPassKey:
-                                              snapshot.data![index].lockPasskey,
-                                        )));
-                          },
-                          child:
-                              RouterCard(routerDetails: snapshot.data![index]),
-                        );
-                      });
-                })
-          ],
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              FutureBuilder(
+                  future: fetchRouters(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (snapshot.hasError) return const Text("ERROR");
+
+                    return ListView.builder(
+                        padding: const EdgeInsets.only(top: 10),
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ConnectToLockWidget(
+                                            IP: snapshot
+                                                .data![index].iPAddress!,
+                                            lockName:
+                                                snapshot.data![index].name,
+                                            lockID:
+                                                snapshot.data![index].lockID,
+                                            lockPassKey: snapshot
+                                                .data![index].lockPasskey,
+                                          )));
+                            },
+                            child: RouterCard(
+                                routerDetails: snapshot.data![index]),
+                          );
+                        });
+                  })
+            ],
+          ),
         ),
       ),
     );

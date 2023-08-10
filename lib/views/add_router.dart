@@ -37,10 +37,10 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
   final TextEditingController _lockId = TextEditingController();
 
   final TextEditingController _ssid =
-      new TextEditingController(text: "nandan1");
+      new TextEditingController(text: "default");
 
   final TextEditingController _password =
-      new TextEditingController(text: "nandan022");
+      new TextEditingController(text: "default");
 
   final formKey = GlobalKey<FormState>();
   ConnectivityResult _connectionStatusS = ConnectivityResult.none;

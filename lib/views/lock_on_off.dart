@@ -28,7 +28,7 @@ class _LockOnOffState extends State<LockOnOff> {
   @override
   void initState() {
     // TODO: implement initState
-    _timer = Timer(const Duration(seconds: 15), () {
+    _timer = Timer(const Duration(seconds: 20), () {
       _navigateToNextPage();
     });
     super.initState();
@@ -47,7 +47,7 @@ class _LockOnOffState extends State<LockOnOff> {
 
   void _buttonPressed() {
     _timer.cancel();
-    _timer = Timer(const Duration(seconds: 15), () {
+    _timer = Timer(const Duration(seconds: 20), () {
       _navigateToNextPage();
     });
   }

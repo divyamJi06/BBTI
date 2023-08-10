@@ -75,18 +75,18 @@ class _ContactsPageState extends State<ContactsPage> {
                 )
               ],
             ),
-            onPressed: () async{
-                Contact? contact = await _contactPicker.selectContact();
-                if (contact != null) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AccessRequestPage(
-                                name: contact.fullName!,
-                              )));
-                } else {
-                  // TODO: Add a toast tp show its not possible to open contacts
-                }
+            onPressed: () async {
+              Contact? contact = await _contactPicker.selectContact();
+              if (contact != null) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AccessRequestPage(
+                              name: contact.fullName!,
+                            )));
+              } else {
+                // TODO: Add a toast tp show its not possible to open contacts
+              }
             }),
       ),
       key: scaffoldKey,
@@ -113,27 +113,6 @@ class _ContactsPageState extends State<ContactsPage> {
             const SizedBox(
               height: 10,
             ),
-            // CustomButton(
-            //   onPressed: () async {
-            //     Contact? contact = await _contactPicker.selectContact();
-            //     if (contact != null) {
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => AccessRequestPage(
-            //                     name: contact.fullName!,
-            //                   )));
-            //     } else {
-            //       // TODO: Add a toast tp show its not possible to open contacts
-            //     }
-            //   },
-            //   text: "Add Contacts",
-            // ),
-            // const Divider(
-            //   height: 12,
-            //   thickness: 1,
-            //   color: Color(0xFFE0E3E7),
-            // ),
             FutureBuilder(
                 future: fetchContacts(),
                 builder: (context, snapshot) {

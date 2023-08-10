@@ -136,6 +136,7 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PassKeyPage(
+                                      type: "create",
                                       lockDetails: LockDetails(
                                           isAutoLock: false,
                                           privatePin: _privatePin.text,

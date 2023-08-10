@@ -1,12 +1,14 @@
 import 'package:bbti/constants.dart';
 import 'package:bbti/controllers/storage.dart';
+import 'package:bbti/models/lock_initial.dart';
 import 'package:bbti/models/mac_model.dart';
 import 'package:bbti/views/add_mac.dart';
 import 'package:bbti/widgets/mac_card.dart';
 import 'package:flutter/material.dart';
 
 class MacsPage extends StatefulWidget {
-  const MacsPage({Key? key}) : super(key: key);
+  const MacsPage({required this.lockDetails, Key? key}) : super(key: key);
+  final LockDetails lockDetails;
 
   @override
   _MacsPageState createState() => _MacsPageState();
@@ -58,7 +60,9 @@ class _MacsPageState extends State<MacsPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => NewMacInstallationPage()));
+                      builder: (context) => NewMacInstallationPage(
+                            lockDetails: widget.lockDetails,
+                          )));
               // } else {
               // TODO: Add a toast tp show its not possible to open contacts
               // }
