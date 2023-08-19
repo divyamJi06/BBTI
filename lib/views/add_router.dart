@@ -95,8 +95,7 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
     try {
       await requestPermission(Permission.nearbyWifiDevices);
       // await requestPermission(Permission.locationWhenInUse);
-    } catch (e) {
-    }
+    } catch (e) {}
 
     try {
       if (!kIsWeb && Platform.isIOS) {
@@ -279,7 +278,11 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                         await ApiConnect.hitApiGet(
                           routerIP + "/",
                         );
-
+                        print({
+                          "router_ssid": _ssid.text,
+                          "router_password": _password.text,
+                          "lock_passkey": passkey
+                        });
                         var res = await ApiConnect.hitApiPost(
                             "$routerIP/getWifiParem", {
                           "router_ssid": _ssid.text,

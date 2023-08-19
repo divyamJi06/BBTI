@@ -30,7 +30,7 @@ class QRPage extends StatelessWidget {
     await file.writeAsBytes(bytes);
     final path = await Share.shareXFiles(
       [XFile(file.path)],
-      text: 'QR code for $data',
+      // text: 'QR code for $data',
       subject: 'QR Code',
       // mimeTypes: [
       //   'image/png'

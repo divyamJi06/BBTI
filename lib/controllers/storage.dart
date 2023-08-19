@@ -147,7 +147,7 @@ class StorageController {
   getRouterByName(lockSSID) async {
     List<RouterDetails> routerList = await readRouters();
     for (var element in routerList) {
-      if (element.name == lockSSID) return element;
+      if (element.name+"_"+element.lockID == lockSSID) return element;
     }
     return null;
   }

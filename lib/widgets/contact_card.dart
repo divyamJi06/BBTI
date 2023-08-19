@@ -49,7 +49,7 @@ class ContactsCard extends StatelessWidget {
                       child: Text(
                         contactsDetails.name,
                         // maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        // overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 20,
                             color: blackColour,
@@ -141,17 +141,39 @@ class ContactsCard extends StatelessWidget {
                       // ),
                       IconButton(
                           onPressed: () {
-                            _storageController
-                                .deleteOneContact(contactsDetails);
-                            Navigator.pushAndRemoveUntil<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) =>
-                                    MyNavigationBar(),
-                              ),
-                              (route) =>
-                                  false, //if you want to disable back feature set to false
-                            );
+                            showDialog(
+                                context: context,
+                                builder: (cont) {
+                                  return AlertDialog(
+                                    title: const Text('BBT Lock'),
+                                    content:
+                                        const Text('This will delete the Lock'),
+                                    actions: [
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('CANCEL'),
+                                      ),
+                                      OutlinedButton(
+                                        onPressed: () async {
+                                          _storageController.deleteOneContact(
+                                              contactsDetails);
+                                          Navigator.pushAndRemoveUntil<dynamic>(
+                                            context,
+                                            MaterialPageRoute<dynamic>(
+                                              builder: (BuildContext context) =>
+                                                  MyNavigationBar(),
+                                            ),
+                                            (route) =>
+                                                false, //if you want to disable back feature set to false
+                                          );
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                });
                           },
                           icon: const Icon(Icons.delete))
                     ],

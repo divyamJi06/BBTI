@@ -9,7 +9,10 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_appbar.dart';
 
 class PinCodeWidget extends StatefulWidget {
-  const PinCodeWidget({required this.lockDetails, Key? key}) : super(key: key);
+  const PinCodeWidget(
+      {required this.lockDetails, required this.currentLock, Key? key})
+      : super(key: key);
+  final String currentLock;
   final LockDetails lockDetails;
   @override
   _PinCodeWidgetState createState() => _PinCodeWidgetState();
@@ -112,6 +115,10 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                     }
                   },
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("You are connected to : " + widget.currentLock),
               )
             ],
           ),

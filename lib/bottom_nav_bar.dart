@@ -5,6 +5,9 @@ import 'package:bbti/views/new_home_page.dart';
 import 'package:bbti/views/router_page.dart';
 import 'package:bbti/views/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'controllers/permission.dart';
 
 class MyNavigationBar extends StatefulWidget {
   MyNavigationBar({Key? key}) : super(key: key);
@@ -14,6 +17,15 @@ class MyNavigationBar extends StatefulWidget {
 }
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
+
+    @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    requestPermission(Permission.camera);
+    requestPermission(Permission.contacts);
+    requestPermission(Permission.location);
+  }
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
     // Text('Home Page',

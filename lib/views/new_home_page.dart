@@ -6,7 +6,7 @@ class NewHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double radius = 250;
+    double radius = MediaQuery.of(context).size.height * 0.25;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -46,7 +46,7 @@ class NewHomePage extends StatelessWidget {
                         offset: const Offset(0, 2),
                       )
                     ],
-                    borderRadius: BorderRadius.circular(radius - 100),
+                    borderRadius: BorderRadius.circular(radius),
                     border: Border.all(width: 10, color: backGroundColourDark)),
                 child: Container(
                     height: radius,
@@ -70,7 +70,7 @@ class NewHomePage extends StatelessWidget {
                   'BelBird Technologies',
                   style: TextStyle(
                     color: whiteColour,
-                    fontSize: 40,
+                    fontSize: MediaQuery.of(context).size.height * .04,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -87,7 +87,8 @@ class NewHomePage extends StatelessWidget {
                       'Transforming Technologies for tomorrow',
                       style: TextStyle(
                         color: backGroundColourDark,
-                        fontSize: 22,
+                        fontSize: MediaQuery.of(context).size.height * .02,
+                        // fontSize: 22,/
                         fontWeight: FontWeight.normal,
                       ),
                     ),

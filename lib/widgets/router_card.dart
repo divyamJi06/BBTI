@@ -53,18 +53,14 @@ class _RouterCardState extends State<RouterCard> {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Wrap(
-                      children: [
-                        Text(
-                          widget.routerDetails.lockID,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: blackColour,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                    Flexible(
+                      child: Text(
+                        widget.routerDetails.lockID,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -77,18 +73,14 @@ class _RouterCardState extends State<RouterCard> {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Wrap(
-                      children: [
-                        Text(
-                          widget.routerDetails.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: blackColour,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                    Flexible(
+                      child: Text(
+                        widget.routerDetails.name,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -101,16 +93,18 @@ class _RouterCardState extends State<RouterCard> {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      hide
-                          ? List.generate(
-                              widget.routerDetails.lockPasskey.length,
-                              (index) => "*").join()
-                          : widget.routerDetails.lockPasskey,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: blackColour,
-                          fontWeight: FontWeight.w400),
+                    Flexible(
+                      child: Text(
+                        hide
+                            ? List.generate(
+                                widget.routerDetails.lockPasskey.length,
+                                (index) => "*").join()
+                            : widget.routerDetails.lockPasskey,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -123,15 +117,18 @@ class _RouterCardState extends State<RouterCard> {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      hide
-                          ? List.generate(widget.routerDetails.password.length,
-                              (index) => "*").join()
-                          : widget.routerDetails.password,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: blackColour,
-                          fontWeight: FontWeight.w400),
+                    Flexible(
+                      child: Text(
+                        hide
+                            ? List.generate(
+                                widget.routerDetails.password.length,
+                                (index) => "*").join()
+                            : widget.routerDetails.password,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -148,17 +145,39 @@ class _RouterCardState extends State<RouterCard> {
                       IconButton(
                           tooltip: "Delete Router",
                           onPressed: () {
-                            _storageController
-                                .deleteOneRouter(widget.routerDetails);
-                            Navigator.pushAndRemoveUntil<dynamic>(
-                              context,
-                              MaterialPageRoute<dynamic>(
-                                builder: (BuildContext context) =>
-                                    MyNavigationBar(),
-                              ),
-                              (route) =>
-                                  false, //if you want to disable back feature set to false
-                            );
+                            showDialog(
+                                context: context,
+                                builder: (cont) {
+                                  return AlertDialog(
+                                    title: const Text('BBT Lock'),
+                                    content:
+                                        const Text('This will delete the Lock'),
+                                    actions: [
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('CANCEL'),
+                                      ),
+                                      OutlinedButton(
+                                        onPressed: () async {
+                                          _storageController.deleteOneRouter(
+                                              widget.routerDetails);
+                                          Navigator.pushAndRemoveUntil<dynamic>(
+                                            context,
+                                            MaterialPageRoute<dynamic>(
+                                              builder: (BuildContext context) =>
+                                                  MyNavigationBar(),
+                                            ),
+                                            (route) =>
+                                                false, //if you want to disable back feature set to false
+                                          );
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                });
                           },
                           icon: const Icon(Icons.delete)),
                       const SizedBox(

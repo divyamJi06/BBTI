@@ -122,7 +122,8 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                             },
                             dropdownMenuEntries: routers
                                 .map((e) => DropdownMenuEntry(
-                                    value: e.name, label: e.name))
+                                    value: e.name +"_"+ e.lockID,
+                                    label: e.name +"_"+ e.lockID))
                                 .toList()),
                     const SizedBox(
                       height: 10,

@@ -1,14 +1,10 @@
 import 'dart:async';
-
 import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/contacts.dart';
 import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/models/router_model.dart';
 import 'package:bbti/views/generate_qr.dart';
 import 'package:bbti/views/mac_details.dart';
 import 'package:bbti/views/pinpage.dart';
 import 'package:bbti/widgets/custom_button.dart';
-import 'package:bbti/widgets/qr.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bbti/widgets/toast.dart';
@@ -280,6 +276,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PinCodeWidget(
+                                      currentLock: _connectionStatus,
                                       lockDetails: element,
                                     )));
                         return;
@@ -308,6 +305,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                       )));
                           return;
                         }
+                        showToast(
+                            context, "You may not be connected to AP Mode.");
+
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(

@@ -63,18 +63,14 @@ class _MacCardState extends State<MacCard> {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Wrap(
-                      children: [
-                        Text(
-                          widget.macsDetails.lockDetails.lockSSID,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: blackColour,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                    Flexible(
+                      child: Text(
+                        widget.macsDetails.lockDetails.lockSSID,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -87,18 +83,14 @@ class _MacCardState extends State<MacCard> {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Wrap(
-                      children: [
-                        Text(
-                          widget.macsDetails.id,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: blackColour,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                    Flexible(
+                      child: Text(
+                        widget.macsDetails.id,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -111,18 +103,14 @@ class _MacCardState extends State<MacCard> {
                           color: blackColour,
                           fontWeight: FontWeight.bold),
                     ),
-                    Wrap(
-                      children: [
-                        Text(
-                          widget.macsDetails.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: blackColour,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                    Flexible(
+                      child: Text(
+                        widget.macsDetails.name,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: blackColour,
+                            fontWeight: FontWeight.w400),
+                      ),
                     )
                   ],
                 ),
@@ -131,16 +119,40 @@ class _MacCardState extends State<MacCard> {
                   children: [
                     IconButton(
                         onPressed: () async {
-                          _storageController.deleteOneMacs(widget.macsDetails);
-                          await ApiConnect.hitApiGet(
-                            "$routerIP/",
-                          );
-                          Navigator.pop(context);
+                          showDialog(
+                              context: context,
+                              builder: (cont) {
+                                return AlertDialog(
+                                  title: const Text('BBT Lock'),
+                                  content:
+                                      const Text('This will delete the Lock'),
+                                  actions: [
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('CANCEL'),
+                                    ),
+                                    OutlinedButton(
+                                      onPressed: () async {
+                                        _storageController
+                                            .deleteOneMacs(widget.macsDetails);
+                                        await ApiConnect.hitApiGet(
+                                          "$routerIP/",
+                                        );
+                                        Navigator.pop(context);
 
-                          var res = await ApiConnect.hitApiPost(
-                              "$routerIP/deletemac", {
-                            "MacID": widget.macsDetails.id.toLowerCase(),
-                          });
+                                        await ApiConnect.hitApiPost(
+                                            "$routerIP/deletemac", {
+                                          "MacID": widget.macsDetails.id
+                                              .toLowerCase(),
+                                        });
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              });
                         },
                         icon: const Icon(Icons.delete)),
                     const SizedBox(
@@ -169,7 +181,6 @@ class _MacCardState extends State<MacCard> {
                               print(res);
                             } else {
                               var res = await ApiConnect.hitApiPost(
-                                 
                                   "$routerIP/MacOnOff", {
                                 "MacCheck": "OFF",
                               });
