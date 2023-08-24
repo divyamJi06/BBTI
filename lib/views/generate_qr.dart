@@ -1,3 +1,4 @@
+import 'package:bbti/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:open_settings/open_settings.dart';
 
@@ -236,6 +237,11 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                         onSelected: (value) async {
                           setState(() {
                             print(value);
+                            contact = ContactsModel(
+                                accessType: "default",
+                                endDateTime: DateTime.now(),
+                                startDateTime: DateTime.now(),
+                                name: "default");
                             selected = value!;
                             if (value == "Locks") {
                               isSelected = true;
@@ -297,6 +303,20 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
+                            if (isSelected && lock.lockld.contains("default")) {
+                              showToast(context, "No lock is selected");
+                              return;
+                            }
+
+                            if (!isSelected &&
+                                router.lockID.contains("default")) {
+                              showToast(context, "No router is selected");
+                              return;
+                            }
+                            if (contact.accessType.contains("default")) {
+                              showToast(context, "No contact is selected");
+                              return;
+                            }
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
