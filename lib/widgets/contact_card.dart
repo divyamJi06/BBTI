@@ -89,7 +89,9 @@ class ContactsCard extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        contactsDetails.date.toString(),
+                        contactsDetails.accessType.contains("Timed")
+                            ? "${contactsDetails.startDateTime.day}/${contactsDetails.startDateTime.month}/${contactsDetails.startDateTime.year}-${contactsDetails.endDateTime.day}/${contactsDetails.endDateTime.month}/${contactsDetails.endDateTime.year}"
+                            : "00-00",
                         style: TextStyle(
                             fontSize: 20,
                             color: blackColour,
@@ -109,7 +111,9 @@ class ContactsCard extends StatelessWidget {
                     ),
                     Flexible(
                       child: Text(
-                        contactsDetails.time,
+                        contactsDetails.accessType.contains("Timed")
+                            ? "${contactsDetails.startDateTime.hour}:${contactsDetails.startDateTime.minute}-${contactsDetails.endDateTime.hour}:${contactsDetails.endDateTime.minute}"
+                            : "00:00-00:00",
                         style: TextStyle(
                             fontSize: 20,
                             color: blackColour,

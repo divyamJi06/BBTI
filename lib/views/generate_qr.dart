@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_settings/open_settings.dart';
 
 import '../constants.dart';
 import '../controllers/storage.dart';
@@ -6,6 +7,7 @@ import '../models/contacts.dart';
 import '../models/lock_initial.dart';
 import '../models/router_model.dart';
 import '../widgets/custom_appbar.dart';
+import '../widgets/custom_button.dart';
 import '../widgets/qr.dart';
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -196,7 +198,10 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
       password: "default",
       lockPasskey: "default");
   ContactsModel contact = ContactsModel(
-      accessType: "default", date: "default", time: "default", name: "default");
+      accessType: "default",
+      endDateTime: DateTime.now(),
+      startDateTime: DateTime.now(),
+      name: "default");
 
   @override
   Widget build(BuildContext context) {
@@ -312,27 +317,6 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                           child: new Text("Cancel"),
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(0, 0),
-                      child: Text(
-                        'WIFI is connected to Wifi Name',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(0, 0),
-                      child: Text(
-                        _connectionStatus.toString(),
-                        style: TextStyle(
-                            color: appBarColour,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30),
-                      ),
                     ),
                   ],
                 );
