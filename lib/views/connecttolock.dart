@@ -1,10 +1,10 @@
-import 'package:bbti/constants.dart';
-import 'package:bbti/controllers/apis.dart';
-import 'package:bbti/controllers/permission.dart';
-import 'package:bbti/views/lock_on_off.dart';
-import 'package:bbti/views/newlockinstallation.dart';
-import 'package:bbti/widgets/custom_button.dart';
-import 'package:bbti/widgets/toast.dart';
+import '../constants.dart';
+import '../controllers/apis.dart';
+import '../controllers/permission.dart';
+import 'lock_on_off.dart';
+import 'newlockinstallation.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:open_settings/open_settings.dart';

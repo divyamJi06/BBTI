@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/views/generate_qr.dart';
-import 'package:bbti/views/mac_details.dart';
-import 'package:bbti/views/pinpage.dart';
-import 'package:bbti/widgets/custom_button.dart';
+import '../controllers/storage.dart';
+import '../models/lock_initial.dart';
+import 'generate_qr.dart';
+import 'mac_details.dart';
+import 'pinpage.dart';
+import '../widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
-import 'package:bbti/widgets/toast.dart';
+import '../widgets/toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'dart:developer' as developer;

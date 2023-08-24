@@ -1,8 +1,8 @@
-import 'package:bbti/bottom_nav_bar.dart';
-import 'package:bbti/controllers/apis.dart';
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/widgets/custom_button.dart';
+import '../bottom_nav_bar.dart';
+import '../controllers/apis.dart';
+import '../controllers/storage.dart';
+import '../models/lock_initial.dart';
+import '../widgets/custom_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter/material.dart';
 

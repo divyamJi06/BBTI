@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer' as developer;
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/views/update_lock_name.dart';
-import 'package:bbti/widgets/toast.dart';
+import '../controllers/storage.dart';
+import '../models/lock_initial.dart';
+import '../views/update_lock_name.dart';
+import 'toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

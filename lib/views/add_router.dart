@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:bbti/bottom_nav_bar.dart';
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/router_model.dart';
-import 'package:bbti/widgets/custom_button.dart';
-import 'package:bbti/widgets/toast.dart';
+import '../bottom_nav_bar.dart';
+import '../controllers/storage.dart';
+import '../models/router_model.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/toast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 

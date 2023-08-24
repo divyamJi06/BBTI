@@ -1,6 +1,6 @@
-import 'package:bbti/models/router_model.dart';
-import 'package:bbti/views/add_router.dart';
-import 'package:bbti/widgets/router_card.dart';
+import '../models/router_model.dart';
+import 'add_router.dart';
+import '../widgets/router_card.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../controllers/storage.dart';

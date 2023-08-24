@@ -1,7 +1,7 @@
-import 'package:bbti/bottom_nav_bar.dart';
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/contacts.dart';
-import 'package:bbti/widgets/toast.dart';
+import '../bottom_nav_bar.dart';
+import '../controllers/storage.dart';
+import '../models/contacts.dart';
+import '../widgets/toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

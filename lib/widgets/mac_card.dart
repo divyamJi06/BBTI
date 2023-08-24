@@ -1,5 +1,5 @@
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/mac_model.dart';
+import '../controllers/storage.dart';
+import '../models/mac_model.dart';
 import 'package:flutter/material.dart';
 
 import '../bottom_nav_bar.dart';

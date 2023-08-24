@@ -1,7 +1,7 @@
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/views/passkey.dart';
-import 'package:bbti/widgets/custom_button.dart';
+import '../controllers/storage.dart';
+import '../models/lock_initial.dart';
+import 'passkey.dart';
+import '../widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../controllers/apis.dart';

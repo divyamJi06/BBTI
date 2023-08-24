@@ -1,9 +1,9 @@
-import 'package:bbti/constants.dart';
-import 'package:bbti/views/contacts.dart';
-import 'package:bbti/views/locks_page.dart';
-import 'package:bbti/views/new_home_page.dart';
-import 'package:bbti/views/router_page.dart';
-import 'package:bbti/views/settings.dart';
+import 'constants.dart';
+import 'views/contacts.dart';
+import 'views/locks_page.dart';
+import 'views/new_home_page.dart';
+import 'views/router_page.dart';
+import 'views/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 

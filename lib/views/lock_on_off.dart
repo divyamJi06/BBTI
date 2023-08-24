@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bbti/widgets/custom_appbar.dart';
+import '../widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 import '../bottom_nav_bar.dart';

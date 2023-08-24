@@ -1,8 +1,8 @@
-import 'package:bbti/constants.dart';
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/views/connecttolock.dart';
-import 'package:bbti/views/qr_view.dart';
-import 'package:bbti/widgets/lock_card.dart';
+import '../constants.dart';
+import '../models/lock_initial.dart';
+import 'connecttolock.dart';
+import 'qr_view.dart';
+import '../widgets/lock_card.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/storage.dart';

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bbti/models/contacts.dart';
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/models/mac_model.dart';
+import '../models/contacts.dart';
+import '../models/lock_initial.dart';
+import '../models/mac_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/router_model.dart';

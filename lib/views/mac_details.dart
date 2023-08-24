@@ -1,9 +1,9 @@
-import 'package:bbti/constants.dart';
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/models/mac_model.dart';
-import 'package:bbti/views/add_mac.dart';
-import 'package:bbti/widgets/mac_card.dart';
+import '../constants.dart';
+import '../controllers/storage.dart';
+import '../models/lock_initial.dart';
+import '../models/mac_model.dart';
+import 'add_mac.dart';
+import '../widgets/mac_card.dart';
 import 'package:flutter/material.dart';
 
 class MacsPage extends StatefulWidget {

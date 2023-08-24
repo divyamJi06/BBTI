@@ -1,6 +1,5 @@
-import 'package:bbti/controllers/storage.dart';
-
 import '../models/lock_initial.dart';
+import 'storage.dart';
 
 class RouterAddController {
   StorageController storageController = StorageController();

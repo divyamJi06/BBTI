@@ -1,8 +1,8 @@
-import 'package:bbti/bottom_nav_bar.dart';
-import 'package:bbti/constants.dart';
-import 'package:bbti/controllers/apis.dart';
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/widgets/custom_button.dart';
+import '../bottom_nav_bar.dart';
+import '../constants.dart';
+import '../controllers/apis.dart';
+import '../controllers/storage.dart';
+import '../widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 import '../models/lock_initial.dart';

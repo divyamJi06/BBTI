@@ -1,4 +1,4 @@
-import 'package:bbti/bottom_nav_bar.dart';
+import 'bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() {

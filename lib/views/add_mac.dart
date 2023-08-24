@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:bbti/bottom_nav_bar.dart';
-import 'package:bbti/controllers/storage.dart';
-import 'package:bbti/models/mac_model.dart';
-import 'package:bbti/widgets/custom_button.dart';
+import '../bottom_nav_bar.dart';
+import '../controllers/storage.dart';
+import '../models/mac_model.dart';
+import '../widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -34,16 +34,12 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
 
   final TextEditingController _macName = TextEditingController();
 
-  StorageController _storageController = StorageController();
+  final StorageController _storageController = StorageController();
 
   final formKey = GlobalKey<FormState>();
 
-  StorageController _storage = StorageController();
 
-  final TextEditingController _lockId = TextEditingController();
 
-  final TextEditingController _password =
-      TextEditingController(text: "nandan022");
 
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -84,12 +80,9 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
     _initNetworkInfo();
   }
 
-  String _connectionStatus = 'Unknown';
   final NetworkInfo _networkInfo = NetworkInfo();
   Future<void> _initNetworkInfo() async {
-    String? wifiName,
-        wifiBSSID,
-        wifiIPv4,
+    String? wifiIPv4,
         wifiIPv6,
         wifiGatewayIP,
         wifiBroadcast,
@@ -110,16 +103,12 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
         }
         if (status == LocationAuthorizationStatus.authorizedAlways ||
             status == LocationAuthorizationStatus.authorizedWhenInUse) {
-          wifiName = await _networkInfo.getWifiName();
         } else {
-          wifiName = await _networkInfo.getWifiName();
         }
       } else {
-        wifiName = await _networkInfo.getWifiName();
       }
     } on PlatformException catch (e) {
       developer.log('Failed to get Wifi Name', error: e);
-      wifiName = 'Failed to get Wifi Name';
     }
 
     try {
@@ -132,16 +121,12 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
         }
         if (status == LocationAuthorizationStatus.authorizedAlways ||
             status == LocationAuthorizationStatus.authorizedWhenInUse) {
-          wifiBSSID = await _networkInfo.getWifiBSSID();
         } else {
-          wifiBSSID = await _networkInfo.getWifiBSSID();
         }
       } else {
-        wifiBSSID = await _networkInfo.getWifiBSSID();
       }
     } on PlatformException catch (e) {
       developer.log('Failed to get Wifi BSSID', error: e);
-      wifiBSSID = 'Failed to get Wifi BSSID';
     }
 
     try {
@@ -188,7 +173,6 @@ class _NewMacInstallationPageState extends State<NewMacInstallationPage> {
     }
 
     setState(() {
-      _connectionStatus = wifiName!.toString();
       // 'Wifi BSSID: $wifiBSSID\n'
       // 'Wifi IPv4: $wifiIPv4\n'
       // 'Wifi IPv6: $wifiIPv6\n'

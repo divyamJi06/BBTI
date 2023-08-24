@@ -1,5 +1,5 @@
-import 'package:bbti/models/lock_initial.dart';
-import 'package:bbti/views/newlockinstallation.dart';
+import '../models/lock_initial.dart';
+import 'newlockinstallation.dart';
 import 'package:flutter/material.dart';
 
 class BarCodeDetailsWidget extends StatelessWidget {

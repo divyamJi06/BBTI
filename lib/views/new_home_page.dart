@@ -1,4 +1,4 @@
-import 'package:bbti/constants.dart';
+import '../constants.dart';
 import 'package:flutter/material.dart';
 
 class NewHomePage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:bbti/widgets/custom_appbar.dart';
+import 'custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:open_settings/open_settings.dart';
 import 'package:qr_flutter/qr_flutter.dart';

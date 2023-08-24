@@ -1,4 +1,4 @@
-import 'package:bbti/models/lock_initial.dart';
+import 'lock_initial.dart';
 
 class MacsDetails {
   late String name;
