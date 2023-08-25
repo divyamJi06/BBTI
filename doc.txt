@@ -1,0 +1,143 @@
+Assumption : 
+IP of Lock is : 192.168.6.6
+IP given for router by lock is : 192.143.5.2
+
+
+Connect to ESP
+GET Request - "http://192.168.6.6/"
+
+
+
+=================MAC APIs=====================
+Add MAC:
+POST Request:
+URL:    http://192.168.6.6/macid
+DATA : 
+    {
+        "MacID": "<MAC_ID>"
+    }    
+
+
+DELETE MAC:
+POST Request:
+URL:    http://192.168.6.6/deletemac
+DATA : 
+    {
+        "MacID": "<MAC_ID>"
+    }                                                  
+
+
+MAC ON/OFF
+POST Request:
+URL:    http://192.168.6.6/MacOnOff
+DATA : 
+   to switch on  {
+        "MacCheck": "ON"
+    }                                                  
+   to switch off  {
+        "MacCheck": "OFF"
+    }            
+
+
+
+=================LOCKS APIs=====================
+
+Add/Update Lock:
+POST Request:
+URL:    http://192.168.6.6/settings
+Request : 
+  {
+    "Lock_id": "BBT10101",
+    "lock_name": "BBTLOCK1",
+    "lock_pass": "BBTLOCK1"
+    }  
+Response:
+{
+    
+}
+
+Add PassKey:
+POST Request:
+URL:    http://192.168.6.6/getSecretKey
+Request:
+    {
+        "Lock_id": "BBT10101",
+        "lock_passkey": "BBT@1234" #alphanumeric
+    }
+
+
+Set Autolock:
+POST Request:
+URL:    http://192.168.6.6/Autolock
+Request:
+    {"AutoLockTime": "OFF"}
+    {"AutoLockTime": "ON"}
+
+
+Get Lock Status
+GET Request - "http://192.168.6.6/lockstatus"
+Response : {"OK CLOSE"}, {"OK OPEN"}
+
+
+
+OPEN/CLOSE Lock
+POST Request:
+URL:    http://192.168.6.6/getlockcmd
+Request:
+   to open : {
+        "Lock_id": "BBT10101",
+        "lock_passkey": "BBT@1234",
+        "lock_cmd": "ON"
+    }
+     to close : {
+        "Lock_id": "BBT10101",
+        "lock_passkey": "BBT@1234",
+        "lock_cmd": "OFF"
+    }
+
+Reset Lock
+POST Request:
+URL:    http://192.168.6.6/Factoryreset
+Request:
+  {
+    "USER_DEVID": "BBTLOCK1",
+    "USER_PASSKEY": "BBT@1234"
+    }
+
+
+
+=================ROUTERS APIs=====================
+
+
+Add/Update Router:
+POST Request:
+URL:    http://192.168.6.6/getWifiParem
+Request : 
+    {
+        "router_ssid": "",
+        "router_password": "",
+        "lock_passkey": "BBT@1234"
+    }
+Response:
+  Successfull : {
+    "IPAddress" : "192.143.5.2" #random
+  }
+    Failure : {
+    "IPAddress" : "0.0.0.0"
+  }
+
+
+OPEN/CLOSE Router
+POST Request: 
+URL:    http://192.143.5.2/getlockcmd
+Request:
+   to open : {
+        "Lock_id": "BBT10101",
+        "lock_passkey": "BBT@1234",
+        "lock_cmd": "ON"
+    }
+     to close : {
+        "Lock_id": "BBT10101",
+        "lock_passkey": "BBT@1234",
+        "lock_cmd": "OFF"
+    }
