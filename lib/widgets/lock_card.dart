@@ -334,7 +334,10 @@ class _LocksCardState extends State<LocksCard> {
                       IconButton(
                           tooltip: "Refresh Lock",
                           onPressed: () {
-                            if (_connectionStatus !=
+                            String localConnectStatus = _connectionStatus;
+                            localConnectStatus = localConnectStatus.substring(
+                                1, localConnectStatus.length - 1);
+                            if (localConnectStatus !=
                                 widget.locksDetails.lockSSID) {
                               showToast(context,
                                   "You should be connected to ${widget.locksDetails.lockSSID} to refresh the lock settings");

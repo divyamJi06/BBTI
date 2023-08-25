@@ -270,8 +270,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     // return;
                     List<LockDetails> locks =
                         await _storageController.readLocks();
+                    String localConnectStatus = _connectionStatus;
+                    localConnectStatus = localConnectStatus.substring(
+                        1, localConnectStatus.length - 1);
                     for (var element in locks) {
-                      if (_connectionStatus.contains(element.lockSSID)) {
+                      if (localConnectStatus == (element.lockSSID)) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
