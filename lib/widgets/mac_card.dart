@@ -1,3 +1,6 @@
+import 'package:bbti/widgets/toast.dart';
+import 'package:flutter/services.dart';
+
 import '../controllers/storage.dart';
 import '../models/mac_model.dart';
 import 'package:flutter/material.dart';
@@ -117,6 +120,16 @@ class _MacCardState extends State<MacCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    IconButton(
+                        onPressed: () {
+                          Clipboard.setData(
+                              new ClipboardData(text: widget.macsDetails.id));
+                          showToast(context, "Mac Id copied");
+                        },
+                        icon: Icon(Icons.copy)),
+                    const SizedBox(
+                      width: 10,
+                    ),
                     IconButton(
                         onPressed: () async {
                           showDialog(
