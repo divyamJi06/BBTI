@@ -36,6 +36,7 @@ class _UpdateLockInstallationPageState
   final TextEditingController _passKey = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _password1 = TextEditingController();
+  final TextEditingController _privatePin = TextEditingController();
   StorageController _storageController = new StorageController();
   final formKey = GlobalKey<FormState>();
 
@@ -108,6 +109,26 @@ class _UpdateLockInstallationPageState
                     height: 20,
                   ),
                   TextFormField(
+                    maxLength: 4,
+                    controller: _privatePin,
+                    validator: (value) {
+                      if (value!.length <= 3) {
+                        return "Lock Pin cannot be less than 4 letters";
+                      }
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        // borderSide: BorderSide(width: 40),
+                      ),
+                      labelText: "Enter Pin",
+                      labelStyle: const TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "PassKey Cannot be empty";
@@ -140,8 +161,13 @@ class _UpdateLockInstallationPageState
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         if (_passKey.text != widget.lockDetails.lockPassKey) {
-                          showToast(
-                              context, "Passkey of the lock is incorrect. Try Again.");
+                          showToast(context,
+                              "Passkey of the lock is incorrect. Try Again.");
+                          return;
+                        }
+                        if (_privatePin.text != widget.lockDetails.privatePin) {
+                          showToast(context,
+                              "Private Pin of the lock is incorrect. Try Again.");
                           return;
                         }
                         await ApiConnect.hitApiGet(
