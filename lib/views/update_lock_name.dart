@@ -1,6 +1,8 @@
+import 'package:bbti/widgets/toast.dart';
+
+import '../bottom_nav_bar.dart';
 import '../controllers/storage.dart';
 import '../models/lock_initial.dart';
-import 'passkey.dart';
 import '../widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
@@ -22,17 +24,18 @@ class _UpdateLockInstallationPageState
   @override
   void initState() {
     // TODO: implement initState
-    _lockId.text = widget.lockDetails.lockld;
     _password.text = widget.lockDetails.lockPassword;
+    _password1.text = widget.lockDetails.lockPassword;
     _ssid.text = widget.lockDetails.lockSSID;
     super.initState();
   }
 
-  final TextEditingController _lockId = TextEditingController();
+  // final TextEditingController _lockId = TextEditingController();
 
   final TextEditingController _ssid = TextEditingController();
-
+  final TextEditingController _passKey = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final TextEditingController _password1 = TextEditingController();
   StorageController _storageController = new StorageController();
   final formKey = GlobalKey<FormState>();
 
@@ -49,23 +52,6 @@ class _UpdateLockInstallationPageState
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  TextFormField(
-                    controller: _lockId,
-                    validator: (value) {
-                      if (value!.length <= 0) return "Lock ID cannot be empty";
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        // borderSide: BorderSide(width: 40),
-                      ),
-                      labelText: "LockID",
-                      labelStyle: const TextStyle(fontSize: 15),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
                   TextFormField(
                     controller: _ssid,
                     validator: (value) {
@@ -101,51 +87,96 @@ class _UpdateLockInstallationPageState
                   const SizedBox(
                     height: 20,
                   ),
+                  TextFormField(
+                    controller: _password1,
+                    validator: (value) {
+                      if (value!.length <= 7)
+                        return "Lock Password cannot be less than 8 letters";
+                      if (_password.text != _password1.text)
+                        return "Passwords do not match";
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        // borderSide: BorderSide(width: 40),
+                      ),
+                      labelText: "New Password",
+                      labelStyle: const TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "PassKey Cannot be empty";
+                      }
+                      if (value.length <= 7) {
+                        return "PassKey Cannot be less than 8 letters";
+                      }
+                      final validCharacters = RegExp(r'^[a-zA-Z0-9]+$');
+                      if (!validCharacters.hasMatch(value)) {
+                        return "Passkey should be alphanumeric";
+                      }
+                      return null;
+                    },
+                    controller: _passKey,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        // borderSide: BorderSide(width: 40),
+                      ),
+                      labelText: "New Passkey",
+                      labelStyle: const TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   CustomButton(
                     width: 200,
                     text: "Submit",
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        if (_passKey.text != widget.lockDetails.lockPassKey) {
+                          showToast(
+                              context, "Passkey of the lock is incorrect. Try Again.");
+                          return;
+                        }
                         await ApiConnect.hitApiGet(
                           routerIP + "/",
                         );
                         var data = {
-                          "Lock_id": _lockId.text,
+                          "Lock_id": widget.lockDetails.lockld,
                           "lock_name": _ssid.text,
                           "lock_pass": _password.text
                         };
                         print(data);
                         await ApiConnect.hitApiPost("$routerIP/settings", data);
-                        // _storageController.updateLock(widget.lockDetails.lockld,
-                        //     _lockId.text, _ssid.text, _password.text);
+                        LockDetails lockDetails1 = LockDetails(
+                            isAutoLock: widget.lockDetails.isAutoLock,
+                            privatePin: widget.lockDetails.privatePin,
+                            lockld: widget.lockDetails.lockld,
+                            lockSSID: _ssid.text,
+                            lockPassKey: _passKey.text,
+                            lockPassword: _password.text,
+                            iPAddress: widget.lockDetails.iPAddress);
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PassKeyPage(
-                                      type: "edit",
-                                      // ssid:widget.lockDetails.lockSSID,
-                                      lockDetails: LockDetails(
-                                          isAutoLock:
-                                              widget.lockDetails.isAutoLock,
-                                          privatePin:
-                                              widget.lockDetails.privatePin,
-                                          lockld: _lockId.text,
-                                          lockSSID: _ssid.text,
-                                          lockPassword: _password.text,
-                                          iPAddress:
-                                              widget.lockDetails.iPAddress),
-                                    )));
-
-                        // Navigator.pushAndRemoveUntil<dynamic>(
-                        //   context,
-                        //   MaterialPageRoute<dynamic>(
-                        //     builder: (BuildContext context) =>
-                        //         MyNavigationBar(),
-                        //   ),
-                        //   (route) =>
-                        //       false, //if you want to disable back feature set to false
-                        // );
+                        await ApiConnect.hitApiPost("$routerIP/getSecretKey", {
+                          "Lock_id": lockDetails1.lockld,
+                          "lock_passkey": _passKey.text
+                        });
+                        _storageController.updateLock(
+                            lockDetails1.lockld, lockDetails1);
+                        Navigator.pushAndRemoveUntil<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) =>
+                                MyNavigationBar(),
+                          ),
+                          (route) => false,
+                        );
                       }
                     },
                   )

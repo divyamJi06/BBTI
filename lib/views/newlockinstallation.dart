@@ -1,5 +1,6 @@
+import '../bottom_nav_bar.dart';
+import '../controllers/storage.dart';
 import '../models/lock_initial.dart';
-import 'passkey.dart';
 import '../widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,8 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
   }
 
   final TextEditingController _lockId = TextEditingController();
-
+  final TextEditingController _passKey = TextEditingController();
+  final StorageController _storageController = StorageController();
   final TextEditingController _ssid = TextEditingController();
 
   final TextEditingController _password = TextEditingController();
@@ -116,6 +118,33 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                     ),
                   ),
                   const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "PassKey Cannot be empty";
+                      }
+                      if (value.length <= 7) {
+                        return "PassKey Cannot be less than 8 letters";
+                      }
+                      final validCharacters = RegExp(r'^[a-zA-Z0-9]+$');
+                      if (!validCharacters.hasMatch(value)) {
+                        return "Passkey should be alphanumeric";
+                      }
+                      return null;
+                    },
+                    controller: _passKey,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        // borderSide: BorderSide(width: 40),
+                      ),
+                      labelText: "New Passkey",
+                      labelStyle: const TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  const SizedBox(
                     height: 20,
                   ),
                   CustomButton(
@@ -132,20 +161,30 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                           "lock_name": _ssid.text,
                           "lock_pass": _password.text
                         });
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PassKeyPage(
-                                      type: "create",
-                                      lockDetails: LockDetails(
-                                          isAutoLock: false,
-                                          privatePin: _privatePin.text,
-                                          lockld: _lockId.text,
-                                          lockSSID: _ssid.text,
-                                          lockPassword: _password.text,
-                                          iPAddress:
-                                              widget.lockDetails.iPAddress),
-                                    )));
+                        LockDetails lockDetails = LockDetails(
+                            isAutoLock: false,
+                            privatePin: _privatePin.text,
+                            lockld: _lockId.text,
+                            lockSSID: _ssid.text,
+                            lockPassKey: _passKey.text,
+                            lockPassword: _password.text,
+                            iPAddress: widget.lockDetails.iPAddress);
+
+                        await ApiConnect.hitApiPost(
+                            routerIP + "/getSecretKey", {
+                          "Lock_id": lockDetails.lockld,
+                          "lock_passkey": _passKey.text
+                        });
+                        _storageController.addlocks(lockDetails);
+                        Navigator.pushAndRemoveUntil<dynamic>(
+                          context,
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) =>
+                                MyNavigationBar(),
+                          ),
+                          (route) =>
+                              false, //if you want to disable back feature set to false
+                        );
                       }
                     },
                   )
