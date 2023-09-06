@@ -274,7 +274,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     localConnectStatus = localConnectStatus.substring(
                         1, localConnectStatus.length - 1);
                     for (var element in locks) {
-                      if (localConnectStatus == (element.lockSSID)) {
+                      if ("BBTLOCK11" == (element.lockSSID)) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
