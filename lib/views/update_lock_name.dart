@@ -228,8 +228,8 @@ class _UpdateLockInstallationPageState
                             (route) => false,
                           );
                         } catch (e) {
-                          print("-------");
                           print(e.toString());
+                          showToast(context, "Failed to Update. Try again");
                         }
                       }
                     },
