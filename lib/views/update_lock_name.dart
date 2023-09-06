@@ -1,4 +1,5 @@
 import 'package:bbti/widgets/toast.dart';
+import 'package:dio/dio.dart';
 
 import '../bottom_nav_bar.dart';
 import '../controllers/storage.dart';
@@ -165,44 +166,71 @@ class _UpdateLockInstallationPageState
                               "Passkey of the lock is incorrect. Try Again.");
                           return;
                         }
-                        if (_privatePin.text != widget.lockDetails.privatePin) {
-                          showToast(context,
-                              "Private Pin of the lock is incorrect. Try Again.");
-                          return;
-                        }
-                        await ApiConnect.hitApiGet(
-                          routerIP + "/",
-                        );
-                        var data = {
-                          "Lock_id": widget.lockDetails.lockld,
-                          "lock_name": _ssid.text,
-                          "lock_pass": _password.text
-                        };
-                        print(data);
-                        await ApiConnect.hitApiPost("$routerIP/settings", data);
+                        // if (_privatePin.text != widget.lockDetails.privatePin) {
+                        //   showToast(context,
+                        //       "Private Pin of the lock is incorrect. Try Again.");
+                        //   return;
+                        // }
                         LockDetails lockDetails1 = LockDetails(
                             isAutoLock: widget.lockDetails.isAutoLock,
-                            privatePin: widget.lockDetails.privatePin,
+                            privatePin: _privatePin.text,
                             lockld: widget.lockDetails.lockld,
                             lockSSID: _ssid.text,
                             lockPassKey: _passKey.text,
                             lockPassword: _password.text,
                             iPAddress: widget.lockDetails.iPAddress);
 
-                        await ApiConnect.hitApiPost("$routerIP/getSecretKey", {
-                          "Lock_id": lockDetails1.lockld,
-                          "lock_passkey": _passKey.text
-                        });
-                        _storageController.updateLock(
-                            lockDetails1.lockld, lockDetails1);
-                        Navigator.pushAndRemoveUntil<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) =>
-                                MyNavigationBar(),
-                          ),
-                          (route) => false,
-                        );
+                        try {
+                          await ApiConnect.hitApiGet(
+                            routerIP + "/",
+                          );
+                          var data = {
+                            "Lock_id": widget.lockDetails.lockld,
+                            "lock_name": _ssid.text,
+                            "lock_pass": _password.text
+                          };
+                          print(data);
+                          await ApiConnect.hitApiPost(
+                              "$routerIP/settings", data);
+
+                          await ApiConnect.hitApiPost(
+                              "$routerIP/getSecretKey", {
+                            "Lock_id": lockDetails1.lockld,
+                            "lock_passkey": _passKey.text
+                          });
+                          _storageController.updateLock(
+                              lockDetails1.lockld, lockDetails1);
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) =>
+                                  MyNavigationBar(),
+                            ),
+                            (route) => false,
+                          );
+                        } on DioException {
+                          await ApiConnect.hitApiGet(
+                            routerIP + "/",
+                          );
+                          await ApiConnect.hitApiPost(
+                              "$routerIP/getSecretKey", {
+                            "Lock_id": lockDetails1.lockld,
+                            "lock_passkey": _passKey.text
+                          });
+                          _storageController.updateLock(
+                              lockDetails1.lockld, lockDetails1);
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) =>
+                                  MyNavigationBar(),
+                            ),
+                            (route) => false,
+                          );
+                        } catch (e) {
+                          print("-------");
+                          print(e.toString());
+                        }
                       }
                     },
                   )

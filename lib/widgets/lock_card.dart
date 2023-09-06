@@ -343,12 +343,89 @@ class _LocksCardState extends State<LocksCard> {
                                   "You should be connected to ${widget.locksDetails.lockSSID} to refresh the lock settings");
                               return;
                             }
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        UpdateLockInstallationPage(
-                                            lockDetails: widget.locksDetails)));
+
+                            showDialog(
+                                context: context,
+                                builder: (cont) {
+                                  final formKey = GlobalKey<FormState>();
+                                  TextEditingController _pinController =
+                                      TextEditingController();
+
+                                  return Form(
+                                    key: formKey,
+                                    child: AlertDialog(
+                                      title: const Text('BBT Lock'),
+                                      content: const Text(
+                                          'Enter the lock pin to proceed'),
+                                      actions: [
+                                        Column(
+                                          children: [
+                                            TextFormField(
+                                              maxLength: 4,
+                                              controller: _pinController,
+                                              validator: (value) {
+                                                if (value!.length <= 3) {
+                                                  return "Lock Pin cannot be less than 4 letters";
+                                                }
+                                                if (_pinController.text !=
+                                                    widget.locksDetails
+                                                        .privatePin) {
+                                                  return "Pin does not match";
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  // borderSide: BorderSide(width: 40),
+                                                ),
+                                                labelText: "New Pin",
+                                                labelStyle: const TextStyle(
+                                                    fontSize: 15),
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                OutlinedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('CANCEL'),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                OutlinedButton(
+                                                  onPressed: () {
+                                                    if (formKey.currentState!
+                                                        .validate()) {
+                                                      if (_pinController.text ==
+                                                          widget.locksDetails
+                                                              .privatePin) {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    UpdateLockInstallationPage(
+                                                                        lockDetails:
+                                                                            widget.locksDetails)));
+                                                      } else {
+                                                        Navigator.pop(context);
+                                                        showToast(context,
+                                                            "Pin do not match");
+                                                      }
+                                                    }
+                                                  },
+                                                  child: const Text('Confirm'),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
                           },
                           icon: const Icon(Icons.refresh_rounded)),
                       const SizedBox(

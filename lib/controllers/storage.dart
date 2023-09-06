@@ -110,6 +110,7 @@ class StorageController {
         element.lockld = lockDetails.lockld;
         element.lockPassword = lockDetails.lockPassword;
         element.lockSSID = lockDetails.lockSSID;
+        element.privatePin = lockDetails.privatePin;
         element.lockPassKey = lockDetails.lockPassKey;
         break;
       }
@@ -147,7 +148,7 @@ class StorageController {
   getRouterByName(lockSSID) async {
     List<RouterDetails> routerList = await readRouters();
     for (var element in routerList) {
-      if (element.name+"_"+element.lockID == lockSSID) return element;
+      if (element.name + "_" + element.lockID == lockSSID) return element;
     }
     return null;
   }
