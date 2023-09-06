@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+
 import '../widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -139,19 +141,15 @@ class _LockOnOffState extends State<LockOnOff> {
                               lockClosed = true;
                             });
                           } else {}
-                          // res = await ApiConnect.hitApiGet(
-                          //     widget.IP + "/lockstatus");
-                          // ApiConnect.hitApiPost(routerIP + "/getlockCMD", {});
-                        } catch (e) {
+                        } on DioException {
                           final scaffold = ScaffoldMessenger.of(context);
                           scaffold.showSnackBar(
                             const SnackBar(
-                              content: Text("Unable to perform"),
-                              // action: SnackBarAction(
-                              // label: 'UNDO',
-                              // onPressed: scaffold.hideCurrentSnackBar),
+                              content: Text("Unable to perform. Try Again."),
                             ),
                           );
+                        } catch (e) {
+                          print(e.toString());
                         } finally {
                           _buttonPressed();
                         }
