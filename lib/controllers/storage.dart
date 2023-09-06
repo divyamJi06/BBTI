@@ -234,6 +234,29 @@ class StorageController {
     storage.write(key: "macs", value: json.encode(listContectsInJson));
   }
 
+  deleteEverythingWithRespectToLockID(LockDetails lockDetails) async {
+    print("Deleting all routers");
+    List<RouterDetails> routerList = await readRouters();
+    routerList.removeWhere((element) => element.lockID == lockDetails.lockld);
+    List routerlistContectsInJson = routerList.map((e) {
+      return e.toJson();
+    }).toList();
+    storage.write(key: "routers", value: json.encode(routerlistContectsInJson));
+    print("Deleted all routers");
+    print("Deleting all macs");
+    List<MacsDetails> macList = await readMacs();
+    macList.removeWhere(
+        (element) => element.lockDetails.lockld == lockDetails.lockld);
+    List maclistContectsInJson = macList.map((e) {
+      return e.toJson();
+    }).toList();
+    storage.write(key: "macs", value: json.encode(maclistContectsInJson));
+    print("Deleted all macs");
+    print("Deleting all locks");
+    deleteOneLock(lockDetails);
+    print("Deleted all locks");
+  }
+
   updateMacStatus(MacsDetails lockDetails) async {
     await deleteOneMacs(lockDetails);
     addmacs(lockDetails);

@@ -22,6 +22,15 @@ import 'package:network_info_plus/network_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../controllers/permission.dart';
 
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:ui' as ui;
+import 'package:path_provider/path_provider.dart';
+
 class QRPage extends StatefulWidget {
   final String data;
   QRPage({required this.data, super.key});
@@ -172,13 +181,50 @@ class _QRPageState extends State<QRPage> {
     });
   }
 
+  Future<void> converQrCodeToImage(BuildContext context, String data) async {
+    RenderRepaintBoundary boundary =
+        globalKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    ui.Image image = await boundary.toImage(pixelRatio: 3);
+    final directory = (await getApplicationDocumentsDirectory()).path;
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+    File imgFile = File("$directory/qrCode.png");
+    await imgFile.writeAsBytes(pngBytes);
+    await Share.shareFiles([imgFile.path]);
+  }
+
+  // Future _shareQRImage() async {
+  //   var data = widget.data;
+  //   final image = await QrPainter(
+  //     data: data,
+  //     version: QrVersions.auto,
+  //     gapless: false,
+  //     // color: Colors.black,
+  //     emptyColor: Colors.white,
+  //   ).toImageData(200.0); // Generate QR code image data
+
+  //   final filename = 'qr_code.png';
+  //   final tempDir =
+  //       await getTemporaryDirectory(); // Get temporary directory to store the generated image
+  //   final file = await File('${tempDir.path}/$filename')
+  //       .create(); // Create a file to store the generated image
+  //   var bytes = image!.buffer.asUint8List(); // Get the image bytes
+  //   await file.writeAsBytes(bytes); // Write the image bytes to the file
+  //   final path = await Share.shareFiles([file.path],
+  //       text: 'QR code for ${data}',
+  //       subject: 'QR Code',
+  //       mimeTypes: [
+  //         'image/png'
+  //       ]); // Share the generated image using the share_plus package
+  //   //print('QR code shared to: $path');
+  // }
   Future _shareQRImage() async {
     final image = await QrPainter(
       data: widget.data,
       version: QrVersions.auto,
-      gapless: true,
-      color: Colors.black,
-      emptyColor: Colors.white,
+      gapless: false,
+      color: Colors.white,
+      // emptyColor: Colors.white,
     ).toImageData(200.0, format: ImageByteFormat.png);
     const filename = 'qr_code.png';
     final tempDir = await getTemporaryDirectory();
@@ -209,16 +255,27 @@ class _QRPageState extends State<QRPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              QrImageView(
-                data: widget.data,
-                version: QrVersions.auto,
-                size: 200.0,
+              RepaintBoundary(
+                key: globalKey,
+                child: QrImageView(
+                  data: widget.data,
+                  backgroundColor: whiteColour,
+                  version: QrVersions.auto,
+                  gapless: true,
+                  foregroundColor: blackColour,
+                  size: 200.0,
+                ),
               ),
               // Text(data),
               SizedBox(
                 height: 10,
               ),
-              ElevatedButton(onPressed: _shareQRImage, child: Text("Share")),
+              ElevatedButton(
+                  onPressed: () async {
+                    // _shareQRImage();
+                     converQrCodeToImage(context, widget.data);
+                  },
+                  child: Text("Share")),
               SizedBox(
                 height: 20,
               ),

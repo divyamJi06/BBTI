@@ -125,9 +125,9 @@ class _UpdateLockInstallationPageState
                       labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
                   TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -137,7 +137,7 @@ class _UpdateLockInstallationPageState
                         return "PassKey Cannot be less than 8 letters";
                       }
                       final validCharacters = RegExp(r'^[a-zA-Z0-9]+$');
-                      if (!validCharacters.hasMatch(value)) {
+                      if (validCharacters.hasMatch(value)) {
                         return "Passkey should be alphanumeric";
                       }
                       return null;

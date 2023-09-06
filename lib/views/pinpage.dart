@@ -94,8 +94,10 @@ class _PinCodeWidgetState extends State<PinCodeWidget> {
                           "USER_DEVID": widget.lockDetails.lockld,
                           "USER_PASSKEY": widget.lockDetails.lockPassKey
                         });
-                        _storageController.deleteOneLock(widget.lockDetails);
+                        _storageController.deleteEverythingWithRespectToLockID(
+                            widget.lockDetails);
                       } catch (e) {
+                        print(e.toString());
                       } finally {
                         Navigator.pushAndRemoveUntil(
                           context,
