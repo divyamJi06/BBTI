@@ -125,16 +125,22 @@ class StorageController {
 
   updateLockAutoStatus(String lockname, bool status) async {
     List<LockDetails> locksList = await readLocks();
-    deleteLocks();
+    print(locksList.length);
+    List listContectsInJson = locksList.map((e) {
+      return e.toJson();
+    }).toList();
     for (var element in locksList) {
       if (element.lockSSID == lockname) {
         element.isAutoLock = status;
         break;
       }
     }
-    for (var element in locksList) {
-      addlocks(element);
-    }
+    listContectsInJson = locksList.map((e) {
+      return e.toJson();
+    }).toList();
+    print(listContectsInJson);
+    await deleteLocks();
+    storage.write(key: "locks", value: json.encode(listContectsInJson));
   }
 
   getLockBySSID(lockSSID) async {
@@ -168,7 +174,7 @@ class StorageController {
     List listContectsInJson = locksList.map((e) {
       return e.toJson();
     }).toList();
-    storage.write(key: "locks", value: json.encode(listContectsInJson));
+    await storage.write(key: "locks", value: json.encode(listContectsInJson));
   }
 
   Future<List<RouterDetails>> readRouters() async {

@@ -152,15 +152,6 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                     text: "Submit",
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        await ApiConnect.hitApiGet(
-                          routerIP + "/",
-                        );
-
-                        await ApiConnect.hitApiPost("$routerIP/settings", {
-                          "Lock_id": _lockId.text,
-                          "lock_name": _ssid.text,
-                          "lock_pass": _password.text
-                        });
                         LockDetails lockDetails = LockDetails(
                             isAutoLock: false,
                             privatePin: _privatePin.text,
@@ -169,22 +160,56 @@ class _NewInstallationPageState extends State<NewInstallationPage> {
                             lockPassKey: _passKey.text,
                             lockPassword: _password.text,
                             iPAddress: widget.lockDetails.iPAddress);
+                        try {
+                          await ApiConnect.hitApiGet(
+                            routerIP + "/",
+                          );
 
-                        await ApiConnect.hitApiPost(
-                            routerIP + "/getSecretKey", {
-                          "Lock_id": lockDetails.lockld,
-                          "lock_passkey": _passKey.text
-                        });
-                        _storageController.addlocks(lockDetails);
-                        Navigator.pushAndRemoveUntil<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) =>
-                                MyNavigationBar(),
-                          ),
-                          (route) =>
-                              false, //if you want to disable back feature set to false
-                        );
+                          await ApiConnect.hitApiPost("$routerIP/settings", {
+                            "Lock_id": _lockId.text,
+                            "lock_name": _ssid.text,
+                            "lock_pass": _password.text
+                          });
+                          await ApiConnect.hitApiGet(
+                            routerIP + "/",
+                          );
+
+                          await ApiConnect.hitApiPost(
+                              routerIP + "/getSecretKey", {
+                            "Lock_id": lockDetails.lockld,
+                            "lock_passkey": _passKey.text
+                          });
+                          _storageController.addlocks(lockDetails);
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) =>
+                                  MyNavigationBar(),
+                            ),
+                            (route) =>
+                                false, //if you want to disable back feature set to false
+                          );
+                        } catch (e) {
+                          await ApiConnect.hitApiGet(
+                            routerIP + "/",
+                          );
+
+                          await ApiConnect.hitApiPost(
+                              routerIP + "/getSecretKey", {
+                            "Lock_id": lockDetails.lockld,
+                            "lock_passkey": _passKey.text
+                          });
+                          _storageController.addlocks(lockDetails);
+                          Navigator.pushAndRemoveUntil<dynamic>(
+                            context,
+                            MaterialPageRoute<dynamic>(
+                              builder: (BuildContext context) =>
+                                  MyNavigationBar(),
+                            ),
+                            (route) =>
+                                false, //if you want to disable back feature set to false
+                          );
+                        }
                       }
                     },
                   )

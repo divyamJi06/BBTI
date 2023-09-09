@@ -379,7 +379,7 @@ class _LocksCardState extends State<LocksCard> {
                                                       BorderRadius.circular(20),
                                                   // borderSide: BorderSide(width: 40),
                                                 ),
-                                                labelText: "New Pin",
+                                                labelText: "Enter Old Pin",
                                                 labelStyle: const TextStyle(
                                                     fontSize: 15),
                                               ),
@@ -448,6 +448,18 @@ class _LocksCardState extends State<LocksCard> {
                           scale: 1,
                           child: Switch(
                             onChanged: (value) async {
+                              String localConnectStatus = _connectionStatus;
+                              localConnectStatus = localConnectStatus.substring(
+                                  1, localConnectStatus.length - 1);
+                              if (localConnectStatus !=
+                                  widget.locksDetails.lockSSID) {
+                                showToast(context,
+                                    "You should be connected to ${widget.locksDetails.lockSSID} to refresh the lock settings");
+                                setState(() {
+                                  widget.locksDetails.isAutoLock = !value;
+                                });
+                                return;
+                              }
                               if (value) {
                                 await ApiConnect.hitApiPost(
                                     "${widget.locksDetails.iPAddress}/Autolock",
@@ -458,7 +470,7 @@ class _LocksCardState extends State<LocksCard> {
                                     {"AutoLockTime": "OFF"});
                               }
 
-                              _storageController.updateLockAutoStatus(
+                              await _storageController.updateLockAutoStatus(
                                   widget.locksDetails.lockSSID, value);
                               Navigator.pushAndRemoveUntil<dynamic>(
                                 context,

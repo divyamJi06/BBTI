@@ -28,6 +28,8 @@ class _UpdateLockInstallationPageState
     _password.text = widget.lockDetails.lockPassword;
     _password1.text = widget.lockDetails.lockPassword;
     _ssid.text = widget.lockDetails.lockSSID;
+    _passKey.text = widget.lockDetails.lockPassKey!;
+    _privatePin.text = widget.lockDetails.privatePin;
     super.initState();
   }
 
@@ -122,7 +124,7 @@ class _UpdateLockInstallationPageState
                         borderRadius: BorderRadius.circular(20),
                         // borderSide: BorderSide(width: 40),
                       ),
-                      labelText: "Enter Pin",
+                      labelText: "New Pin",
                       labelStyle: const TextStyle(fontSize: 15),
                     ),
                   ),
@@ -161,11 +163,11 @@ class _UpdateLockInstallationPageState
                     text: "Submit",
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        if (_passKey.text != widget.lockDetails.lockPassKey) {
-                          showToast(context,
-                              "Passkey of the lock is incorrect. Try Again.");
-                          return;
-                        }
+                        // if (_passKey.text != widget.lockDetails.lockPassKey) {
+                        //   showToast(context,
+                        //       "Passkey of the lock is incorrect. Try Again.");
+                        //   return;
+                        // }
                         // if (_privatePin.text != widget.lockDetails.privatePin) {
                         //   showToast(context,
                         //       "Private Pin of the lock is incorrect. Try Again.");
