@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import '../bottom_nav_bar.dart';
 import '../controllers/storage.dart';
 import '../models/router_model.dart';
@@ -36,11 +35,9 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
 
   final TextEditingController _lockId = TextEditingController();
 
-  final TextEditingController _ssid =
-      new TextEditingController();
+  final TextEditingController _ssid = new TextEditingController();
 
-  final TextEditingController _password =
-      new TextEditingController();
+  final TextEditingController _password = new TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   ConnectivityResult _connectionStatusS = ConnectivityResult.none;
@@ -195,6 +192,7 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
     });
   }
 
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -260,55 +258,109 @@ class _NewRouterInstallationPageState extends State<NewRouterInstallationPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  CustomButton(
-                    text: "Submit",
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        await getLockId();
-                        String ssidd = _connectionStatus.substring(
-                            1, _connectionStatus.length - 1);
-                        String? passkey =
-                            await RouterAddController().fetchLocks(ssidd);
-                        if (passkey == null) {
-                          showToast(context, "No lock found with lock $ssidd");
-                          return;
-                        }
-                        showToast(
-                            context, "You are connected to $_connectionStatus");
-                        await ApiConnect.hitApiGet(
-                          routerIP + "/",
-                        );
-                        print({
-                          "router_ssid": _ssid.text,
-                          "router_password": _password.text,
-                          "lock_passkey": passkey
-                        });
-                        var res = await ApiConnect.hitApiPost(
-                            "$routerIP/getWifiParem", {
-                          "router_ssid": _ssid.text,
-                          "router_password": _password.text,
-                          "lock_passkey": passkey
-                        });
+                  loading
+                      ? Align(
+                          // alignment: AlignmentDirectional(1, 0),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16, 0, 16, 16),
+                            child: InkWell(
+                              splashColor: backGroundColour,
+                              // onTap: onPressed,
+                              child: Container(
+                                width: 300,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: backGroundColour ?? backGroundColour,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 1,
+                                      color:
+                                          backGroundColour ?? backGroundColour,
+                                      offset: const Offset(0, 2),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: backGroundColour ?? backGroundColour,
+                                    width: 1,
+                                  ),
+                                ),
+                                alignment: const AlignmentDirectional(0, 0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          ),
+                        )
+                      : CustomButton(
+                          text: "Submit",
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              try {
+                                setState(() {
+                                  loading = true;
+                                });
+                                await getLockId();
+                                String ssidd = _connectionStatus.substring(
+                                    1, _connectionStatus.length - 1);
+                                String? passkey = await RouterAddController()
+                                    .fetchLocks(ssidd);
+                                if (passkey == null) {
+                                  showToast(context,
+                                      "No lock found with lock $ssidd");
+                                  return;
+                                }
+                                showToast(context,
+                                    "You are connected to $_connectionStatus");
+                                await ApiConnect.hitApiGet(
+                                  routerIP + "/",
+                                );
+                                print({
+                                  "router_ssid": _ssid.text,
+                                  "router_password": _password.text,
+                                  "lock_passkey": passkey
+                                });
+                                var res = await ApiConnect.hitApiPost(
+                                    "$routerIP/getWifiParem", {
+                                  "router_ssid": _ssid.text,
+                                  "router_password": _password.text,
+                                  "lock_passkey": passkey
+                                });
 
-                        String IPAddr = res['IPAddress'];
-                        if (IPAddr.contains("0.0.0.0")) {
-                          showToast(context, "Unable to connect. Try Again.");
-                          return;
-                        }
-
-                        _storage.addRouters(RouterDetails(
-                            lockID: _lockId.text,
-                            name: _ssid.text,
-                            password: _password.text,
-                            lockPasskey: passkey,
-                            iPAddress: res['IPAddress']));
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyNavigationBar()));
-                      }
-                    },
-                  )
+                                String IPAddr = res['IPAddress'];
+                                if (IPAddr.contains("0.0.0.0")) {
+                                  showToast(
+                                      context, "Unable to connect. Try Again.");
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  return;
+                                }
+                                setState(() {
+                                  loading = false;
+                                });
+                                _storage.addRouters(RouterDetails(
+                                    lockID: _lockId.text,
+                                    name: _ssid.text,
+                                    password: _password.text,
+                                    lockPasskey: passkey,
+                                    iPAddress: res['IPAddress']));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyNavigationBar()));
+                              } catch (e) {
+                                print("error ${e.toString()}");
+                                showToast(
+                                    context, "Unable to connect. Try Again.");
+                                setState(() {
+                                  loading = false;
+                                });
+                              }
+                            }
+                          },
+                        )
                 ],
               ),
             ),
